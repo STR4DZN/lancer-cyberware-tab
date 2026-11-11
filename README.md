@@ -1,4 +1,4 @@
-# CYBER//IMPLANTES v0.10.0
+# CYBER//IMPLANTES v0.10.1
 
 Aba de implantes da ficha Pilot de LANCER para Foundry VTT 13. A v0.10.0 retoma o ritmo visual da v0.8.0 e mantém o registro em `flags.lancer-cyberware-tab.registry`.
 
@@ -60,7 +60,8 @@ Raridades antigas são exibidas com os nomes atuais. Épico, Experimental e Prot
 
 1. Feche o Foundry e substitua `Data/modules/lancer-cyberware-tab` pela pasta de mesmo nome do ZIP.
 2. Confira se o arquivo `module.json` está diretamente dentro da pasta do módulo.
-3. Abra o Foundry, ative o módulo e entre na aba **CYBER//WARE** da ficha Pilot.
+3. Abra o mundo e ative **LANCER | Cyber//Implantes** em **Gerenciar módulos**.
+4. Reabra a ficha do piloto. O botão **CYBER//WARE** aparece numa linha própria imediatamente abaixo das abas do LANCER.
 
 Abra `preview-desktop.html` no navegador. Escolha **Colapso iminente** e use **Reproduzir falha** para ver a sequência completa. **Impacto** e **Perguntas** pausam a cena nesses momentos. Mova **Quadro da falha** para examinar outro instante. A prévia usa os mesmos estilos e scripts do módulo com um inventário demonstrativo.
 

@@ -2,7 +2,7 @@ import {NeuralMotion} from './neural-motion.js';
 import {neuralReadouts} from './neural-narrative.js';
 
 /**
- * CYBER//IMPLANTES v0.10.0 – Foundry VTT v13 / LANCER.
+ * CYBER//IMPLANTES v0.10.1 – Foundry VTT v13 / LANCER.
  * Data compatible with versions 0.1–0.5: flags.lancer-cyberware-tab.registry.
  * Cyberpsychosis is an optional homebrew display; does not alter LANCER mechanics.
  */
@@ -539,7 +539,7 @@ function content(actor, id = 'lcy-preview') {
        <button type="button" data-cyber-action="show-gm" aria-pressed="${st.mode === 'gm'}" class="${st.mode === 'gm' ? 'active' : ''}">Oficina do mestre</button>
      </div>` : ''}
    ${st.mode === 'gm' ? masterView(data, st, id) : pilotView(actor, data, st, m, id)}
-   <footer class="lcy-footer">CYBER//IMPLANTES · LANCER · v0.10.0</footer>
+   <footer class="lcy-footer">CYBER//IMPLANTES · LANCER · v0.10.1</footer>
  </div>`;
 }
 
@@ -893,8 +893,22 @@ function events(panel,actor){if(panel.dataset.lcyBound)return;panel.dataset.lcyB
  });
  panel.addEventListener('submit',async e=>{e.stopPropagation();if(!e.target.matches('[data-kind="settings"]')||!gm())return;e.preventDefault();const form=e.target,d=new FormData(form),data=read(actor),b=form.querySelector('[type="submit"]');b.disabled=true;data.capacity=num(d.get('capacity'),0,9999);data.limits={...data.limits};for(const r of REGIONS)data.limits[r.id]=num(d.get('slot_'+r.id),0,99);try{await saveActor(actor,data);await game.settings.set(ID,'defaultCapacity',num(d.get('defaultCapacity'),1,9999));await game.settings.set(ID,'allowOverload',d.get('allowOverload')!==null);refresh(panel,actor);globalThis.ui?.notifications?.info?.('Limites neurais atualizados.')}catch(err){notify(err);b.disabled=false}});
 }
-function navigation(root){const xs=[...root.querySelectorAll('nav,.tabs,[role="tablist"]')].filter(x=>/DOSSIER|NARRATIVE|TACTICAL|MECH\/|TÁCTIC/i.test(x.textContent||''));xs.sort((a,b)=>b.querySelectorAll('[data-tab]').length-a.querySelectorAll('[data-tab]').length);return xs[0]}
+function sheetLayout(root) {
+ if (!root?.querySelector) return null;
+ const nav = root.querySelector('.lancer-tabs') ?? [...root.querySelectorAll('nav, .tabs, [role="tablist"]')]
+   .find(element => element.querySelector('[data-tab="dossier"]') && element.querySelector('[data-tab="tactical"]'));
+ if (!nav) return null;
+ const tabs = [...nav.querySelectorAll('[data-tab]')];
+ const ids = new Set(tabs.map(tab => tab.dataset.tab));
+ const parent = [...root.querySelectorAll('.sheet-body, .sheet-content, .tab-content')].find(element =>
+   [...element.children].some(pane => ids.has(pane.dataset.tab)));
+ if (!parent) return null;
+ const panes = [...parent.children].filter(pane => ids.has(pane.dataset.tab) && pane.dataset.tab !== 'cyberware');
+ return {nav, tabs, parent, panes};
+}
+
 function releasePanel(panel) {
+ panel._lcyDispose?.();
  panel._lcyNeuralMotion?.stop();
  panel._lcyCloseModal?.({restoreFocus: false});
  clearTimeout(panel._lcyFeedbackTimer);
@@ -915,25 +929,11 @@ function attach(app, html) {
  if (globalThis.game?.system?.id !== 'lancer') return;
  const actor = actorFrom(app);
  if (actor?.type !== 'pilot') return;
- const root = rootFrom(html);
- if (!root?.querySelector) return;
- const nav = navigation(root);
- if (!nav || nav.querySelector('.lcy-nav')) return;
- let tabs = [...nav.querySelectorAll('[data-tab]')].filter(x => x.dataset.tab);
- if (!tabs.length) tabs = [...nav.children].filter(x => /DOSSIER|NARRATIVE|TACTICAL/i.test(x.textContent || ''));
- if (!tabs.length) return;
-
- const panes = tabs.map(tab => [...root.querySelectorAll('[data-tab]')]
-   .find(pane => pane.dataset.tab === tab.dataset.tab && !nav.contains(pane))).filter(Boolean);
- let parent;
- if (panes.length) {
-  const counts = new Map();
-  for (const pane of panes) counts.set(pane.parentElement, (counts.get(pane.parentElement) || 0) + 1);
-  parent = [...counts].sort((a, b) => b[1] - a[1])[0][0];
- } else {
-  parent = root.querySelector('.sheet-body,.sheet-content,.tab-content') || nav.nextElementSibling;
- }
- if (!parent) return;
+ const layout = sheetLayout(rootFrom(html)) ?? sheetLayout(rootFrom(app.element));
+ if (!layout) return;
+ const {nav, tabs, parent, panes} = layout;
+ const previous = appPanels.get(app);
+ if (previous?.parentElement === parent && parent.previousElementSibling?.classList.contains('lcy-launcher')) return;
 
  detach(app);
  const panel = document.createElement('section');
@@ -943,23 +943,17 @@ function attach(app, html) {
  panel.setAttribute('aria-labelledby', panel.id + '-title');
  panel.style.display = 'none';
 
- const prototype = tabs.find(tab => /TACTICAL/i.test(tab.textContent || '')) || tabs.at(-1);
- const tab = prototype.cloneNode(false);
- tab.className = prototype.className || 'item';
- tab.classList.add('lcy-nav');
- tab.classList.remove('active', 'selected');
- tab.dataset.tab = 'cyberware';
- for (const attribute of ['id', 'title', 'data-action', 'aria-selected']) tab.removeAttribute(attribute);
- tab.setAttribute('aria-controls', panel.id);
- if (tab.getAttribute('role') === 'tab') {
-  tab.setAttribute('aria-selected', 'false');
-  panel.setAttribute('role', 'tabpanel');
- }
- if (tab instanceof HTMLButtonElement) tab.type = 'button';
+ const launcher = document.createElement('div');
+ launcher.className = 'lcy-launcher';
+ const tab = document.createElement('button');
+ tab.className = 'lcy-nav';
+ tab.type = 'button';
  tab.textContent = 'CYBER//WARE';
- prototype.insertAdjacentElement('afterend', tab);
+ tab.setAttribute('aria-controls', panel.id);
+ tab.setAttribute('aria-expanded', 'false');
+ launcher.append(tab);
+ parent.before(launcher);
 
- panel.dataset.group = tab.dataset.group || 'primary';
  panel.innerHTML = content(actor, panel.id);
  parent.append(panel);
  panel._lcyActor = actor;
@@ -972,12 +966,12 @@ function attach(app, html) {
  const st = state(actor);
  let opened = false;
  let snapshot = [];
- const others = () => panes.length ? panes : [...parent.children].filter(x => x !== panel && x.matches('.tab,[data-tab]'));
+ let selectedTabs = [];
  function open() {
   if (opened) return;
   opened = true;
   st.open = true;
-  snapshot = others().map(pane => ({
+  snapshot = panes.map(pane => ({
    pane,
    display: pane.style.getPropertyValue('display'),
    priority: pane.style.getPropertyPriority('display'),
@@ -987,18 +981,23 @@ function attach(app, html) {
    pane.style.setProperty('display', 'none', 'important');
    pane.classList.remove('active');
   }
-  for (const nativeTab of tabs) nativeTab.classList.remove('active', 'selected');
+  selectedTabs = tabs.map(node => ({node, active: node.classList.contains('active'),
+   selected: node.classList.contains('selected'), aria: node.getAttribute('aria-selected')}));
+  for (const {node, aria} of selectedTabs) {
+   node.classList.remove('active', 'selected');
+   if (aria !== null) node.setAttribute('aria-selected', 'false');
+  }
   tab.classList.add('active', 'selected');
-  if (tab.hasAttribute('aria-selected')) tab.setAttribute('aria-selected', 'true');
+  tab.setAttribute('aria-expanded', 'true');
   panel.classList.add('active');
   panel.style.setProperty('display', 'block', 'important');
   if (panel.isConnected) refresh(panel, actor, 'enter');
   else requestAnimationFrame(() => { if (opened) refresh(panel, actor, 'enter'); });
  }
- function close() {
+ function close(remember = true) {
   if (!opened) return;
   opened = false;
-  st.open = false;
+  if (remember) st.open = false;
   for (const {pane, display, priority, active} of snapshot) {
    if (display) pane.style.setProperty('display', display, priority);
    else pane.style.removeProperty('display');
@@ -1010,17 +1009,29 @@ function attach(app, html) {
   panel._lcyCloseModal?.({restoreFocus: false});
   syncNeuralMotion(panel);
   tab.classList.remove('active', 'selected');
-  if (tab.hasAttribute('aria-selected')) tab.setAttribute('aria-selected', 'false');
+  tab.setAttribute('aria-expanded', 'false');
+  for (const {node, active, selected, aria} of selectedTabs) {
+   node.classList.toggle('active', active);
+   node.classList.toggle('selected', selected);
+   if (aria !== null) node.setAttribute('aria-selected', aria);
+  }
+  selectedTabs = [];
  }
+ const controls = new AbortController();
+ const {signal} = controls;
+ tab.addEventListener('click', () => {
+  if (opened) close();
+  else open();
+ }, {signal});
  nav.addEventListener('click', event => {
-  const target = event.target.closest('[data-tab],.lcy-nav');
-  if (!target || !nav.contains(target)) return;
-  if (target === tab) {
-   event.preventDefault();
-   event.stopImmediatePropagation();
-   open();
-  } else close();
- }, true);
+  if (tabs.includes(event.target.closest('[data-tab]'))) close();
+ }, {capture: true, signal});
+ panel._lcyDispose = () => {
+  controls.abort();
+  close(false);
+  launcher.remove();
+  panel.remove();
+ };
  if (st.open) open();
 }
 
@@ -1043,5 +1054,5 @@ const sample=()=>({capacity:52,limits:{optico:3,frontal:3,neural:4,bracos:3},imp
 ]});
 // Testable functions are available in the HTML preview. Foundry still requires in-game verification.
 globalThis.LancerCyberwareTab={attach,read,metrics,render:content,sample,getCatalogue:getCatalog,checkInstall,equip,moveImplant,togglePower,tiers:TIERS,regions:REGIONS};
-if(typeof Hooks!=='undefined'&&Hooks?.on){Hooks.once?.('init',()=>{game.settings.register(ID,CAT,{name:'Catálogo global de cyberware',scope:'world',config:false,type:Object,default:{items:[]}});game.settings.register(ID,'defaultCapacity',{name:'Capacidade neural padrão',scope:'world',config:false,type:Number,default:60});game.settings.register(ID,'allowOverload',{name:'Permitir exceder capacidade',scope:'world',config:false,type:Boolean,default:false})});Hooks.on('renderActorSheet',attach);Hooks.on('renderActorSheetV2',attach);Hooks.on('closeActorSheet',detach);Hooks.on('closeActorSheetV2',detach);Hooks.on('updateActor',a=>{if(a?.type==='pilot')refreshAll(a)});Hooks.on('updateSetting',s=>{if(String(s?.key||'').startsWith(ID+'.'))for(const set of panels.values())for(const panel of set){if(panel.isConnected&&panel._lcyActor)refresh(panel,panel._lcyActor)}})}
+if(typeof Hooks!=='undefined'&&Hooks?.on){Hooks.once?.('init',()=>{game.settings.register(ID,CAT,{name:'Catálogo global de cyberware',scope:'world',config:false,type:Object,default:{items:[]}});game.settings.register(ID,'defaultCapacity',{name:'Capacidade neural padrão',scope:'world',config:false,type:Number,default:60});game.settings.register(ID,'allowOverload',{name:'Permitir exceder capacidade',scope:'world',config:false,type:Boolean,default:false})});Hooks.on('renderLancerPilotSheet',attach);Hooks.on('renderActorSheet',attach);Hooks.on('renderActorSheetV2',attach);Hooks.on('closeLancerPilotSheet',detach);Hooks.on('closeActorSheet',detach);Hooks.on('closeActorSheetV2',detach);Hooks.on('updateActor',a=>{if(a?.type==='pilot')refreshAll(a)});Hooks.on('updateSetting',s=>{if(String(s?.key||'').startsWith(ID+'.'))for(const set of panels.values())for(const panel of set){if(panel.isConnected&&panel._lcyActor)refresh(panel,panel._lcyActor)}})}
 })();

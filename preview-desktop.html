@@ -1,0 +1,3019 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CYBER//WARE · Prévia v0.10.1</title>
+<style>
+/* CSS do módulo */
+/* CYBER//IMPLANTES 0.8.0 — burgundy / cyan / gold with soft graphite, original anatomical SVGs, neural interference. */
+.lcy-panel {
+ --lcy-bg:#231e25;--lcy-bg2:#2b202b;--lcy-panel:#38232f;--lcy-panel2:#452b38;--lcy-line:#884458;
+ --lcy-text:#fff5f2;--lcy-muted:#e2c3c5;--lcy-hot:#f44c65;--lcy-cyan:#5df2ee;--lcy-gold:#ffca79;
+ background:var(--lcy-bg)!important;color:var(--lcy-text)!important;width:100%;min-width:0;max-width:100%;isolation:isolate;
+ font-family:Rajdhani,'Arial Narrow',Inter,Arial,sans-serif!important;font-size:13px!important;line-height:1.4!important;
+}
+.lcy-panel * {box-sizing:border-box}
+.lcy-panel :is(button,input,select,textarea) {font:inherit!important;box-shadow:none}
+.lcy-panel :is(button,input,select,textarea):focus-visible {outline:2px solid var(--lcy-cyan)!important;outline-offset:2px}
+.lcy-panel button{cursor:pointer;min-height:0!important;height:auto!important;white-space:normal;border-radius:0!important;text-shadow:none!important;letter-spacing:.05em!important}
+.lcy-panel button:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.5)}
+.lcy-panel :is(h2,h3,h4,p){text-shadow:none}
+.lcy-shell{padding:10px;min-width:0;background:radial-gradient(circle at 80% 0,#90949c0c,transparent 28%),radial-gradient(circle at 0% 47%,#85868d09,transparent 40%),linear-gradient(180deg,#2c2d33 0,#202126 34%,#24252b 100%)}
+.lcy-header{background:linear-gradient(90deg,#37383e 0,#2b2c32 50%,#292a30);border-bottom:2px solid var(--lcy-hot);display:flex;align-items:center;justify-content:space-between;gap:9px;padding:14px 16px 12px;position:relative}
+.lcy-header>div{min-width:0;position:relative;z-index:1}
+.lcy-header>div>span,.lcy-header-right{font-size:10px;color:var(--lcy-cyan);font-weight:900;letter-spacing:1.8px}
+.lcy-header h2{margin:2px 0 0!important;color:#fff!important;font-weight:950!important;font-size:29px!important;letter-spacing:2px!important;line-height:1!important}
+.lcy-header h2>span{color:var(--lcy-hot)}
+.lcy-header-right{display:flex;gap:9px;align-items:flex-end;flex-direction:column;flex-shrink:0;z-index:1;text-align:right;font-size:9px}
+.lcy-header-right b{font-size:9px;color:var(--lcy-gold)}
+.lcy-mode-tabs{display:flex;gap:6px;margin:11px 0}
+.lcy-mode-tabs button{font-size:11px!important;font-weight:900!important;padding:9px 13px!important;background:#303137!important;color:var(--lcy-muted)!important;border:1px solid #62636d!important}
+.lcy-mode-tabs button.active{background:var(--lcy-hot)!important;color:#150b12!important;border-color:#ff96a4!important}
+.lcy-status{display:grid;grid-template-columns:minmax(140px,1.7fr) repeat(3,minmax(76px,1fr));gap:7px;margin:10px 0 15px}
+.lcy-capacity,.lcy-status-metric{min-width:0;background:linear-gradient(150deg,#313239,#292a30);border:1px solid #50515a;position:relative;padding:10px 11px;display:flex;flex-direction:column;justify-content:space-between;gap:4px}
+.lcy-capacity{border-left:3px solid var(--lcy-gold)}.lcy-status-metric:nth-child(2){border-top:2px solid var(--lcy-hot)}.lcy-status-metric:nth-child(3){border-top:2px solid var(--lcy-cyan)}.lcy-status-metric:nth-child(4){border-top:2px solid var(--lcy-gold)}
+.lcy-capacity>span,.lcy-status-metric>span{color:#c0c4ce;font-size:9px;letter-spacing:.8px;font-weight:900}
+.lcy-capacity strong,.lcy-status-metric strong{color:var(--lcy-gold);font-size:28px;line-height:1.12;font-variant-numeric:tabular-nums;font-weight:950}
+.lcy-status-metric:nth-child(2) strong{color:var(--lcy-hot)}.lcy-status-metric:nth-child(3) strong{color:var(--lcy-cyan)}.lcy-status-metric:nth-child(4) strong{color:#fff}
+.lcy-capacity strong small,.lcy-status-metric strong small{font-size:13px;color:#d7dbe3}
+.lcy-status-metric em{font-size:9px;font-style:normal;font-weight:900;color:#b9becb}
+.lcy-status-metric .lcy-alarm{color:#ff3658!important;text-shadow:0 0 8px #ff3f6066!important}
+.lcy-bar{height:7px;background:#202126;border:1px solid #ae445c;overflow:hidden;margin-top:3px}
+.lcy-bar>i{display:block;height:100%;background:linear-gradient(90deg,#f07d4e,#ffcc6c);box-shadow:0 0 9px #e7bb5a88}
+.lcy-section-title{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:0 0 7px;border-bottom:1px solid #51535d;margin:0 0 8px}
+.lcy-section-title strong{color:#f0e6e7;font-size:10px;font-weight:850}
+.lcy-cat-section{padding:11px 12px 13px;border:1px solid #53545e;background:#25262c}
+.lcy-cat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.lcy-panel .lcy-cat{padding:8px!important;display:flex;flex-direction:column;gap:4px;align-items:stretch;text-align:left;min-width:0;min-height:93px!important;background:linear-gradient(120deg,#303138,#292a30 75%)!important;border:1px solid #53545e!important;color:#fff!important;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+.lcy-panel .lcy-cat:hover{border-color:var(--lcy-cyan)!important;background:#3a3c44!important}
+.lcy-panel .lcy-cat.selected{border:1px solid var(--lcy-cyan)!important;background:linear-gradient(110deg,#33454a,#29393d)!important;box-shadow:inset 0 0 0 1px #55c6c488!important}
+.lcy-cat-top{display:flex;justify-content:space-between;gap:5px;align-items:center;position:relative;z-index:1}
+.lcy-cat-symbol{font-size:22px;color:#e96a7d;line-height:1}.lcy-cat.selected .lcy-cat-symbol{color:var(--lcy-cyan)}
+.lcy-cat-count{font-size:15px;font-weight:950;color:var(--lcy-gold);font-variant-numeric:tabular-nums}
+.lcy-cat-name{font-weight:950;font-size:11px;line-height:1.2;min-height:24px;position:relative;z-index:1;text-transform:uppercase}
+.lcy-cat-foot{font-size:9px;color:#b9bfcd;font-weight:850;letter-spacing:.1px;position:relative;z-index:1}
+.lcy-cat-art{position:absolute;right:5px;top:16px;opacity:.32;display:flex;gap:2px;z-index:0}.lcy-cat .lcy-art-placeholder{font-size:25px}
+.lcy-art{display:flex;position:relative;align-items:center;justify-content:center;overflow:hidden;background:#303139;border:1px solid #585a65;isolation:isolate;flex-shrink:0}
+.lcy-art>img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transform-origin:center center;pointer-events:none}
+.lcy-art-placeholder{font-size:35px;line-height:1;color:#98a7b8;text-shadow:0 0 17px #f33b5944}
+.lcy-cat-mini{width:35px;height:34px}.lcy-cat-mini .lcy-art-placeholder{font-size:15px}
+.lcy-workbench{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(230px,.75fr);gap:9px;margin-top:10px;align-items:start}
+.lcy-inventory,.lcy-detail{border:1px solid #555762;background:linear-gradient(130deg,#2c2d34,#27282e 72%);min-width:0;overflow:hidden}
+.lcy-inventory{padding:12px}
+.lcy-workbench-head{display:flex;align-items:end;justify-content:space-between;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.lcy-workbench-head h3,.lcy-master-top h3{color:#fff!important;font-size:20px!important;margin:1px 0!important;font-weight:950!important;line-height:1.2!important;text-transform:uppercase}
+.lcy-search{display:flex;align-items:center;gap:5px;border:1px solid #5c5e69;background:#26272e;min-width:130px;max-width:100%;padding:0 7px;color:var(--lcy-cyan)}
+.lcy-panel .lcy-search input{width:100%;background:none!important;border:0!important;color:#fff!important;min-width:0;font-size:11px!important;height:32px!important;padding:5px!important;margin:0!important;box-shadow:none!important}
+.lcy-panel .lcy-search input::placeholder{color:#aeb8c8!important}
+.lcy-equipped-row{display:flex;gap:6px;align-items:center;justify-content:space-between;border-left:3px solid var(--lcy-cyan);background:#33353d;color:var(--lcy-cyan);padding:7px 9px;font-size:10px;font-weight:950;letter-spacing:.8px;margin-bottom:7px}
+.lcy-equipped-row strong{font-size:10px;color:#fff}.lcy-inventory-label{margin-top:14px;border-left-color:var(--lcy-hot);color:var(--lcy-hot)}
+.lcy-items-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.lcy-panel .lcy-item-card{min-width:0;background:#2e3037!important;border:1px solid #555762!important;display:flex;gap:6px;align-items:stretch;text-align:left;color:#fff!important;padding:6px!important;position:relative}
+.lcy-panel .lcy-item-card:hover,.lcy-panel .lcy-item-card.selected{border-color:var(--lcy-cyan)!important;background:#304247!important}
+.lcy-item-art{width:53px;height:56px}.lcy-item-art .lcy-art-placeholder{font-size:24px}
+.lcy-item-text{min-width:0;display:flex;flex-direction:column;gap:3px;justify-content:center;flex:1;padding-right:5px}
+.lcy-item-text strong{font-size:11px;line-height:1.25;overflow-wrap:anywhere;font-weight:950;color:#fff}
+.lcy-item-text small{font-size:9px;color:#bec7d5;overflow-wrap:anywhere}
+.lcy-item-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.lcy-item-meta b{font-size:8px}.lcy-item-meta em{font-size:9px;font-weight:950;color:var(--lcy-gold);font-style:normal}
+.lcy-item-state{position:absolute;bottom:2px;right:4px;font-size:8px;color:var(--lcy-cyan);font-weight:950;background:#24262eeb;padding:0 3px}
+.lcy-empty-slot{border:1px dashed #676b76;padding:16px 10px;color:#efbac0;font-size:10px;grid-column:1/-1;text-align:center;letter-spacing:.7px}
+.lcy-detail{border-color:#646872;background:#292b32}
+.lcy-detail-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px;font-size:9px;font-weight:950;letter-spacing:.8px;background:#33353e;color:var(--lcy-cyan)}
+.lcy-hero-art{display:flex;width:100%;height:154px;border-left:0;border-right:0;background:radial-gradient(circle at 50% 45%,#545862 0,transparent 60%),linear-gradient(120deg,#34373e,#292c32)}
+.lcy-hero-art .lcy-art-placeholder{font-size:77px}
+.lcy-detail-content{padding:13px}.lcy-manufacturer{display:block;color:var(--lcy-cyan);font-weight:950;font-size:10px;letter-spacing:1.2px}
+.lcy-detail-content h3{margin:3px 0 13px!important;font-size:20px!important;color:#fff!important;line-height:1.2!important;font-weight:950!important}
+.lcy-spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:0 0 13px;border-bottom:1px solid #4d505a}
+.lcy-spec-grid span{font-size:9px;color:#b8bfce;font-weight:900;display:flex;flex-direction:column;gap:3px}
+.lcy-spec-grid strong{font-size:15px;color:var(--lcy-gold);font-weight:950}
+.lcy-description{padding:11px 0 0}.lcy-description label{display:block;color:var(--lcy-cyan);font-size:10px;font-weight:950;letter-spacing:.7px}
+.lcy-description p{margin:4px 0 0!important;color:#e5e8ee!important;font-size:11px!important;line-height:1.48!important;white-space:pre-wrap;overflow-wrap:anywhere}
+.lcy-description.downside label{color:#ff7e87}
+.lcy-detail-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:17px}
+.lcy-panel .lcy-detail-actions button,.lcy-panel .lcy-gm-buttons button,.lcy-panel .lcy-editor-actions button,.lcy-panel .lcy-editor-image>button,.lcy-panel .lcy-settings-form>button{padding:9px 7px!important;font-size:10px!important;font-weight:950!important;color:#fff!important;background:#363840!important;border:1px solid #6a6e7b!important}
+.lcy-panel .lcy-action-primary,.lcy-panel button.lcy-action-primary{background:#65dce1!important;color:#08131b!important;border:1px solid #b5fbff!important;font-weight:950!important}
+.lcy-panel button.lcy-action-primary:hover{background:#adffff!important}
+.lcy-panel button.lcy-red-button{background:#6c1e34!important;border-color:var(--lcy-hot)!important;color:#fff!important}
+.lcy-blocked{font-size:10px!important;color:#ffabac!important;padding:6px;background:#442f35;margin:9px 0 0!important;line-height:1.4}
+.lcy-detail-empty{text-align:center;padding:45px 16px;color:#c4cad5}.lcy-detail-empty span{font-size:67px;color:var(--lcy-hot)}.lcy-detail-empty h4{margin:11px 0;color:#fff!important}.lcy-detail-empty p{color:#c4cad5!important}
+.lcy-readonly{color:var(--lcy-gold);font-size:11px;background:#3c3730;border:1px solid #857057;padding:9px}
+.lcy-footer{padding:13px 2px 1px;font-size:9px;color:#b6bfcd;display:flex;justify-content:space-between;gap:7px;flex-wrap:wrap;letter-spacing:.6px}
+/* Game master's workshop */
+.lcy-master{margin-top:10px;border:1px solid #535762;background:#292b32;padding:12px}
+.lcy-master-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:9px;padding-bottom:11px;border-bottom:1px solid #50545e}
+.lcy-master-top>strong{color:var(--lcy-gold);font-size:11px}.lcy-master-segment{margin:18px 0 10px}
+.lcy-panel .lcy-master-top button{padding:10px!important;font-size:10px!important}
+.lcy-gm-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:11px 0}.lcy-gm-toolbar .lcy-search{flex:1;max-width:340px}.lcy-gm-toolbar>span{margin-left:auto;color:var(--lcy-cyan);font-weight:950;font-size:10px}
+.lcy-gm-filter{display:flex;align-items:center;gap:6px;font-size:10px;color:#c5cbd6;font-weight:950}
+.lcy-panel select,.lcy-panel .lcy-editor-fields input,.lcy-panel .lcy-editor-fields textarea,.lcy-panel .lcy-editor-image input:not([type="range"]),.lcy-panel .lcy-small-form input,.lcy-panel .lcy-settings-form input:not([type="checkbox"]){background:#303239!important;border:1px solid #676b78!important;color:#fff!important;padding:8px!important;border-radius:0!important;width:100%!important;min-width:0!important;min-height:32px!important;height:auto!important;box-shadow:none!important}
+.lcy-panel option{background:#303239;color:#fff}.lcy-gm-filter select{max-width:215px}
+.lcy-gm-table-wrap{overflow-x:auto;max-width:100%;border:1px solid #515661}
+.lcy-panel .lcy-gm-table{border-collapse:collapse!important;width:100%!important;min-width:560px!important;background:transparent!important;margin:0!important;font-size:11px!important}
+.lcy-gm-table th{font-size:9px!important;color:var(--lcy-cyan)!important;background:#3a3d46!important;text-align:left!important;padding:10px 8px!important;border:0!important;border-bottom:1px solid #626672!important}
+.lcy-gm-table td{font-size:11px!important;color:#f6e6e8!important;background:#2c2f36!important;padding:9px 8px!important;border:0!important;border-bottom:1px solid #4e535e!important;vertical-align:middle!important}
+.lcy-gm-table tr:nth-child(even) td{background:#31343b!important}
+.lcy-gm-product{display:flex;align-items:center;gap:8px;min-width:0}.lcy-gm-thumb{width:42px;height:42px}.lcy-gm-thumb .lcy-art-placeholder{font-size:22px}
+.lcy-gm-product span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}.lcy-gm-product strong{font-size:11px;font-weight:950;overflow-wrap:anywhere}.lcy-gm-product small{font-size:9px;color:#bbc3d0}
+.lcy-gm-buttons{white-space:nowrap}.lcy-panel .lcy-gm-buttons button{padding:6px!important;margin:2px!important;font-size:9px!important}
+.lcy-settings-form{display:flex;gap:11px;flex-wrap:wrap;align-items:end}
+.lcy-settings-form>label{display:flex;flex-direction:column;gap:5px;font-size:10px;font-weight:950;color:var(--lcy-cyan);min-width:145px}
+.lcy-settings-form .lcy-setting-check{flex-direction:row;align-items:center;max-width:180px;color:#fff}
+.lcy-panel .lcy-setting-check input{accent-color:var(--lcy-hot);width:18px;height:18px}
+.lcy-slot-limits{width:100%;border:1px solid #565c68;padding:10px}
+.lcy-slot-limits>span{font-size:10px;color:var(--lcy-gold);font-weight:950}
+.lcy-slot-limits>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.lcy-slot-limits label{display:flex;flex-direction:column;font-size:10px;gap:3px;color:#d0d6e0}
+.lcy-slot-limits input{max-width:100%}
+/* Accessible editor overlay. No destructive cropping; all controls reside in this modal. */
+.lcy-modal-cover{position:fixed;inset:0;background:#060609eb;z-index:30000;display:flex;align-items:center;justify-content:center;padding:12px;backdrop-filter:blur(3px)}
+.lcy-modal{width:min(940px,100%);max-height:calc(100vh - 24px);overflow:auto;border:1px solid var(--lcy-hot);background:#292c33;box-shadow:0 15px 75px #000e;color:#fff}
+.lcy-editor-form,.lcy-small-form{padding:15px}.lcy-modal-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--lcy-cyan);font-size:10px;font-weight:950;letter-spacing:1px}
+.lcy-panel .lcy-modal-bar button{background:#3d3540!important;border:1px solid #80717d!important;color:#fff!important;padding:6px 9px!important}
+.lcy-editor-form h3,.lcy-small-form h3{color:#fff!important;font-size:24px!important;margin:8px 0 13px!important;font-weight:950!important}
+.lcy-editor-columns{display:grid;grid-template-columns:minmax(205px,.8fr) minmax(0,1.5fr);gap:16px;align-items:start}
+.lcy-editor-fields{display:flex;flex-direction:column;gap:10px}.lcy-editor-image,.lcy-editor-fields label,.lcy-small-form label{font-size:10px;color:#c8d0dd;font-weight:950}
+.lcy-editor-image>label,.lcy-editor-fields>label,.lcy-two-fields label,.lcy-three-fields label,.lcy-small-form label{display:flex;flex-direction:column;gap:5px}
+.lcy-editor-fields textarea{resize:vertical;min-height:70px!important;line-height:1.4!important}
+.lcy-two-fields,.lcy-three-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.lcy-three-fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lcy-crop-stage{height:210px;overflow:hidden;position:relative;background:linear-gradient(135deg,#41454f,#292c33);border:1px solid var(--lcy-cyan);cursor:grab;user-select:none;margin:7px 0 12px;touch-action:none}
+.lcy-crop-stage:active{cursor:grabbing}.lcy-crop-art{width:100%;height:100%;border:0;pointer-events:none}.lcy-crop-art .lcy-art-placeholder{font-size:110px}
+.lcy-crop-cross{pointer-events:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff5;font-size:35px;z-index:1}
+.lcy-editor-image>button{width:100%;margin:8px 0!important}.lcy-editor-image>p{font-size:10px;color:#c0c9d6;line-height:1.4}
+.lcy-crop-control{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.lcy-crop-control>label{flex:1}.lcy-crop-control output{color:var(--lcy-cyan);font-weight:950}
+.lcy-pan-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0}.lcy-pan-row label{font-size:9px;display:flex;flex-direction:column;gap:5px}
+.lcy-panel input[type="range"]{width:100%;accent-color:var(--lcy-cyan);cursor:pointer}
+.lcy-editor-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid #515560}
+.lcy-small-form{width:min(440px,100%);display:flex;flex-direction:column;gap:9px}.lcy-small-form>p{color:#d3d9e3;font-size:12px;margin:0!important}.lcy-small-form>strong{font-size:16px;color:#fff}
+.lcy-assign-art{width:100%;height:110px}.lcy-assign-art .lcy-art-placeholder{font-size:64px}
+.lcy-launcher{display:flex;align-items:center;flex:0 0 auto;min-width:0;padding:4px 6px;background:#2e2631;border-bottom:1px solid #875466}
+.lcy-launcher .lcy-nav{width:auto;min-height:24px;height:auto;margin:0;padding:3px 10px;border:1px solid #b86c86;border-radius:0;background:#493041;color:#fff2f6;font:bold 12px/1.2 Arial,sans-serif;letter-spacing:.045em;cursor:pointer}
+.lcy-launcher .lcy-nav:hover,.lcy-launcher .lcy-nav:focus-visible{outline:1px solid #7df3ed;outline-offset:1px}
+.lcy-launcher .lcy-nav.active{background:#64e3e3;color:#07121b;border-color:#64e3e3}
+@media(max-width:780px){
+ .lcy-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.lcy-workbench{grid-template-columns:minmax(0,1.2fr) minmax(210px,.8fr)}.lcy-items-grid{grid-template-columns:1fr}.lcy-slot-limits>div{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:565px){
+ .lcy-shell{padding:7px}.lcy-header h2{font-size:23px!important}.lcy-header{padding:11px}
+ .lcy-status{grid-template-columns:repeat(2,minmax(0,1fr))}.lcy-status-metric strong,.lcy-capacity strong{font-size:24px}
+ .lcy-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.lcy-cat-section{padding:8px}.lcy-panel .lcy-cat{padding:6px!important;min-height:88px!important}.lcy-cat-name{font-size:10px}.lcy-cat-foot{font-size:7px}
+ .lcy-workbench{grid-template-columns:1fr}.lcy-inventory{padding:9px}.lcy-items-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .lcy-hero-art{height:130px}.lcy-detail-content{padding:12px}.lcy-slot-limits>div{grid-template-columns:repeat(2,minmax(0,1fr))}.lcy-editor-columns{grid-template-columns:1fr}.lcy-crop-stage{height:185px}
+}
+@media(max-width:360px){.lcy-cat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lcy-items-grid{grid-template-columns:1fr}.lcy-header-right{font-size:8px}.lcy-section-title strong{font-size:9px}}
+
+/* V0.6 — graphite plates with fine machining marks, restricted to the substrate. */
+.lcy-shell{position:relative;container-type:inline-size;padding:16px;background-color:#231e25;background-image:radial-gradient(ellipse at 95% 0,#f44c651a,transparent 48%),radial-gradient(ellipse at 0 80%,#5df2ee08,transparent 50%);border:1px solid #51545e;box-shadow:inset 0 1px #ffffff0b}
+.lcy-header{background:linear-gradient(110deg,#6a2137,#431f32 60%,#2c202b);border-bottom:2px solid #f44c65;border-left:3px solid var(--lcy-hot);padding:18px 20px}
+.lcy-header h2{font-size:32px!important;letter-spacing:3px!important}
+.lcy-header-right{color:#bbc5d4}.lcy-header-right b{color:var(--lcy-cyan)}
+.lcy-capacity,.lcy-status-metric{background:linear-gradient(135deg,#382b32,#2b232c);padding:12px 14px;box-shadow:inset 0 1px #ffffff09}
+.lcy-status{gap:10px;margin-bottom:10px}.lcy-status-metric em{font-size:10px}.lcy-capacity>span,.lcy-status-metric>span{font-size:10px}
+.lcy-bar{border-color:#62616a;background:#202228}.lcy-capacity{border-left-color:var(--lcy-gold)}
+.lcy-cat-section{background:linear-gradient(140deg,#3a2330c9,#28222bcf);border-color:#884458;padding:14px}.lcy-section-title{margin-bottom:12px;padding-bottom:10px}
+.lcy-section-title strong{font-size:9px;color:#bfc8d7}
+.lcy-cat-grid{gap:10px;grid-auto-rows:1fr}.lcy-panel .lcy-cat{min-height:120px!important;gap:6px;padding:10px!important;clip-path:none;background:linear-gradient(120deg,#4b2937,#30232f)!important;border-color:#91465d!important;box-shadow:inset 0 1px #ffffff0b!important}
+.lcy-panel .lcy-cat.selected{background:linear-gradient(120deg,#25505a,#2c3542)!important;border-color:#5df2ee!important;box-shadow:inset 3px 0 #5df2ee!important}
+.lcy-panel .lcy-cat:hover{background:#5a2d40!important}.lcy-cat-symbol{color:#ff8399;display:flex}.lcy-body-icon{display:block;width:100%;height:100%;flex-shrink:0}.lcy-cat-symbol .lcy-body-icon{width:30px;height:30px}
+.lcy-cat-count{font-size:20px}.lcy-cat-count small{font-size:11px;color:#e4bcc9}.lcy-cat-name{min-height:28px;font-size:11px;display:flex;align-items:center}.lcy-cat-foot{font-size:9px;color:#e3b7c5;letter-spacing:.25px}
+.lcy-mini-sockets{display:flex;gap:4px;margin-top:auto;min-height:5px}.lcy-mini-sockets i{width:18px;height:4px;background:#22252c;border:1px solid #606674}.lcy-mini-sockets i.filled{background:var(--lcy-cyan);border-color:var(--lcy-cyan)}
+.lcy-art{background:linear-gradient(135deg,#4c2b3e,#302735);border-color:#98556c}.lcy-art-placeholder{display:block;width:60%;height:65%;color:#f4a4b9;text-shadow:none}.lcy-cat-mini .lcy-art-placeholder{width:26px;height:26px}
+.lcy-workbench{grid-template-columns:minmax(0,1.7fr) minmax(235px,.8fr);gap:12px;margin-top:14px}.lcy-inventory{padding:14px;background:linear-gradient(145deg,#352330ed,#29222bed);border-color:#834156}.lcy-workbench-head{flex-wrap:nowrap;margin-bottom:16px;align-items:center}.lcy-workbench-head h3{font-size:22px!important}.lcy-region-emblem{color:#91a7bc;width:37px;height:37px}
+.lcy-equipped-row{background:linear-gradient(90deg,#24404b,#2e2b3b);font-size:10px;padding:9px 10px;margin-bottom:10px}.lcy-inventory-label{border-left-color:var(--lcy-hot);color:#ff8fa4;background:linear-gradient(90deg,#532a3d,#302532)}
+.lcy-socket-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
+.lcy-panel .lcy-socket{position:relative;min-width:0;min-height:175px!important;border:1px solid #95506c;background:linear-gradient(135deg,#442c3c,#2e2634);color:#f1f4f9;padding:29px 10px 12px!important;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:7px;box-shadow:inset 0 1px #ffffff09}
+.lcy-panel .lcy-socket.empty{border-style:dashed;border-color:#855068;color:#ceabbc;background:#26222dbd;justify-content:center}.lcy-panel .lcy-socket:hover,.lcy-panel .lcy-socket.selected{border-color:var(--lcy-cyan);background:#34444d}
+.lcy-socket-number{position:absolute;top:7px;left:9px;color:#d9b4c5;font:10px monospace;letter-spacing:1px}.lcy-socket-art{width:55px;height:55px;border:1px solid #657783}.lcy-socket-icon{width:42px;height:42px;opacity:.55;margin:4px 0}
+.lcy-socket strong{font-size:11px;line-height:1.35;overflow-wrap:anywhere;min-height:28px;display:flex;align-items:center;justify-content:center}.lcy-socket small{font-size:9px;letter-spacing:.5px}.lcy-socket .lcy-power-state{color:var(--lcy-cyan);margin-top:auto}.lcy-socket.offline .lcy-power-state{color:var(--lcy-gold)}.lcy-socket.offline .lcy-art{opacity:.55}
+.lcy-reserve{margin-top:16px;padding:0 0 8px;min-height:115px}.lcy-inventory-label{margin-top:0}.lcy-reserve>.lcy-search{margin:0 0 10px;max-width:none;background:#242830;border-color:#586273}.lcy-items-grid{gap:9px}
+.lcy-panel .lcy-item-card{padding:9px 9px 20px!important;gap:10px;background:linear-gradient(120deg,#462b3a,#302431)!important;border-color:#88445c!important}.lcy-item-text strong{font-size:12px}.lcy-item-text small{font-size:9px;line-height:1.4}.lcy-item-meta b{font-size:9px}.lcy-item-state{font-size:8px;letter-spacing:.5px;bottom:4px;right:9px;background:transparent;color:#c3cfde}
+[draggable="true"]{cursor:grab!important}[draggable="true"]:active{cursor:grabbing!important}.lcy-dragging .lcy-drop-valid{outline:1px solid #5df2ee80;outline-offset:2px}.lcy-dragging .lcy-drop-invalid{opacity:.5}.lcy-panel .lcy-drop-hover.lcy-drop-valid{background:#345559!important;outline:2px solid var(--lcy-cyan);outline-offset:2px}.lcy-drop-hover.lcy-drop-invalid{outline:2px solid var(--lcy-hot)}
+.lcy-detail{background:linear-gradient(160deg,#3d2435,#282331);border-color:#a34d69;position:sticky;top:12px}.lcy-detail-head{background:linear-gradient(90deg,#61263e,#3e263a);font-size:9px}.lcy-hero-art{height:150px;background:radial-gradient(ellipse at center,#c8568930,transparent 70%),#2d2535}.lcy-hero-art .lcy-art-placeholder{width:75px;height:90px}.lcy-detail-content{padding:16px}.lcy-detail-content h3{font-size:20px!important}.lcy-detail-summary{color:#ced7e3!important;font-size:12px!important;line-height:1.7!important;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.lcy-quick-spec{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.lcy-quick-spec span{color:#d7e2ee;background:#383f49;border:1px solid #576371;font-size:10px;padding:4px 6px}.lcy-open-dossier{width:100%;padding:11px!important;font-size:10px!important}
+.lcy-detail-empty{padding:30px 18px;color:#c2cedd}.lcy-detail-empty>span{display:block;width:70px;height:80px;margin:0 auto 20px;color:#e587ab}.lcy-detail-empty h4{font-size:13px!important;letter-spacing:1px}.lcy-detail-empty p{color:#c4d0df!important;font-size:12px!important;line-height:1.7!important}.lcy-detail-empty small{color:#aebdce;line-height:1.6;font-size:10px}
+.lcy-dossier{padding:20px}.lcy-modal:has(.lcy-dossier){width:min(800px,calc(100vw - 48px));border-color:#c45c84;background:linear-gradient(140deg,#3c2436,#2a2433)}.lcy-dossier-intro{display:grid;grid-template-columns:210px minmax(0,1fr);gap:24px;margin:20px 0}.lcy-dossier-art{width:210px;height:228px;background:radial-gradient(ellipse,#a646783d,transparent 80%),#2e2535}.lcy-dossier-art .lcy-art-placeholder{width:120px;height:140px}
+.lcy-dossier h3{color:#fff!important;font-size:28px!important;line-height:1.2!important;margin:5px 0 12px!important;border:0!important}.lcy-condition{display:block;color:#a8d6d4;font-size:10px;margin:12px 0}.lcy-spec-grid{gap:12px;border-color:#56616f;padding-bottom:0;border-bottom:0}.lcy-spec-grid span{font-size:10px;color:#bfccdc}.lcy-spec-grid strong{font-size:17px}
+.lcy-dossier-tabs{display:flex;gap:8px;border-bottom:1px solid #5b687a;padding:0 0 10px}.lcy-panel .lcy-dossier-tabs button{padding:9px 14px!important;border:1px solid #626f81;background:#333c48;color:#cdd7e5;font-size:10px!important}.lcy-panel .lcy-dossier-tabs button[aria-selected="true"]{border-color:var(--lcy-cyan);color:var(--lcy-cyan);background:#30444b}
+.lcy-dossier [role="tabpanel"]{padding:8px 2px 22px;min-height:145px;max-height:34vh;overflow:auto}.lcy-dossier [hidden]{display:none!important}.lcy-dossier .lcy-description p{font-size:13px!important;line-height:1.8!important;color:#e1e7ef!important}.lcy-description label{font-size:10px;letter-spacing:1.2px}.lcy-dossier-bottom{border-top:1px solid #566372;padding-top:4px}.lcy-dossier-bottom small{font-size:10px;color:#b0c1d3;display:block;margin-top:12px}.lcy-detail-actions{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:12px}.lcy-panel .lcy-detail-actions button{font-size:10px!important;padding:12px 8px!important}
+.lcy-modal{background:#302433;border-color:#a15173}.lcy-modal-bar>span{letter-spacing:1.2px}.lcy-slot-picker{padding:20px}.lcy-slot-picker h3{color:#fff!important;font-size:22px!important;margin:16px 0!important}.lcy-picker-options{display:grid;gap:10px;margin-top:16px}.lcy-panel .lcy-picker-options button{display:flex;align-items:center;gap:12px;background:#333d49;border:1px solid #63788a;color:#fff;text-align:left;padding:12px}.lcy-picker-options small{font-size:11px}
+.lcy-feedback{display:none;position:sticky;top:8px;z-index:30;padding:11px 14px;border:1px solid var(--lcy-cyan);background:#293e46;color:#eaffff;font-size:12px;box-shadow:0 6px 16px #0003}.lcy-feedback.visible{display:block}.lcy-feedback.error{border-color:var(--lcy-hot);background:#46313c;color:#ffe8ed}
+.lcy-modal-cover{background:#151920d9}.lcy-master{background:#302331}.lcy-panel .lcy-mode-tabs button{background:#4c293c!important;border-color:#a44e70!important}.lcy-panel .lcy-mode-tabs button.active{color:var(--lcy-cyan)!important;border-color:var(--lcy-cyan)!important;background:#2e454b!important}
+.lcy-footer{color:#aeb9c9;font-size:9px;margin-top:8px}
+@container(max-width:850px){.lcy-workbench{grid-template-columns:minmax(0,1fr) 235px}.lcy-socket-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lcy-items-grid{grid-template-columns:1fr}.lcy-cat-grid{gap:8px}.lcy-cat-foot{font-size:8px}}
+@container(max-width:650px){.lcy-workbench{grid-template-columns:1fr}.lcy-detail{position:static}.lcy-cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* 0.6.1 — restore the project's color hierarchy over the neutral substrate. */
+.lcy-capacity{background:linear-gradient(130deg,#49352e,#2e252e);border-color:#886144}
+.lcy-status-metric:nth-child(2){background:linear-gradient(130deg,#5a2639,#342432);border-color:#a14460;border-top-color:var(--lcy-hot)}
+.lcy-status-metric:nth-child(3){background:linear-gradient(130deg,#24454d,#2b2939);border-color:#447b82;border-top-color:var(--lcy-cyan)}
+.lcy-status-metric:nth-child(4){background:linear-gradient(130deg,#443430,#2d2430);border-color:#866346;border-top-color:var(--lcy-gold)}
+.lcy-panel .lcy-cat.selected .lcy-cat-symbol{color:var(--lcy-cyan)}
+.lcy-region-emblem{color:#f8789d}
+.lcy-panel .lcy-socket.selected{border-color:var(--lcy-cyan);background:linear-gradient(135deg,#2b4e55,#2e3041)}
+.lcy-panel .lcy-socket.empty:hover{background:#373044;border-color:var(--lcy-cyan)}
+.lcy-panel .lcy-detail-actions button:not(.lcy-action-primary){background:#4b2b3d!important;border-color:#b25a7b!important}
+.lcy-panel .lcy-dossier-tabs button{background:#472b3e;border-color:#a25778;color:#f1ccde}
+.lcy-panel .lcy-dossier-tabs button[aria-selected="true"]{background:#244751;border-color:var(--lcy-cyan);color:var(--lcy-cyan)}
+.lcy-panel .lcy-gm-table th{background:#61263f!important}.lcy-panel .lcy-gm-table td{background:#342435!important;border-bottom-color:#704059!important}.lcy-panel .lcy-gm-table tr:nth-child(even) td{background:#40283b!important}
+.lcy-panel .lcy-settings-form input:not([type="checkbox"]),.lcy-panel .lcy-editor-fields :is(input,select,textarea){background:#29232f!important;border-color:#98516f!important}
+
+/* Readable diagnostics and inventory typography */
+.lcy-panel { position: relative; }
+.lcy-panel .lcy-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.lcy-header > div > span { color: #f0c2d0; font-size: 11px; letter-spacing: .09em; }
+.lcy-header .lcy-header-right {
+  color: #f4dce4;
+  background: #281b26;
+  border: 1px solid #a35872;
+  padding: 5px 9px;
+  font-size: 10px;
+  letter-spacing: .07em;
+}
+.lcy-status { margin: 12px 0 10px; }
+.lcy-status > div { gap: 4px; justify-content: flex-start; }
+.lcy-status dt { color: #e5d7e0; font-size: 11px; font-weight: 750; line-height: 1.25; }
+.lcy-status dd { margin: 0; }
+.lcy-status .lcy-status-value {
+  color: var(--lcy-gold);
+  font-size: clamp(24px, 3.2cqi, 34px);
+  line-height: 1.15;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.lcy-status .lcy-status-value small { font-size: .49em; color: #e5d6df; }
+.lcy-status .lcy-risk .lcy-status-value { color: var(--lcy-stage); }
+.lcy-status-metric:nth-child(3) .lcy-status-value { color: var(--lcy-cyan); }
+.lcy-status-metric:nth-child(4) .lcy-status-value { color: #fff2f7; }
+.lcy-status .lcy-metric-note { color: #e4c9d7; font-size: 11px; line-height: 1.3; font-weight: 650; }
+.lcy-status .lcy-risk .lcy-metric-note { color: var(--lcy-stage); }
+.lcy-status :is(.lcy-bar, .lcy-risk-scale) {
+  position: relative;
+  height: 7px;
+  min-height: 7px;
+  overflow: hidden;
+  background: #211b25;
+  margin-top: auto;
+  border: 1px solid #72566b;
+}
+.lcy-status .lcy-risk-scale { margin-top: 3px; }
+.lcy-status :is(.lcy-bar, .lcy-risk-scale) > i {
+  display: block;
+  height: 100%;
+  transform: scaleX(var(--lcy-fill));
+  transform-origin: left;
+}
+.lcy-risk-scale > i { background: linear-gradient(90deg, color-mix(in srgb, var(--lcy-stage) 53%, #47283a), var(--lcy-stage)); }
+.lcy-risk-scale > span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 19.55%, #221724 19.55% 20.2%, transparent 20.2% 39.55%,
+    #221724 39.55% 40.2%, transparent 40.2% 64.55%, #221724 64.55% 65.2%, transparent 65.2% 84.55%,
+    #221724 84.55% 85.2%, transparent 85.2%);
+}
+.lcy-section-title h3,
+.lcy-panel .lcy-equipped-row h4,
+.lcy-panel .lcy-detail-empty h4,
+.lcy-panel .lcy-editor-image h4,
+.lcy-panel .lcy-description h4 {
+  margin: 0 !important;
+  border: 0 !important;
+  font-weight: 780 !important;
+  line-height: 1.35 !important;
+  letter-spacing: .035em !important;
+}
+.lcy-section-title h3 { font-size: 14px !important; color: #f5d9e2 !important; }
+.lcy-workbench-head h3, .lcy-master-top h3 { text-transform: none; }
+.lcy-panel .lcy-equipped-row h4 { color: inherit !important; font-size: 12px !important; }
+.lcy-equipped-row strong { color: #f0e3ed; font-size: 11px; font-weight: 750; letter-spacing: 0; }
+.lcy-cat-name { font-size: 12px; text-transform: none; letter-spacing: 0; }
+.lcy-cat-foot { font-size: 10px; letter-spacing: .02em; }
+.lcy-socket small { font-size: 10px; letter-spacing: 0; }
+.lcy-socket.empty:disabled { opacity: .8; filter: none; }
+.lcy-socket.empty:disabled:hover { border-color: #855068; background: #26222dbd; }
+.lcy-socket .lcy-power-state {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  letter-spacing: .015em;
+}
+.lcy-power-state::before { content: ''; width: 5px; height: 5px; border: 1px solid currentColor; }
+.lcy-socket.online .lcy-power-state::before { background: currentColor; box-shadow: 0 0 6px #5df2ee80; }
+.lcy-reserve-help { margin: 0 0 10px !important; color: #e1c8d5; font-size: 11px; }
+.lcy-panel .lcy-search input { font-size: 12px !important; }
+.lcy-empty-slot { margin: 0; font-size: 12px; letter-spacing: .02em; }
+.lcy-panel .lcy-item-card { padding: 10px !important; }
+.lcy-item-text { padding-right: 0; gap: 4px; }
+.lcy-item-text strong { font-size: 13px; }
+.lcy-item-text small { font-size: 10px; }
+.lcy-item-meta { gap: 5px 8px; }
+.lcy-item-meta > span:not(.lcy-rarity-badge) { color: #f4d29b; font-size: 10px; font-weight: 750; white-space: nowrap; }
+.lcy-item-state {
+  position: static;
+  padding: 0;
+  background: transparent;
+  color: #ddd1e0;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+.lcy-detail-head { justify-content: flex-start; }
+.lcy-panel .lcy-detail-content h4 {
+  margin: 3px 0 12px !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  color: #fff6f8 !important;
+  overflow-wrap: anywhere;
+}
+.lcy-panel .lcy-detail-empty h4 { color: #ffecf4 !important; font-size: 15px !important; }
+.lcy-panel .lcy-dossier h3 { overflow-wrap: anywhere; }
+.lcy-dossier-tags, .lcy-assignment-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.lcy-dossier-tags { margin: 0 0 16px; }
+.lcy-condition { margin: 0; font-size: 11px; font-weight: 700; }
+.lcy-spec-grid { margin: 0; }
+.lcy-spec-grid dt { color: #d7c9dc; font-size: 11px; font-weight: 700; }
+.lcy-spec-grid dd { margin: 1px 0 0; color: #ffe0ae; font-size: 16px; font-weight: 800; overflow-wrap: anywhere; }
+.lcy-technical-spec { padding: 10px 0; }
+.lcy-technical-spec dd { color: #f6eaf1; font-size: 13px; }
+.lcy-panel .lcy-description h4 { color: var(--lcy-cyan) !important; font-size: 12px !important; }
+.lcy-panel .lcy-description.downside h4 { color: #ff9ba5 !important; }
+.lcy-panel .lcy-dossier-tabs button { font-size: 12px !important; }
+.lcy-panel .lcy-dossier-tabs button[aria-selected="true"] { box-shadow: inset 0 -2px var(--lcy-cyan); }
+.lcy-panel .lcy-detail-actions button { font-size: 11px !important; letter-spacing: .015em !important; }
+.lcy-panel .lcy-picker-options .lcy-picker-label { display: flex; flex-direction: column; gap: 5px; }
+.lcy-panel .lcy-picker-options .lcy-picker-meta { display: flex; flex-flow: row wrap; align-items: center; gap: 8px; }
+.lcy-gm-table thead th { font-size: 11px !important; }
+.lcy-panel .lcy-gm-table .lcy-gm-name { color: #f6e6e8 !important; background: #342435 !important; border-bottom-color: #704059 !important; }
+.lcy-panel .lcy-gm-table tr:nth-child(even) .lcy-gm-name { background: #40283b !important; }
+.lcy-panel .lcy-gm-table .lcy-gm-name .lcy-gm-product strong { font-size: 12px; }
+.lcy-slot-limits legend { color: var(--lcy-gold); padding: 0 5px; font-size: 11px; font-weight: 800; }
+.lcy-panel .lcy-editor-image h4 { font-size: 13px !important; color: #f4e4ef !important; }
+.lcy-editor-fields label, .lcy-editor-image label, .lcy-small-form label { font-size: 12px; }
+.lcy-footer { justify-content: flex-end; color: #c5aebf; }
+
+/* Color stays attached to the rarity even when the item is selected. */
+.lcy-panel [data-rarity="Comum"] { --lcy-rarity: #dce3ee; --lcy-rarity-surface: #453c4c; --lcy-rarity-glyph: '●'; }
+.lcy-panel [data-rarity="Raro"] { --lcy-rarity: #55e7f5; --lcy-rarity-surface: #204b5a; --lcy-rarity-glyph: '◆'; }
+.lcy-panel [data-rarity="Incomum"] { --lcy-rarity: #a0ed9d; --lcy-rarity-surface: #314e40; --lcy-rarity-glyph: '▲'; }
+.lcy-panel [data-rarity="Mítico"] { --lcy-rarity: #dc9bff; --lcy-rarity-surface: #553960; --lcy-rarity-glyph: '✦'; }
+.lcy-panel [data-rarity="Corporativo"] { --lcy-rarity: #ff9a7e; --lcy-rarity-surface: #64394a; --lcy-rarity-glyph: '⬡'; }
+.lcy-panel [data-rarity="Lendário"] { --lcy-rarity: #ffd179; --lcy-rarity-surface: #5b4333; --lcy-rarity-glyph: '✶'; }
+.lcy-panel .lcy-rarity-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  gap: 5px;
+  width: max-content;
+  max-width: 100%;
+  min-height: 20px;
+  padding: 2px 6px;
+  border: 1px solid color-mix(in srgb, var(--lcy-rarity) 65%, #271c28);
+  border-left: 2px solid var(--lcy-rarity);
+  background: color-mix(in srgb, var(--lcy-rarity-surface) 55%, #1a151e);
+  color: var(--lcy-rarity);
+  font-size: 10px;
+  font-weight: 820;
+  line-height: 1.2;
+  letter-spacing: .035em;
+  overflow-wrap: anywhere;
+}
+.lcy-rarity-badge i::before { content: var(--lcy-rarity-glyph); font: 10px / 1 Arial, sans-serif; }
+.lcy-item-text .lcy-rarity-badge { align-self: start; }
+.lcy-panel :is(.lcy-item-card, .lcy-picker-options button)[data-rarity] {
+  border-left: 3px solid var(--lcy-rarity) !important;
+  background: linear-gradient(112deg, var(--lcy-rarity-surface), #302532 86%) !important;
+}
+.lcy-panel .lcy-item-card:is(:hover, .selected) {
+  border-color: var(--lcy-cyan) !important;
+  border-left-color: var(--lcy-rarity) !important;
+}
+.lcy-panel .lcy-socket.occupied[data-rarity] {
+  border-top: 3px solid var(--lcy-rarity);
+  background: linear-gradient(150deg, var(--lcy-rarity-surface), #2e2634 78%);
+}
+.lcy-panel .lcy-socket.occupied:is(:hover, .selected) {
+  box-shadow: inset 0 0 0 1px #5df2ee74;
+  border-inline-color: var(--lcy-cyan);
+  border-bottom-color: var(--lcy-cyan);
+}
+.lcy-panel [data-rarity] .lcy-art {
+  border-color: color-mix(in srgb, var(--lcy-rarity) 63%, #3e2b40);
+  background: radial-gradient(ellipse at 50% 46%, var(--lcy-rarity-surface), #2c2331 84%);
+}
+.lcy-panel [data-rarity] .lcy-art-placeholder { color: var(--lcy-rarity); }
+.lcy-detail[data-rarity] { border-top: 3px solid var(--lcy-rarity); }
+.lcy-dossier[data-rarity] { box-shadow: inset 3px 0 var(--lcy-rarity); }
+.lcy-dossier[data-rarity] .lcy-rarity-badge { font-size: 12px; padding: 3px 8px; }
+
+/* Risk colors are shared by the meter and the live neural scope. */
+.lcy-shell[data-risk-stage="stable"] { --lcy-stage: #8ce5be; }
+.lcy-shell[data-risk-stage="watch"] { --lcy-stage: #75e8ea; }
+.lcy-shell[data-risk-stage="warn"] { --lcy-stage: #ffce85; }
+.lcy-shell[data-risk-stage="danger"] { --lcy-stage: #ff8d85; }
+.lcy-shell[data-risk-stage="collapse"] { --lcy-stage: #ff90af; }
+.lcy-status .lcy-risk {
+  border-top-color: var(--lcy-stage);
+  background: linear-gradient(132deg, color-mix(in srgb, var(--lcy-stage) 13%, #492238), #302532 82%);
+}
+.lcy-risk:is([data-stage="danger"], [data-stage="collapse"]) .lcy-status-value {
+  text-shadow: 0 0 16px color-mix(in srgb, var(--lcy-stage) 48%, transparent) !important;
+}
+@container (max-width: 710px) {
+  .lcy-panel .lcy-rarity-badge { font-size: 10px; padding-inline: 4px; gap: 3px; }
+}
+@container (max-width: 510px) {
+  .lcy-status { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lcy-dossier-intro { grid-template-columns: minmax(105px, .65fr) minmax(0, 1fr); gap: 12px; }
+  .lcy-dossier-art { width: 100%; height: 150px; }
+  .lcy-dossier-art .lcy-art-placeholder { width: 74%; height: 78%; }
+}
+
+/* Oscilloscope */
+.lcy-telemetry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(132px, .55fr) minmax(0, 2fr) auto;
+  gap: 8px 16px;
+  align-items: center;
+  min-height: 87px;
+  margin-bottom: 16px;
+  padding: 9px 12px 9px 14px;
+  border: 1px solid #81586c;
+  border-left: 3px solid var(--lcy-stage);
+  background: linear-gradient(112deg, #38283a, #2c2332 66%, #352834);
+}
+.lcy-telemetry[data-stage="warn"] { background: linear-gradient(112deg, #47332c, #2d2431 68%); }
+.lcy-telemetry:is([data-stage="danger"], [data-stage="collapse"]) {
+  background: linear-gradient(112deg, #5b2b41, #332536 73%);
+  border-block-color: #a85b76;
+}
+.lcy-panel .lcy-signal-copy h3 {
+  margin: 0 !important;
+  border: 0 !important;
+  color: #f5e3ed !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: .02em;
+  line-height: 1.25 !important;
+}
+.lcy-panel .lcy-signal-copy p {
+  margin: 4px 0 0 !important;
+  color: var(--lcy-stage);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.lcy-signal {
+  position: relative;
+  height: 65px;
+  overflow: hidden;
+  border: 1px solid #81586c;
+  border-color: color-mix(in srgb, var(--lcy-stage) 32%, #2c202d);
+  background:
+    linear-gradient(0deg, transparent 45%, #dc92c223 46% 47%, transparent 48%),
+    repeating-linear-gradient(90deg, #cab8d013 0 1px, transparent 1px 33px),
+    repeating-linear-gradient(0deg, #cab8d010 0 1px, transparent 1px 11px),
+    radial-gradient(ellipse at 64% 54%, #2d263a, #1e1825 87%);
+  box-shadow: inset 0 3px 10px #110914b3;
+}
+.lcy-signal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid #ffffff09;
+  border-bottom: 1px solid #0008;
+  pointer-events: none;
+}
+.lcy-scope-canvas { display: block; width: 100%; height: 100%; }
+.lcy-panel .lcy-telemetry button {
+  justify-self: end;
+  padding: 7px 10px;
+  color: #f5dce8;
+  background: #3a2a3a;
+  border: 1px solid #ae7693;
+  font-size: 11px !important;
+  letter-spacing: .015em !important;
+}
+.lcy-panel .lcy-telemetry button:hover { border-color: var(--lcy-cyan); }
+.lcy-panel .lcy-telemetry button[aria-pressed="true"] {
+  color: #b5fbfa;
+  border-color: var(--lcy-cyan);
+  background: #24444a;
+}
+.lcy-panel .lcy-link-readouts {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: .8fr 1fr 1.2fr 1.15fr;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #a4779059;
+  border-left: 2px solid var(--lcy-stage);
+  background: #211a29;
+}
+.lcy-link-readouts > div {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 7px;
+  min-width: 0;
+  padding: 5px 8px;
+  border-inline-end: 1px solid #98748a4d;
+}
+.lcy-link-readouts > div:last-child { border-inline-end: 0; }
+.lcy-panel .lcy-link-readouts :is(dt, dd) { margin: 0; }
+.lcy-link-readouts dt {
+  color: #dbbccd;
+  font-size: 10px;
+  line-height: 1.25;
+}
+.lcy-link-readouts dd {
+  color: var(--lcy-stage);
+  font: 700 10px/1.25 "IBM Plex Mono", Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.lcy-link-sync dd { color: #fff4ed; font-size: 13px; }
+.lcy-telemetry:is([data-stage="danger"], [data-stage="collapse"]) .lcy-link-readouts > :nth-child(n + 3) {
+  background-color: #382334;
+}
+@container (max-width: 620px) {
+  .lcy-telemetry { grid-template-columns: minmax(105px, .58fr) minmax(0, 1fr); gap: 7px 10px; }
+  .lcy-panel .lcy-telemetry button { grid-column: 2; }
+  .lcy-panel .lcy-link-readouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lcy-link-readouts > :nth-child(n + 3) { border-top: 1px solid #98748a4d; }
+  .lcy-link-readouts > :nth-child(2) { border-inline-end: 0; }
+}
+
+/* Displaced image bands and the front, edge and shadow of each plate. */
+.lcy-fx-stage {
+  position: absolute;
+  z-index: 15;
+  overflow: hidden;
+  isolation: isolate;
+  user-select: none;
+  pointer-events: none;
+  contain: layout paint;
+}
+.lcy-fx-stage[hidden] { display: none; }
+.lcy-fx-stage *, .lcy-fx-stage *::before, .lcy-fx-stage *::after { pointer-events: none !important; }
+.lcy-fx-filter { position: absolute; }
+.lcy-fx-backing {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 65% 40%, #170c1f 0%, #130a1b 46%, #221126 94%),
+    #170d1c;
+  opacity: 0;
+}
+.lcy-fx-band, .lcy-fx-plate {
+  position: absolute;
+  opacity: 0;
+  transform-origin: center;
+  will-change: transform, opacity;
+  --lcy-refraction-rim: #f76d9aa1;
+  --lcy-refraction-wash: #f76d9a3d;
+  --lcy-refraction-glint: #f76d9a66;
+  --lcy-glass-tint: #4c26466e;
+}
+.lcy-fx-stage [data-channel="cyan"] {
+  --lcy-refraction-rim: #66dbd5a1;
+  --lcy-refraction-wash: #66dbd53d;
+  --lcy-refraction-glint: #66dbd566;
+  --lcy-glass-tint: #27414b6e;
+}
+.lcy-fx-band { z-index: 28; box-shadow: 0 7px 15px #150917a8; }
+.lcy-fx-band-crop, .lcy-fx-front, .lcy-fx-texture, .lcy-fx-reflection {
+  position: absolute;
+  inset: 0;
+}
+.lcy-fx-band-crop {
+  overflow: hidden;
+  clip-path: polygon(0 0, 94% 0, 94% 17%, 100% 17%, 100% 81%, 81% 81%, 81% 100%, 7% 100%, 7% 84%, 0 84%);
+  background: #211523;
+}
+.lcy-fx-band-crop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid var(--lcy-refraction-rim);
+  border-bottom: 1px solid #f5538d76;
+  background: linear-gradient(95deg, transparent 48%, var(--lcy-refraction-wash));
+}
+.lcy-fx-front {
+  overflow: hidden;
+  background:
+    linear-gradient(128deg, #3d253d, #2b202e 61%, #251c29);
+}
+.lcy-fx-plate {
+  filter: drop-shadow(0 11px 8px #100711d6);
+}
+.lcy-fx-bevel, .lcy-fx-rim, .lcy-fx-cracks {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.lcy-fx-reflection {
+  inset: -2px;
+  background:
+    linear-gradient(113deg, transparent 21%, var(--lcy-refraction-glint) 42%, transparent 68%),
+    linear-gradient(157deg, #130b1580, transparent 41%, var(--lcy-glass-tint) 88%);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.lcy-fx-copy {
+  position: absolute !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+.lcy-fx-texture, .lcy-fx-texture *, .lcy-fx-texture *::before, .lcy-fx-texture *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.lcy-fx-copy .lcy-fx-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+/* Panel locks are triggered by navigation and data updates. */
+.lcy-shell[data-motion="enter"] .lcy-header { isolation: isolate; }
+.lcy-shell[data-motion="enter"] .lcy-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(93deg, #53efe74d, #ec5b8878 13%, transparent 36%);
+  transform-origin: left;
+  animation: lcy-header-lock 480ms cubic-bezier(.16,.7,.25,1) both;
+}
+.lcy-shell[data-motion="enter"] .lcy-status > div { animation: lcy-display-lock 390ms cubic-bezier(.22,.74,.24,1) both; }
+.lcy-shell[data-motion="enter"] .lcy-status > div:nth-child(2) { animation-delay: 35ms; }
+.lcy-shell[data-motion="enter"] .lcy-status > div:nth-child(3) { animation-delay: 70ms; }
+.lcy-shell[data-motion="enter"] .lcy-status > div:nth-child(4) { animation-delay: 105ms; }
+.lcy-shell[data-motion="view"] :is(.lcy-master, .lcy-status, .lcy-telemetry),
+.lcy-workbench[data-motion="category"] :is(.lcy-inventory, .lcy-detail) {
+  animation: lcy-display-lock 300ms cubic-bezier(.19,.72,.24,1) both;
+}
+.lcy-panel :is(.lcy-cat, .lcy-socket, .lcy-item-card, .lcy-telemetry button) {
+  transition: border-color 145ms ease-out, box-shadow 145ms ease-out, background-color 145ms ease-out;
+}
+.lcy-panel .lcy-modal { animation: lcy-modal-lock 220ms cubic-bezier(.19,.76,.26,1) both; }
+.lcy-dossier [role="tabpanel"]:not([hidden]) { animation: lcy-display-lock 170ms ease-out both; }
+.lcy-panel .lcy-feedback { display: block; }
+.lcy-panel .lcy-feedback:not(.visible) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.lcy-feedback.visible { animation: lcy-display-lock 240ms ease-out both; }
+.lcy-status .lcy-fill-motion { animation: lcy-meter-lock 460ms cubic-bezier(.19,.74,.24,1) both; }
+
+@keyframes lcy-header-lock {
+  0% { transform: scaleX(.05); opacity: .74; }
+  44% { opacity: .42; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+@keyframes lcy-display-lock {
+  0% { opacity: .67; clip-path: inset(0 7% 0 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes lcy-modal-lock {
+  from { opacity: .76; transform: scale(.988) translateY(5px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes lcy-meter-lock {
+  from { transform: scaleX(var(--lcy-fill-start)); }
+  to { transform: scaleX(var(--lcy-fill)); }
+}
+.lcy-panel[data-lcy-quiet] *,
+.lcy-panel[data-lcy-quiet] *::before,
+.lcy-panel[data-lcy-quiet] *::after { animation: none !important; transition: none !important; }
+.lcy-panel[data-lcy-quiet] .lcy-fx-stage { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lcy-panel *, .lcy-panel *::before, .lcy-panel *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .lcy-panel .lcy-fx-stage { display: none !important; }
+}
+
+/* Questions occupy the original text field for the duration of the fault. */
+.lcy-cat-name { width: 100%; }
+.lcy-neural-label {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+.lcy-cat-name .lcy-neural-label { min-height: 2.9em; }
+.lcy-neural-question {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  border-inline-start: 1px solid transparent;
+  color: #fff1e6;
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.lcy-neural-label[data-neural-phase="broken"] .lcy-neural-normal {
+  opacity: .65;
+  clip-path: inset(0 0 66% 0);
+  transform: translateX(3px);
+  text-shadow: 2px 0 #73e9e0;
+}
+.lcy-neural-label[data-neural-phase="decode"] .lcy-neural-normal,
+.lcy-neural-label[data-neural-phase="hold"] .lcy-neural-normal { opacity: 0; }
+.lcy-neural-label[data-neural-phase="broken"] .lcy-neural-question,
+.lcy-neural-label[data-neural-phase="decode"] .lcy-neural-question,
+.lcy-neural-label[data-neural-phase="recover"] .lcy-neural-question {
+  opacity: .85;
+  color: #ffd1de;
+  text-shadow: -2px 0 #ff447f, 3px 0 #70f6e9;
+  clip-path: polygon(0 10%,100% 10%,100% 35%,88% 35%,88% 75%,100% 75%,100% 91%,0 91%);
+  transform: translateX(-3px);
+}
+.lcy-neural-label[data-neural-phase="decode"] .lcy-neural-question {
+  clip-path: inset(3% 0 5% 0);
+  transform: translateX(2px);
+}
+.lcy-neural-label[data-neural-phase="recover"] .lcy-neural-question {
+  opacity: .44;
+  clip-path: inset(47% 4% 28% 0);
+}
+.lcy-neural-label[data-neural-phase="hold"] .lcy-neural-question {
+  opacity: 1;
+  border-inline-start-color: var(--lcy-stage);
+  background: linear-gradient(90deg, #421d36, #291b2cf5 76%, #291b2c9c);
+  text-shadow: 0 1px #1d121f;
+}
+.lcy-neural-label[data-neural-phase="hold"] .lcy-neural-question::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 5px;
+  height: 4px;
+  border-top: 1px solid var(--lcy-stage);
+  border-right: 1px solid var(--lcy-stage);
+  opacity: .62;
+}
+.lcy-workbench-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+.lcy-workbench-head .lcy-neural-label { min-height: 1.75em; }
+.lcy-workbench-head .lcy-neural-question { font-size: .79em; }
+.lcy-workbench-head h3:focus-visible { outline: 1px solid var(--lcy-cyan); outline-offset: 3px; }
+.lcy-equipped-row .lcy-neural-question { width: max-content; max-width: 27ch; }
+.lcy-panel button.lcy-systems-back {
+  padding: 5px 7px;
+  border: 1px solid #9a6a83;
+  background: #372638;
+  color: #f4dce9;
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+}
+.lcy-panel button.lcy-systems-back:hover { border-color: var(--lcy-cyan); }
+.lcy-systems-back > span { color: var(--lcy-cyan); }
+@container (max-width: 620px) {
+  .lcy-cat-name .lcy-neural-label { min-height: 3.5em; }
+  .lcy-workbench-head { grid-template-columns: auto minmax(0, 1fr); }
+  .lcy-panel button.lcy-systems-back { grid-column: 1 / -1; justify-self: start; }
+}
+
+.lcy-fx-band-crop[data-cut="1"] {
+  clip-path: polygon(0 0,78% 0,78% 14%,100% 14%,100% 82%,66% 82%,66% 100%,8% 100%,8% 74%,0 74%);
+}
+.lcy-fx-band-crop[data-cut="2"] {
+  clip-path: polygon(6% 0,100% 0,100% 79%,88% 79%,88% 100%,24% 100%,24% 82%,0 82%,0 17%,6% 17%);
+}
+.lcy-fx-raster {
+  position: absolute;
+  inset: 12% 0;
+  background:
+    linear-gradient(90deg,#f4a9c270,transparent) 9% 78% / 18% 1px no-repeat,
+    linear-gradient(90deg,#93f7eb94,transparent) 72% 18% / 8% 2px no-repeat,
+    linear-gradient(90deg,#170b1d,transparent) 85% 43% / 19% 4px no-repeat;
+  transform: translateX(var(--lcy-raster-offset,0px));
+  opacity: .78;
+}
+.lcy-fx-reflection {
+  background-image: linear-gradient(113deg,transparent 21%,var(--lcy-refraction-glint) 42%,transparent 68%),
+    linear-gradient(157deg,#130b1580,transparent 41%,var(--lcy-glass-tint) 88%);
+}
+.lcy-fx-rim {
+  filter: drop-shadow(0 0 3px rgba(255,112,171,var(--lcy-fracture-glow,0)));
+}
+.lcy-fx-chip {
+  --lcy-chip: #ffa1c0;
+  position: absolute;
+  z-index: 27;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  clip-path: polygon(16% 0,100% 29%,71% 100%,0 74%);
+  background: linear-gradient(128deg,var(--lcy-chip),#9d4f7a74 30%,#382139 65%,var(--lcy-chip));
+  box-shadow: inset 0 1px #fff7;
+  will-change: transform, opacity;
+}
+.lcy-fx-chip[data-channel="cyan"] { --lcy-chip: #9dfbee; }
+
+/* Typography and system glyphs */
+.lcy-header h2.lcy-ink {
+  position: relative;
+  width: fit-content;
+  text-shadow: 0 2px #38172c, 0 0 18px #ff598d66 !important;
+}
+.lcy-header h2.lcy-ink > span:first-child { text-shadow: 0 0 12px #ff567db0; }
+.lcy-value-ink { position: relative; display: inline-block; }
+.lcy-status .lcy-status-value { text-shadow: 0 2px #1b0e20, 0 0 13px #ffb69a33; }
+.lcy-ink-echo { position: absolute; inset: 0; pointer-events: none; white-space: nowrap; }
+.lcy-ink-echo::before,.lcy-ink-echo::after {
+  content: attr(data-ink);
+  position: absolute;
+  inset: 0;
+  color: #91fff2;
+  opacity: var(--lcy-ink-power,0);
+  clip-path: inset(var(--lcy-ink-top,20%) 0 var(--lcy-ink-bottom,63%) 0);
+  transform: translateX(var(--lcy-ink-shift,0px));
+}
+.lcy-ink-echo::after {
+  color: #ff73a1;
+  clip-path: inset(58% 0 14% 0);
+  transform: translateX(calc(0px - var(--lcy-ink-shift,0px)));
+}
+.lcy-fx-copy .lcy-ink-echo { display: none; }
+.lcy-cat-name,.lcy-workbench-head h3,.lcy-panel .lcy-detail-content h4,.lcy-master-top h3 {
+  text-shadow: 0 1px 0 #1b1120, 0 0 9px #e972ac33 !important;
+}
+.lcy-cat-count { text-shadow: 0 1px #281722, 0 0 10px #ffbe7659; }
+.lcy-cat:hover .lcy-cat-name,.lcy-cat:focus-visible .lcy-cat-name {
+  text-shadow: -1px 0 #d54b76, 1px 0 #72f0e6, 0 0 12px #a1eadc7d !important;
+}
+.lcy-cat-symbol {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 42px;
+  margin: -1px 0 1px;
+  border: 1px solid #ba72964d;
+  background: radial-gradient(ellipse at 50% 28%, #a0597b47,#241929 80%);
+  box-shadow: inset 0 1px #f1bad22c, inset 0 0 0 2px #201524, 0 2px 5px #170d1e;
+}
+.lcy-cat.selected .lcy-cat-symbol {
+  border-color: #8ae9e6a3;
+  background: radial-gradient(ellipse at 50% 38%,#4a9a9d6e,#1a2630 79%);
+  box-shadow: inset 0 0 0 2px #1e313c, 0 0 13px #59e4d63d;
+}
+.lcy-cat-symbol .lcy-body-icon { width: 32px; height: 32px; }
+.lcy-icon-frame { opacity: .42; stroke-width: .8; }
+.lcy-icon-line { filter: drop-shadow(0 0 1.4px currentColor); }
+.lcy-icon-echo {
+  opacity: var(--lcy-ink-power,0);
+  stroke: #fa548f;
+  clip-path: inset(35% 0 38% 0);
+  transform: translateX(var(--lcy-ink-shift,0px));
+}
+.lcy-cat:is(:hover,:focus-visible) .lcy-icon-frame,
+.lcy-cat.selected .lcy-icon-frame { opacity: .83; }
+.lcy-rarity-badge i { filter: drop-shadow(0 0 3px var(--lcy-rarity)); }
+.lcy-fx-copy .lcy-icon-echo { display: none; }
+@container (max-width: 480px) {
+  .lcy-cat-symbol { width: 36px; height: 35px; }
+  .lcy-cat-symbol .lcy-body-icon { width: 26px; height: 26px; }
+}
+
+</style>
+<style>
+  body { margin: 0; background: #211c25; color: #f1dce7; font: 14px Arial, sans-serif; }
+  body > header { max-width: 1120px; margin: 22px auto 12px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 20px; }
+  body > header strong { font-size: 14px; letter-spacing: .09em; color: #ffb2c8; }
+  body > header p { font-size: 12px; color: #d7bccc; margin: 4px 0 0; }
+  .preview-controls { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }
+  .preview-controls label { display: grid; gap: 4px; font-size: 11px; }
+  .preview-controls select, .preview-controls button { background: #493047; color: #fff0f7; border: 1px solid #9d5b7a; padding: 7px 10px; cursor: pointer; }
+  .preview-playback { display: flex; gap: 7px; align-items: end; flex-wrap: wrap; }
+  .preview-playback [data-fault-moment] { background: #332738; padding-inline: 8px; }
+  .preview-playback input { width: 115px; margin: 4px 0 7px; accent-color: #79eee8; }
+  .preview-playback :disabled { opacity: .48; cursor: default; }
+  .preview-controls button:focus-visible, .preview-controls select:focus-visible { outline: 2px solid #5df2ee; outline-offset: 2px; }
+  #sheet { max-width: 1120px; margin: 0 auto 18px; box-shadow: 0 16px 50px #0003; }
+  #sheet > nav { display: flex; background: #43263a; border: 1px solid #98506f; padding: 8px; gap: 8px; }
+  #sheet > nav button { background: #542b42; color: #f5e5ef; border: 1px solid #89627c; padding: 8px 14px; cursor: pointer; }
+  .sheet-body { height: calc(100vh - 161px); height: calc(100dvh - 161px); min-height: 260px; overflow: auto; }
+  .native { padding: 30px; }
+  .native button { background: #433849; color: #fff; padding: 10px; border: 1px solid #a0768e; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <div><strong>CYBER//WARE · Prévia v0.10.1</strong><p>Escolha um estágio para testar a falha na ficha de demonstração.</p></div>
+  <div class="preview-controls">
+    <label>Perfil
+      <select id="profile">
+        <option value="gm">Mestre</option>
+        <option value="owner" selected>Jogador proprietário</option>
+        <option value="reader">Somente leitura</option>
+      </select>
+    </label>
+    <label>Cyberpsicose na prévia
+      <select id="scenario">
+        <option value="sample">Inventário inicial</option>
+        <option value="stable">Estável</option>
+        <option value="watch">Monitoramento</option>
+        <option value="warn">Instabilidade</option>
+        <option value="danger">Risco crítico</option>
+        <option value="collapse">Colapso iminente</option>
+      </select>
+    </label>
+    <div class="preview-playback" aria-label="Controles da falha">
+      <button type="button" id="play-fault">Reproduzir falha</button>
+      <button type="button" data-fault-moment="impact">Impacto</button>
+      <button type="button" data-fault-moment="question">Perguntas</button>
+      <label>Quadro da falha<input id="fault-frame" type="range" min="0" max="1000" step="5" value="0"></label>
+    </div>
+    <button type="button" id="reset">Restaurar</button>
+  </div>
+</header>
+<main id="sheet">
+  <nav class="tabs" aria-label="Abas da ficha simulada">
+    <button type="button" data-tab="dossier" class="active">DOSSIER</button>
+    <button type="button" data-tab="tactical">TACTICAL</button>
+  </nav>
+  <div class="sheet-body">
+    <section class="native tab active" data-tab="dossier"><h1>Ficha do piloto</h1><button type="button" onclick="document.querySelector('.lcy-nav').click()">Abrir CYBER//WARE</button></section>
+    <section class="native tab" data-tab="tactical" style="display:none">Tactical · Ficha simulada</section>
+  </div>
+</main>
+<script>
+const settingsStore=new Map(),hooks=new Map();window.demoErrors=[];window.demoMessages=[];
+window.Hooks={on:(k,f)=>{if(!hooks.has(k))hooks.set(k,[]);hooks.get(k).push(f)},once:(k,f)=>{if(!hooks.has(k))hooks.set(k,[]);hooks.get(k).push(f)}};
+const emit=(k,...args)=>(hooks.get(k)||[]).forEach(f=>f(...args));
+window.game={system:{id:'lancer'},user:{isGM:false},settings:{get:(id,k)=>settingsStore.get(k),set:async(id,k,v)=>{settingsStore.set(k,structuredClone(v));emit('updateSetting',{key:id+'.'+k});return v},register:(id,k,c)=>{if(!settingsStore.has(k))settingsStore.set(k,structuredClone(c.default))}}};
+window.ui={notifications:{error:m=>{demoErrors.push(m);console.error(m)},warn:m=>demoMessages.push(m),info:m=>demoMessages.push(m)}};
+</script>
+<script type="module">
+const WAVE_COLORS = {
+  stable:   {trace: '#a0ffd7', glow: '#54ebad', memory: '#3199a2'},
+  watch:    {trace: '#b6ffff', glow: '#57eaf1', memory: '#3fa7c1'},
+  warn:     {trace: '#ffe0a7', glow: '#ffb54d', memory: '#e85b8b'},
+  danger:   {trace: '#ffaf99', glow: '#ff605c', memory: '#66dbe2'},
+  collapse: {trace: '#ffbbd1', glow: '#ff4b85', memory: '#75f2e4'}
+};
+
+const TAU = Math.PI * 2;
+const clamp01 = value => Math.max(0, Math.min(1, value));
+const frac = value => value - Math.floor(value);
+const gaussian = (value, width) => Math.exp(-((value / width) ** 2));
+
+function sample(seconds, risk, disruption, channel) {
+  const severity = risk / 100;
+  const unstable = clamp01((risk - 29) / 71);
+  const phase = seconds * (1.28 + severity * .67) + .29 * unstable * Math.sin(seconds * 1.83);
+  const cycle = Math.floor(phase);
+  const variance = Math.sin(cycle * 4.19) * Math.cos(cycle * 1.65);
+  const time = frac(phase) - .32 - variance * unstable * .103;
+  const strength = .72 + variance * (.065 + unstable * .22);
+  const pulse = .17 * gaussian(time + .116, .037) - .22 * gaussian(time + .035, .017)
+    + strength * gaussian(time, .019 + unstable * .007) - .48 * gaussian(time - .037, .024)
+    + .19 * gaussian(time - .147, .055);
+  const after = time > .075 ? Math.sin(time * (63 + 92 * unstable)) * Math.exp(-time * 12) : 0;
+  const interference = Math.sin(seconds * 51.2 + channel) * Math.cos(seconds * 24.8);
+  const carrier = .033 * Math.sin(seconds * 11) + .014 * Math.cos(seconds * 31);
+  const echo = channel ? Math.sin(seconds * 16.1) * (.08 + unstable * .18) : 0;
+  const amplitude = pulse + after * (.31 + unstable * .33) + carrier + echo
+    + interference * (unstable * .21 + disruption * .18);
+  const packet = Math.floor(seconds * (8 + unstable * 5));
+  const lost = risk >= 40 && frac(Math.sin(packet * 6.17) * 134.53) < unstable ** 2 * .32 + disruption * .16;
+  return {value: Math.max(-.95, Math.min(1.04, amplitude)), lost};
+}
+
+function drawTrace(ctx, samples, width, height, head, color, widthPx, strength) {
+  const baseline = height * .54;
+  const vertical = height * .43;
+  const step = width / (samples.length - 1);
+  ctx.lineWidth = widthPx;
+  ctx.strokeStyle = color;
+  let lastGroup = -1;
+  let previous = -2;
+  for (let i = 1; i < samples.length; i++) {
+    const p = samples[i - 1];
+    const q = samples[i];
+    if (p.lost || q.lost || i === head + 1) continue;
+    const distance = (head - i + samples.length) % samples.length;
+    const group = Math.floor(distance * 8 / samples.length);
+    if (group !== lastGroup) {
+      if (lastGroup >= 0) ctx.stroke();
+      ctx.globalAlpha = strength * (1 - .69 * group / 8);
+      ctx.beginPath();
+      lastGroup = group;
+      previous = -2;
+    }
+    if (previous !== i - 1) ctx.moveTo((i - 1) * step, baseline - p.value * vertical);
+    ctx.lineTo(i * step, baseline - q.value * vertical);
+    previous = i;
+  }
+  if (lastGroup >= 0) ctx.stroke();
+}
+
+export function paintNeuralScope(ctx, width, height, stage, risk, seconds, disruption = 0, moving = true) {
+  const palette = WAVE_COLORS[stage] ?? WAVE_COLORS.stable;
+  const count = Math.max(72, Math.min(240, Math.round(width / 2.5)));
+  const period = 3.05 - risk * .007;
+  const head = moving ? Math.floor(frac(seconds / period) * count) : count - 1;
+  const now = moving ? seconds : 5.35;
+  const samples = [];
+  const memory = [];
+  for (let index = 0; index < count; index++) {
+    const age = ((head - index + count) % count) * period / count;
+    samples.push(sample(now - age, risk, disruption, 0));
+    memory.push(sample(now - age - .085 - risk * .0014, risk, disruption * .55, 1));
+  }
+
+  ctx.clearRect(0, 0, width, height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  const separation = risk / 100;
+  drawTrace(ctx, memory, width, height, head, palette.memory, 1, .23 + .38 * separation);
+  drawTrace(ctx, samples, width, height, head, palette.glow, 5, .12 + separation * .16);
+  drawTrace(ctx, samples, width, height, head, palette.trace, 1.55, .96);
+
+  // The lower rail exposes sampling density. Gaps in the trace retain the red recovery marks.
+  ctx.fillStyle = palette.memory;
+  ctx.globalAlpha = .38;
+  ctx.fillRect(0, height - 6, width, 1);
+  const sampleWidth = width / count;
+  for (let i = 0; i < count; i += 3) {
+    const packet = samples[i];
+    const distance = (head - i + count) % count;
+    ctx.fillStyle = packet.lost ? '#ff5686' : palette.glow;
+    ctx.globalAlpha = packet.lost ? .54 + .20 * disruption : .20 + .25 * (1 - distance / count);
+    ctx.fillRect(i * sampleWidth, height - (packet.lost ? 9 : 4), packet.lost ? Math.max(2, sampleWidth * 1.6) : 1, packet.lost ? 7 : 2);
+  }
+
+  if (moving) {
+    const cursor = head * width / (count - 1);
+    const glow = ctx.createLinearGradient(Math.max(-24, cursor - 24), 0, cursor + 1, 0);
+    glow.addColorStop(0, 'transparent');
+    glow.addColorStop(1, palette.glow + '47');
+    ctx.globalAlpha = .8;
+    ctx.fillStyle = glow;
+    ctx.fillRect(cursor - 24, 1, 25, height - 2);
+    ctx.globalAlpha = .36;
+    ctx.fillStyle = palette.glow;
+    ctx.fillRect(cursor, 0, 1, height);
+    ctx.globalAlpha = .45;
+    ctx.fillRect(Math.max(0, cursor - 5), 1, 6, 2);
+    ctx.fillRect(Math.max(0, cursor - 2), height - 4, 3, 3);
+    const newest = samples[head];
+    if (!newest.lost) {
+      const y = height * (.54 - newest.value * .43);
+      ctx.globalAlpha = .93;
+      ctx.fillStyle = palette.trace;
+      ctx.beginPath();
+      ctx.arc(cursor, y, 2.45, 0, TAU);
+      ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+export const SCENES = {
+  watch:    {duration: 520,  optics: 520,  latch: 0,    hold: 0,    interval: [9200, 13700], cuts: 1, force: .32},
+  warn:     {duration: 1740, optics: 690,  latch: 590,  hold: 1000, interval: [6400, 9700],  cuts: 2, force: .57},
+  danger:   {duration: 3000, optics: 1040, latch: 830,  hold: 2000, interval: [4700, 6950],  cuts: 4, force: .85},
+  collapse: {duration: 4900, optics: 1880, latch: 1700, hold: 3000, interval: [6200, 8900],  cuts: 5, force: 1}
+};
+
+function anchoredCuts(anchors, count, width, height, mirror) {
+  const bands = [];
+  for (const anchor of anchors) {
+    const index = bands.length;
+    const fraction = [.34, .58, .24, .53, .42][index];
+    const clipLeft = Math.max(0, anchor.x);
+    const clipTop = Math.max(0, anchor.y);
+    const clipRight = Math.min(width, anchor.x + anchor.width);
+    const clipBottom = Math.min(height, anchor.y + anchor.height);
+    const left = clipLeft + (clipRight - clipLeft) * (mirror ? .06 : .12);
+    const top = clipTop + (clipBottom - clipTop) * fraction;
+    const right = Math.min(clipRight - 5, left + 425);
+    const bottom = Math.min(clipBottom - 2, top + Math.min(39, anchor.height * .24));
+    if (right - left < 20 || bottom - top < 5) continue;
+    const direction = (index % 2 === Number(mirror)) ? 1 : -1;
+    bands.push({
+      x: left, y: top, width: right - left, height: bottom - top,
+      dx: direction * Math.min(46, 14 + (right - left) * .09),
+      dy: direction * (2 + index % 3 * 2),
+      lag: index * .054,
+      color: direction > 0 ? 'red' : 'cyan',
+      source: anchor
+    });
+    if (bands.length === count) break;
+  }
+  return bands;
+}
+
+const IMPACT = [.635, .398];
+const RING = [
+  [.503,.278], [.618,.225], [.725,.259], [.791,.369],
+  [.741,.535], [.598,.591], [.483,.493], [.458,.365]
+];
+const RAYS = [
+  [[.329,.201], [0,.111]],
+  [[.555,.101], [.434,0]],
+  [[.762,.109], [.846,0]],
+  [[.902,.282], [1,.202]],
+  [[.867,.609], [1,.715]],
+  [[.714,.753], [.850,1]],
+  [[.365,.678], [.234,1]],
+  [[.232,.448], [0,.586]]
+];
+const CORNERS = [[[0,0]], [], [[1,0]], [], [[1,1]], [], [[0,1]], []];
+const PLATES = [
+  [-23,-25, 25, 13,-11,-2], [  7,-27,-29, 12,  8, 1],
+  [ 32,-20, 43, -7,-15, 3], [ 36,  7,-46, 10,-18,-2],
+  [ 25, 32, 33,-13,  9, 2], [  2, 35,-28, -9,-10,-1],
+  [-37, 26, 37,-14, 12, 2], [-38,  3,-45,  6, 18,-3],
+  [-10,-14, 62, 18, -9,-4], [ 23,-12, 83, -8, 19, 5],
+  [ 17, 25, 53,-20, -9, 5], [-23, 15, 72,-13, 16,-5]
+];
+
+const SHIFT = [
+  [0, 0, 0],
+  [.09, 1, .93],
+  [.26, 1, .93],
+  [.34, -.43, .82],
+  [.50, -.43, .82],
+  [.58, .58, .78],
+  [.72, .49, .72],
+  [.87, -.13, .51],
+  [1, 0, 0]
+];
+const BREAK = [
+  [0, 0, 0],
+  [.12, .045, .82],
+  [.30, 1.06, 1],
+  [.49, .88, 1],
+  [.65, .64, .99],
+  [.83, -.035, .86],
+  [.92, .026, .58],
+  [1, 0, 0]
+];
+
+function sampleTrack(track, progress) {
+  const t = clamp01(progress);
+  const end = track.findIndex(frame => frame[0] >= t);
+  if (end <= 0) return track[0].slice(1);
+  const [startTime, startDistance, startAlpha] = track[end - 1];
+  const [endTime, endDistance, endAlpha] = track[end];
+  const ratio = (t - startTime) / (endTime - startTime);
+  const blend = ratio * ratio * (3 - 2 * ratio);
+  return [startDistance + (endDistance - startDistance) * blend, startAlpha + (endAlpha - startAlpha) * blend];
+}
+
+function bbox(points) {
+  const x = Math.min(...points.map(point => point[0]));
+  const y = Math.min(...points.map(point => point[1]));
+  const right = Math.max(...points.map(point => point[0]));
+  const bottom = Math.max(...points.map(point => point[1]));
+  return {x, y, width: right - x, height: bottom - y};
+}
+
+function buildPlate(points, motion, index, width, height, mirror) {
+  const vertices = points.map(([x,y]) => [(mirror ? 1 - x : x) * width, y * height]);
+  const bounds = bbox(vertices);
+  const polygon = vertices.map(([x,y]) => [x - bounds.x, y - bounds.y]);
+  const [dx,dy,z,rx,ry,rz] = motion;
+  return {...bounds, polygon, dx: mirror ? -dx : dx, dy, z, rx, ry: mirror ? -ry : ry, rz: mirror ? -rz : rz,
+    color: index % 3 === 1 ? 'cyan' : 'red', lag: (index % 4) * .036, rank: index};
+}
+
+export function makeShot(stage, width, height, take = 0, anchors = []) {
+  const settings = SCENES[stage];
+  if (!settings) return {bands: [], plates: [], chips: []};
+  const mirror = take % 2 === 1;
+  const bands = anchoredCuts(anchors, settings.cuts, width, height, mirror);
+  if (stage !== 'collapse') return {bands, plates: [], chips: []};
+
+  const plates = RING.map((point,index) => {
+    const next = (index + 1) % RING.length;
+    const border = [...RAYS[index], ...CORNERS[index], ...[...RAYS[next]].reverse()];
+    return buildPlate([point, ...border, RING[next]], PLATES[index], index, width, height, mirror);
+  });
+  for (let index = 0; index < 4; index++) {
+    const edge = index * 2;
+    const points = [IMPACT, RING[edge], RING[edge+1], RING[(edge+2) % RING.length]];
+    plates.push(buildPlate(points, PLATES[index+8], index+8, width, height, mirror));
+  }
+  const impact = [(mirror ? 1 - IMPACT[0] : IMPACT[0]) * width, IMPACT[1] * height];
+  const chips = RING.map(([x,y], index) => {
+    const base = [(mirror ? 1 - x : x) * width, y * height];
+    const dx = base[0] - impact[0], dy = base[1] - impact[1];
+    return {
+      x: impact[0] + dx * .36, y: impact[1] + dy * .36,
+      dx: dx * (.58 + (index % 3) * .14), dy: dy * (.51 + (index % 2) * .18),
+      size: 4 + index % 4 * 2, turn: (index % 2 ? -1 : 1) * (31 + index * 13),
+      lag: index % 3 * .035, color: index % 3 === 1 ? 'cyan' : 'red'
+    };
+  });
+  return {bands, plates, chips};
+}
+
+export function shotFrame(stage, risk, progress, shot) {
+  const strength = SCENES[stage].force * (.72 + Math.min(100, risk) * .0028);
+  const glass = stage === 'collapse';
+  const crossover = clamp01((progress - .33) / .18);
+  const fadeBands = glass ? 1 - crossover * crossover * (3 - 2 * crossover) : 1;
+  const bands = shot.bands.map(band => {
+    const local = ((progress - band.lag * (glass ? .31 : 1)) / (glass ? .52 : .71));
+    const [offset, opacity] = sampleTrack(SHIFT, local);
+    return {x: band.dx * offset * strength, y: band.dy * offset * strength, opacity: opacity * (.55 + .42 * strength) * fadeBands};
+  });
+  const plates = shot.plates.map(plate => {
+    const local = (progress - .15 - plate.lag * .45) / (.74 + plate.lag * .5);
+    const [motion, opacity] = sampleTrack(BREAK, local);
+    const amplitude = strength * motion;
+    return {
+      x: plate.dx * amplitude, y: plate.dy * amplitude, z: plate.z * amplitude,
+      rx: plate.rx * amplitude, ry: plate.ry * amplitude, rz: plate.rz * amplitude,
+      opacity: opacity * .97
+    };
+  });
+  const split = Math.max(0, ...bands.map(band => band.opacity));
+  const [breakDistance, breakAlpha] = glass ? sampleTrack(BREAK, (progress - .15) / .82) : [0, 0];
+  const chips = shot.chips.map(chip => {
+    const local = (progress - .22 - chip.lag) / .70;
+    const [spread, opacity] = sampleTrack(BREAK, local);
+    return {x: chip.x + chip.dx * spread, y: chip.y + chip.dy * spread,
+      angle: chip.turn * spread, opacity: opacity * clamp01(spread * 1.25) * .84};
+  });
+  return {bands, plates, chips, backing: breakAlpha * .87, light: clamp01(breakDistance) * breakAlpha,
+    disruption: Math.max(split * .85, breakAlpha),
+    ink: {opacity: Math.max(split * .83, breakAlpha * .48),
+      shift: (Math.sin(progress * 37) > 0 ? 1 : -1) * (3 + 7 * strength),
+      slice: 13 + (Math.floor(progress * 28) % 4) * 10}};
+}
+
+const SYSTEM_VOICES = {
+  optico: ['Você viu isso mesmo?', 'Quem está vendo por você?', 'Feche os olhos. Ainda me vê?'],
+  frontal: ['O que você é?', 'De onde você veio?', 'Qual dessas memórias é sua?'],
+  sistema: ['Você quer mesmo fazer isso?', 'Essa decisão é sua?', 'Quem deu essa ordem?']
+};
+
+const SYSTEM_SEQUENCE = ['optico', 'frontal', 'sistema'];
+const LOCAL_VOICE = ['De onde você veio?', 'Você ainda sabe quem é?', 'Foi você que decidiu?'];
+const LINK_STATES = {
+  stable: {frame: 'ÍNTEGRO', origin: 'PILOTO', packet: 'CRC OK'},
+  watch: {frame: 'REPETIDO', origin: 'CACHE LOCAL', packet: 'RETRY'},
+  warn: {frame: 'PARCIAL', origin: 'ASSINATURA DUPLA', packet: 'CRC ERRO'},
+  danger: {frame: 'RESIDUAL', origin: 'ORIGEM OCULTA', packet: 'DADOS CIFRADOS'},
+  collapse: {frame: 'NÃO VERIFICADO', origin: 'SEM ORIGEM', packet: 'DADOS CIFRADOS'}
+};
+
+export function neuralReadouts(stage, risk) {
+  const state = LINK_STATES[stage] ?? LINK_STATES.stable;
+  const sync = Math.max(.01, (1 - risk / 100) ** 1.45).toFixed(2);
+  const signature = (Math.imul(1103, risk + 19) & 0xffff).toString(16).toUpperCase().padStart(4, '0');
+  const encrypted = stage === 'danger' || stage === 'collapse';
+  return {
+    sync,
+    frame: state.frame,
+    origin: encrypted ? signature.slice(0, 2) + '::' + signature.slice(2) + ' / Ø' : state.origin,
+    packet: state.packet
+  };
+}
+
+export function chooseQuestions(stage, take) {
+  const count = {warn: 1, danger: 2, collapse: 3}[stage] ?? 0;
+  const round = Math.floor(take / SYSTEM_SEQUENCE.length);
+  const questions = SYSTEM_SEQUENCE.slice(take % 3).concat(SYSTEM_SEQUENCE.slice(0, take % 3))
+    .slice(0, count).map((id, index) => ({
+      id,
+      text: SYSTEM_VOICES[id][(round + index) % SYSTEM_VOICES[id].length]
+    }));
+  return {systems: new Map(questions.map(({id, text}) => [id, text])), local: LOCAL_VOICE[take % LOCAL_VOICE.length]};
+}
+
+export function narrativePhase({latch, hold}, elapsed) {
+  if (!hold || elapsed < latch - 120 || elapsed >= latch + hold + 120) return 'normal';
+  if (elapsed < latch - 56) return 'broken';
+  if (elapsed < latch) return 'decode';
+  if (elapsed < latch + hold) return 'hold';
+  return 'recover';
+}
+
+export function cipherQuestion(text, short = false) {
+  const symbols = ['Ø', '1', '▓', '0', '▒', '7', '⌁'];
+  return Array.from(text, (char, index) => {
+    if (char === ' ' || char === '?') return char;
+    if (short && index % 3 !== 1) return char;
+    return symbols[(char.charCodeAt(0) + index * 3) % symbols.length];
+  }).join('');
+}
+
+
+const SVG = 'http://www.w3.org/2000/svg';
+const FRAME_MS = 1000 / 36;
+const SOURCES = [
+  '.lcy-header', '.lcy-status', '.lcy-telemetry', '.lcy-section-title', '.lcy-cat',
+  '.lcy-workbench-head', '.lcy-equipped-row', '.lcy-socket', '.lcy-item-card', '.lcy-detail'
+].join(', ');
+
+function svgNode(tag, attributes = {}) {
+  const node = document.createElementNS(SVG, tag);
+  for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
+  return node;
+}
+
+function layer(className) {
+  const node = document.createElement('div');
+  node.className = className;
+  return node;
+}
+
+function place(node, {x, y, width, height}) {
+  node.style.left = x + 'px';
+  node.style.top = y + 'px';
+  node.style.width = width + 'px';
+  node.style.height = height + 'px';
+}
+
+function visibleFrame(shell) {
+  const bounds = shell.getBoundingClientRect();
+  let left = Math.max(0, bounds.left);
+  let top = Math.max(0, bounds.top);
+  let right = Math.min(window.innerWidth, bounds.right);
+  let bottom = Math.min(window.innerHeight, bounds.bottom);
+  for (let el = shell.parentElement; el && el !== document.documentElement; el = el.parentElement) {
+    const {overflowX, overflowY} = getComputedStyle(el);
+    if (overflowX === 'visible' && overflowY === 'visible') continue;
+    const area = el.getBoundingClientRect();
+    if (overflowX !== 'visible') {
+      const scale = area.width / el.offsetWidth || 1;
+      const origin = area.left + el.clientLeft * scale;
+      left = Math.max(left, origin);
+      right = Math.min(right, origin + el.clientWidth * scale);
+    }
+    if (overflowY !== 'visible') {
+      const scale = area.height / el.offsetHeight || 1;
+      const origin = area.top + el.clientTop * scale;
+      top = Math.max(top, origin);
+      bottom = Math.min(bottom, origin + el.clientHeight * scale);
+    }
+  }
+  const sx = bounds.width / shell.offsetWidth || 1;
+  const sy = bounds.height / shell.offsetHeight || 1;
+  return {
+    left, top, right, bottom, sx, sy,
+    x: (left - bounds.left) / sx - shell.clientLeft + shell.scrollLeft,
+    y: (top - bounds.top) / sy - shell.clientTop + shell.scrollTop,
+    width: Math.max(0, (right - left) / sx), height: Math.max(0, (bottom - top) / sy)
+  };
+}
+
+function fromViewport(rect, frame) {
+  return {x: (rect.left - frame.left) / frame.sx, y: (rect.top - frame.top) / frame.sy,
+    width: rect.width / frame.sx, height: rect.height / frame.sy};
+}
+
+function overlaps(a, b) {
+  return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+}
+
+function collectSurfaces(shell, frame) {
+  return [...shell.querySelectorAll(SOURCES)]
+    .map(node => ({node, ...fromViewport(node.getBoundingClientRect(), frame)}))
+    .filter(surface => overlaps(surface, {x: 0, y: 0, width: frame.width, height: frame.height}));
+}
+
+function copySurface(surface) {
+  const copy = surface.cloneNode(true);
+  const traits = ['id', 'for', 'name', 'aria-controls', 'aria-labelledby', 'data-cyber-action', 'data-drag-id', 'data-drop-region', 'draggable'];
+  const query = traits.map(name => '[' + name + ']').join(',');
+  const focusable = 'button, input, select, textarea, a[href], [tabindex]';
+  if (copy.matches(focusable)) copy.tabIndex = -1;
+  for (const control of copy.querySelectorAll(focusable)) control.tabIndex = -1;
+  for (const node of [copy, ...copy.querySelectorAll(query)]) {
+    for (const name of traits) node.removeAttribute(name);
+  }
+  const originals = [...surface.querySelectorAll('canvas,img')];
+  [...copy.querySelectorAll('canvas,img')].forEach((node, index) => {
+    const original = originals[index];
+    const image = original instanceof HTMLImageElement;
+    if (image && (!original.complete || !original.naturalWidth)) {
+      node.remove();
+      return;
+    }
+    const bitmap = document.createElement('canvas');
+    const width = image ? original.naturalWidth : original.width;
+    const height = image ? original.naturalHeight : original.height;
+    const displaySize = Math.max(original.clientWidth, original.clientHeight, 48);
+    const limit = image ? Math.min(512, displaySize * 1.65) : 960;
+    const scale = Math.min(1, limit / Math.max(width, height));
+    bitmap.width = Math.max(1, Math.round(width * scale));
+    bitmap.height = Math.max(1, Math.round(height * scale));
+    bitmap.className = node.className;
+    bitmap.style.cssText = node.style.cssText;
+    if (image) bitmap.classList.add('lcy-fx-image');
+    if (width && height) bitmap.getContext('2d')?.drawImage(original, 0, 0, bitmap.width, bitmap.height);
+    node.replaceWith(bitmap);
+  });
+  return copy;
+}
+
+function populate(texture, area, sources) {
+  for (const surface of sources) {
+    if (!overlaps(area, surface)) continue;
+    const copy = copySurface(surface.node);
+    copy.classList.add('lcy-fx-copy');
+    place(copy, {...surface, x: surface.x - area.x, y: surface.y - area.y});
+    texture.append(copy);
+  }
+}
+
+function makeColorFilter(root, id) {
+  const svg = svgNode('svg', {class: 'lcy-fx-filter', width: 0, height: 0});
+  const filter = svgNode('filter', {id, x: '-20%', width: '140%', y: '-12%', height: '124%', 'color-interpolation-filters': 'sRGB'});
+  const red = svgNode('feOffset', {in: 'red', dx: -4, dy: 1, result: 'r'});
+  const cyan = svgNode('feOffset', {in: 'cyan', dx: 4, dy: -1, result: 'c'});
+  filter.append(
+    svgNode('feColorMatrix', {in: 'SourceGraphic', type: 'matrix',
+      values: '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0', result: 'red'}),
+    svgNode('feColorMatrix', {in: 'SourceGraphic', type: 'matrix',
+      values: '0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0', result: 'cyan'}),
+    red, cyan,
+    svgNode('feBlend', {in: 'r', in2: 'c', mode: 'screen'})
+  );
+  const defs = svgNode('defs');
+  defs.append(filter);
+  svg.append(defs);
+  root.append(svg);
+  return {red, cyan};
+}
+
+function makeBand(band, sources, filterId) {
+  const node = layer('lcy-fx-band');
+  place(node, band);
+  node.dataset.channel = band.color;
+  const crop = layer('lcy-fx-band-crop');
+  crop.dataset.cut = String(Math.round(band.height) % 3);
+  const texture = layer('lcy-fx-texture');
+  texture.style.filter = 'url("#' + filterId + '")';
+  populate(texture, band, sources);
+  crop.append(texture, layer('lcy-fx-raster'));
+  node.append(crop);
+  return node;
+}
+
+function bevel(plate) {
+  const body = svgNode('svg', {class: 'lcy-fx-bevel', viewBox: '0 0 ' + plate.width + ' ' + plate.height});
+  const viewBox = '0 0 ' + plate.width + ' ' + plate.height;
+  const rim = svgNode('svg', {class: 'lcy-fx-rim', viewBox});
+  const cracks = svgNode('svg', {class: 'lcy-fx-cracks', viewBox});
+  const offset = plate.rank >= 8 ? [4.5, 6] : [4, 5.5];
+  const p = plate.polygon;
+  for (let index = 0; index < p.length; index++) {
+    const a = p[index];
+    const b = p[(index + 1) % p.length];
+    const facing = (b[0] - a[0]) * .58 - (b[1] - a[1]) * .42;
+    const tint = plate.color === 'cyan' ? '#82f9e6' : '#ff91b5';
+    body.append(svgNode('polygon', {
+      points: [a, b, [b[0] + offset[0], b[1] + offset[1]], [a[0] + offset[0], a[1] + offset[1]]]
+        .map(point => point.join(',')).join(' '),
+      fill: facing > 0 ? '#52253e' : '#180e21',
+      stroke: facing > 0 ? '#a44569' : '#351d35', 'stroke-width': .65
+    }));
+    rim.append(svgNode('line', {x1: a[0], y1: a[1], x2: b[0], y2: b[1],
+      stroke: facing > 0 ? tint : '#67516a', opacity: facing > 0 ? .82 : .55, 'stroke-width': facing > 0 ? 1.6 : .85}));
+  }
+  const midpoint = p.reduce(([x,y], [nx,ny]) => [x + nx / p.length, y + ny / p.length], [0,0]);
+  // The finer cracks start on a fractured edge and terminate inside its own plate.
+  for (const index of [0, Math.floor(p.length / 2)]) {
+    const a = p[index], b = p[(index + 1) % p.length];
+    const edge = [a[0] * .59 + b[0] * .41, a[1] * .59 + b[1] * .41];
+    const inward = (distance, turn) => [edge[0] + (midpoint[0] - edge[0]) * distance + turn,
+      edge[1] + (midpoint[1] - edge[1]) * distance - turn];
+    const points = [edge, inward(.20, 0), inward(.36, 3), inward(.63, -2)];
+    cracks.append(svgNode('polyline', {points: points.map(point => point.join(',')).join(' '), fill: 'none',
+      stroke: plate.color === 'cyan' ? '#9affed' : '#f6a2c3', 'stroke-opacity': .36, 'stroke-width': .7}));
+  }
+  return {body, rim, cracks};
+}
+
+function makePlate(plate, sources) {
+  const node = layer('lcy-fx-plate');
+  const front = layer('lcy-fx-front');
+  const texture = layer('lcy-fx-texture');
+  const reflection = layer('lcy-fx-reflection');
+  const {body, rim, cracks} = bevel(plate);
+  place(node, plate);
+  node.dataset.channel = plate.color;
+  node.style.zIndex = String(8 + Math.round((plate.z + 50) / 8));
+  front.style.clipPath = 'polygon(' + plate.polygon.map(([x,y]) => x + 'px ' + y + 'px').join(',') + ')';
+  populate(texture, plate, sources);
+  front.append(texture, reflection, cracks);
+  node.append(body, front, rim);
+  return {node, reflection};
+}
+
+function bindLabels(scene, shell) {
+  const enabled = new Set(scene.labels.filter(label => label.enabled).map(label => label.node));
+  scene.labels = [...shell.querySelectorAll('.lcy-neural-label')].flatMap(node => {
+    if (node.closest('.lcy-fx-stage')) return [];
+    const question = scene.questions.systems.get(node.dataset.neuralRegion);
+    const local = node.hasAttribute('data-neural-local');
+    if (!question && !local) return [];
+    return [{node, question: question ?? scene.questions.local, local, enabled: !local || enabled.has(node)}];
+  });
+}
+
+function keepQuestionInView(scene, frame) {
+  const viewport = {x: 0, y: 0, width: frame.width, height: frame.height};
+  let fallback;
+  for (const label of scene.labels) {
+    const area = fromViewport(label.node.getBoundingClientRect(), frame);
+    if (!overlaps(viewport, area)) continue;
+    const visibleHeight = Math.min(viewport.height, area.y + area.height) - Math.max(0, area.y);
+    if (visibleHeight < area.height * .65) continue;
+    if (label.enabled) return;
+    if (label.local) fallback ??= label;
+  }
+  if (fallback) fallback.enabled = true;
+}
+
+function paintQuestions(scene, phase) {
+  scene.phase = phase;
+  for (const label of scene.labels) {
+    const {node, question} = label;
+    const next = label.enabled ? phase : 'normal';
+    if ((node.dataset.neuralPhase ?? 'normal') === next) continue;
+    const output = node.querySelector('.lcy-neural-question');
+    if (next === 'normal') {
+      delete node.dataset.neuralPhase;
+      output.textContent = '';
+    } else {
+      output.textContent = next === 'hold' ? question : cipherQuestion(question, next === 'decode');
+      node.dataset.neuralPhase = next;
+    }
+  }
+}
+
+function buildStage(shell, frame, stage, panelId, take) {
+  const root = layer('lcy-fx-stage');
+  root.setAttribute('aria-hidden', 'true');
+  root.inert = true;
+  root.dataset.shot = stage;
+  place(root, frame);
+  const questions = chooseQuestions(stage, take);
+  const sources = collectSurfaces(shell, frame);
+  const anchors = sources.filter(({node}) => node.matches('.lcy-telemetry'));
+  anchors.push(...sources.filter(({node}) => node.matches('.lcy-cat') && questions.systems.has(node.dataset.region)));
+  anchors.push(...sources.filter(({node}) => node.matches('.lcy-workbench-head, .lcy-equipped-row')));
+  anchors.push(...sources.filter(source => !anchors.includes(source)));
+  const geometry = makeShot(stage, frame.width, frame.height, take, anchors);
+  const filterId = panelId + '-screen-split';
+  const channels = makeColorFilter(root, filterId);
+  const backing = layer('lcy-fx-backing');
+  root.append(backing);
+  const bands = geometry.bands.map(band => makeBand(band, [band.source], filterId));
+  const plates = geometry.plates.map(plate => makePlate(plate, sources));
+  const chips = geometry.chips.map(chip => {
+    const node = layer('lcy-fx-chip');
+    node.dataset.channel = chip.color;
+    node.style.width = chip.size + 'px';
+    node.style.height = chip.size * 1.8 + 'px';
+    return node;
+  });
+  root.append(...plates.map(plate => plate.node), ...bands, ...chips);
+  shell.append(root);
+  const scene = {root, backing, bands, plates, chips, channels, geometry, questions,
+    labels: [], phase: 'normal', started: performance.now(), frozen: null};
+  if (questions.systems.size) bindLabels(scene, shell);
+  return scene;
+}
+
+function setSceneFrame(scene, shot, stage, shell) {
+  const ink = shot.ink;
+  shell.style.setProperty('--lcy-ink-power', ink.opacity.toFixed(3));
+  shell.style.setProperty('--lcy-ink-shift', ink.shift.toFixed(2) + 'px');
+  shell.style.setProperty('--lcy-ink-top', ink.slice + '%');
+  shell.style.setProperty('--lcy-ink-bottom', 83 - ink.slice + '%');
+  const intensity = SCENES[stage].force;
+  const separation = (2 + 8 * shot.disruption * intensity).toFixed(1);
+  scene.channels.red.setAttribute('dx', '-' + separation);
+  scene.channels.cyan.setAttribute('dx', separation);
+  scene.chips.forEach((node, index) => {
+    const chip = shot.chips[index];
+    node.style.transform = 'translate3d(' + chip.x.toFixed(2) + 'px,' + chip.y.toFixed(2) + 'px,0) rotate(' + chip.angle.toFixed(2) + 'deg)';
+    node.style.opacity = chip.opacity.toFixed(3);
+  });
+  scene.backing.style.opacity = String(shot.backing);
+  scene.bands.forEach((node, index) => {
+    const band = shot.bands[index];
+    node.style.opacity = String(band.opacity);
+    node.style.transform = 'translate3d(' + band.x + 'px,' + band.y + 'px,0)';
+    node.style.setProperty('--lcy-raster-offset', Math.round(band.x * .47) + 'px');
+  });
+  scene.plates.forEach(({node,reflection}, index) => {
+    const plate = shot.plates[index];
+    node.style.opacity = String(plate.opacity);
+    node.style.transform = 'perspective(760px) translate3d(' + plate.x + 'px,' + plate.y + 'px,' + plate.z + 'px)'
+      + ' rotateX(' + plate.rx + 'deg) rotateY(' + plate.ry + 'deg) rotateZ(' + plate.rz + 'deg)';
+    reflection.style.opacity = String(shot.light * (.48 + index % 4 * .12));
+    reflection.style.transform = 'translateX(' + (shot.light * 35 - 12) + '%)';
+    node.style.setProperty('--lcy-fracture-glow', (shot.light * .47).toFixed(3));
+  });
+}
+
+export class NeuralMotion {
+  constructor(panel) {
+    this.panel = panel;
+    this.preference = matchMedia('(prefers-reduced-motion: reduce)');
+    this.clock = performance.now();
+    this.take = 0;
+    this.measure = this.measure.bind(this);
+    this.tick = this.tick.bind(this);
+    this.invalidate = this.invalidate.bind(this);
+  }
+
+  update(shell, active, quiet) {
+    const previous = this.stage;
+    if (shell !== this.shell) {
+      if (this.shell) this.resize?.unobserve(this.shell);
+      this.removeShot();
+      this.shell = shell;
+      this.canvas = shell?.querySelector('.lcy-scope-canvas');
+      this.context = this.canvas?.getContext('2d') ?? null;
+    }
+    this.stage = shell?.dataset.riskStage;
+    this.risk = Number(shell?.dataset.riskScore) || 0;
+    this.quiet = quiet;
+    if (!active || !this.canvas || !this.panel.isConnected) {
+      this.stop();
+      if (active === false && this.panel.classList.contains('active')) this.paintScope(performance.now(), false);
+      return;
+    }
+    if (this.stage !== previous) this.nextShot = performance.now() + 520;
+    if (!this.events) this.connect();
+    this.resize.observe(shell);
+    this.measure();
+  }
+
+  connect() {
+    this.events = new AbortController();
+    const {signal} = this.events;
+    window.addEventListener('scroll', this.invalidate, {capture: true, passive: true, signal});
+    window.addEventListener('resize', this.invalidate, {passive: true, signal});
+    document.addEventListener('visibilitychange', this.measure, {signal});
+    this.preference.addEventListener('change', this.measure, {signal});
+    this.resize = new ResizeObserver(this.invalidate);
+    this.intersection = new IntersectionObserver(this.measure, {threshold: [0, .15, .5, 1]});
+    this.intersection.observe(this.panel);
+  }
+
+  invalidate() {
+    if (!this.events) return;
+    this.layoutFrame ??= requestAnimationFrame(() => {
+      this.layoutFrame = null;
+      this.measure();
+    });
+  }
+
+  rebindLabels() {
+    const {scene} = this;
+    if (scene?.questions.systems.size) {
+      bindLabels(scene, this.shell);
+      paintQuestions(scene, scene.phase);
+    }
+    this.invalidate();
+  }
+
+  get allowed() {
+    return Boolean(this.events && this.panel.isConnected && !document.hidden && !this.preference.matches && !this.quiet
+      && this.visible?.width > 92 && this.visible.height > 60);
+  }
+
+  measure() {
+    if (!this.events) return;
+    if (!this.panel.isConnected) {
+      this.stop();
+      return;
+    }
+    this.visible = visibleFrame(this.shell);
+    const scope = fromViewport(this.canvas.getBoundingClientRect(), this.visible);
+    this.scopeVisible = overlaps(scope, {x: 0, y: 0, width: this.visible.width, height: this.visible.height});
+    if (!this.allowed) {
+      this.pause();
+      if (this.scopeVisible && !document.hidden) this.paintScope(performance.now(), false);
+      return;
+    }
+    if (this.scene?.phase && this.scene.phase !== 'normal') {
+      keepQuestionInView(this.scene, this.visible);
+      paintQuestions(this.scene, this.scene.phase);
+    }
+    this.armShot();
+    this.wake();
+  }
+
+  armShot() {
+    clearTimeout(this.timer);
+    const config = SCENES[this.stage];
+    if (!config || !this.allowed || this.scene) return;
+    const delay = Math.max(260, (this.nextShot ?? performance.now() + 750) - performance.now());
+    this.timer = setTimeout(() => {
+      const active = document.activeElement;
+      const editing = this.shell.contains(active) && active?.matches('input,textarea,select,[contenteditable="true"]');
+      if (editing || this.panel.classList.contains('lcy-dragging')) {
+        this.nextShot = performance.now() + 1800;
+        this.armShot();
+        return;
+      }
+      if (this.allowed) this.startShot();
+    }, delay);
+  }
+
+  startShot(frozen = null) {
+    if (!this.allowed || !SCENES[this.stage]) return false;
+    this.removeShot();
+    clearTimeout(this.timer);
+    const frame = visibleFrame(this.shell);
+    if (frame.width < 92 || frame.height < 60) return false;
+    if (this.scopeVisible) this.paintScope(performance.now());
+    this.scene = buildStage(this.shell, frame, this.stage, this.panel.id, this.take++);
+    this.scene.frozen = frozen;
+    this.paintShot(frozen ?? 0);
+    this.wake();
+    return true;
+  }
+
+  inspectFrame(position) {
+    if (!this.allowed || !SCENES[this.stage]) return false;
+    if (!this.scene || this.scene.frozen === null) return this.startShot(position);
+    this.scene.frozen = position;
+    this.paintShot(position);
+    return true;
+  }
+
+  paintShot(progress) {
+    const scene = this.scene;
+    const config = SCENES[this.stage];
+    const elapsed = progress * config.duration;
+    const optics = Math.min(1, elapsed / config.optics);
+    if (optics < 1 || !scene.root.hidden) {
+      const shot = shotFrame(this.stage, this.risk, optics, scene.geometry);
+      this.disruption = optics < 1 ? shot.disruption : 0;
+      setSceneFrame(scene, shot, this.stage, this.shell);
+      scene.root.hidden = optics >= 1;
+    }
+    const phase = narrativePhase(config, elapsed);
+    if (phase !== scene.phase) {
+      if (phase !== 'normal') keepQuestionInView(scene, this.visible);
+      paintQuestions(scene, phase);
+    }
+  }
+
+  paintScope(now, moving = true) {
+    if (!this.context || !this.canvas.isConnected) return;
+    const width = this.canvas.clientWidth;
+    const height = this.canvas.clientHeight;
+    if (!width || !height) return;
+    const scale = Math.min(1.6, devicePixelRatio || 1);
+    const w = Math.round(width * scale);
+    const h = Math.round(height * scale);
+    if (this.canvas.width !== w || this.canvas.height !== h) {
+      this.canvas.width = w;
+      this.canvas.height = h;
+      this.context.setTransform(w / width, 0, 0, h / height, 0, 0);
+    }
+    paintNeuralScope(this.context, width, height, this.stage, this.risk,
+      (now - this.clock) / 1000, this.disruption || 0, moving);
+  }
+
+  wake() {
+    if (this.scopeVisible || this.scene?.frozen === null) this.frame ??= requestAnimationFrame(this.tick);
+  }
+
+  tick(now) {
+    this.frame = null;
+    if (!this.allowed) {
+      if (!this.panel.isConnected) this.stop();
+      else this.pause();
+      return;
+    }
+    if (!this.lastFrame || now - this.lastFrame >= FRAME_MS) {
+      if (this.scene?.frozen === null) {
+        const settings = SCENES[this.stage];
+        const progress = (now - this.scene.started) / settings.duration;
+        if (progress >= 1) {
+          this.removeShot();
+          const [early, late] = settings.interval;
+          const ratio = .36 + (this.take % 4) * .16;
+          this.nextShot = now + early + (late - early) * ratio - this.risk * 5;
+          this.armShot();
+        } else this.paintShot(progress);
+      }
+      if (this.scopeVisible) this.paintScope(now);
+      this.lastFrame = now;
+    }
+    this.wake();
+  }
+
+  removeShot() {
+    if (this.scene) {
+      paintQuestions(this.scene, 'normal');
+      this.scene.root.remove();
+      for (const property of ['power', 'shift', 'top', 'bottom']) {
+        this.shell?.style.removeProperty('--lcy-ink-' + property);
+      }
+    }
+    this.scene = null;
+    this.disruption = 0;
+  }
+
+  pause() {
+    clearTimeout(this.timer);
+    cancelAnimationFrame(this.frame);
+    this.frame = null;
+    this.removeShot();
+  }
+
+  stop() {
+    this.pause();
+    cancelAnimationFrame(this.layoutFrame);
+    this.layoutFrame = null;
+    this.events?.abort();
+    this.events = null;
+    this.resize?.disconnect();
+    this.intersection?.disconnect();
+  }
+}
+
+
+/**
+ * CYBER//IMPLANTES v0.10.1 – Foundry VTT v13 / LANCER.
+ * Data compatible with versions 0.1–0.5: flags.lancer-cyberware-tab.registry.
+ * Cyberpsychosis is an optional homebrew display; does not alter LANCER mechanics.
+ */
+(() => {
+'use strict';
+const ID='lancer-cyberware-tab', FLAG='registry', CAT='catalogue';
+const REGIONS=[
+ {id:'frontal',title:'Córtex frontal',sub:'FRONTAL CORTEX',mark:'◈'},
+ {id:'optico',title:'Sistema ocular',sub:'OCULAR SYSTEM',mark:'◎'},
+ {id:'circulatorio',title:'Sistema circulatório',sub:'CIRCULATORY',mark:'♡'},
+ {id:'imunologico',title:'Sistema imunológico',sub:'IMMUNE SYSTEM',mark:'✚'},
+ {id:'neural',title:'Sistema nervoso',sub:'NERVOUS SYSTEM',mark:'⌁'},
+ {id:'pele',title:'Sistema tegumentar',sub:'INTEGUMENTARY',mark:'▧'},
+ {id:'esqueleto',title:'Esqueleto',sub:'SKELETON',mark:'⋈'},
+ {id:'maos',title:'Mãos',sub:'HANDS',mark:'⌘'},
+ {id:'bracos',title:'Braços',sub:'ARMS',mark:'⫷'},
+ {id:'pernas',title:'Pernas',sub:'LEGS',mark:'⫸'},
+ {id:'sistema',title:'Sistema operacional',sub:'OPERATING SYSTEM',mark:'⌬'},
+ {id:'tronco',title:'Tronco / corpo',sub:'BODY',mark:'⬡'}
+];
+const TIERS=['Comum','Raro','Incomum','Mítico','Corporativo','Lendário'];
+const DEFAULT_SLOTS={frontal:3,optico:3,circulatorio:3,imunologico:2,neural:4,pele:3,esqueleto:2,maos:2,bracos:2,pernas:2,sistema:1,tronco:3};
+// Original vector artwork, drawn for each anatomical system. No external icon font.
+const ICONS={
+ frontal:'<path d="M23 35V13c-7-9-17-2-15 6-7 5-3 15 3 15-1 8 8 12 12 6m2-5V13c7-9 17-2 15 6 7 5 3 15-3 15 1 8-8 12-12 6M12 18l6 3v8l-5 4m23-15-6 3v8l5 4M18 12v5m12-5v5M17 37l3-3m11 3-3-3"/>',
+ optico:'<path d="M3 24s8-13 21-13 21 13 21 13-8 13-21 13S3 24 3 24Z"/><circle cx="24" cy="24" r="8"/><circle cx="24" cy="24" r="3"/><path d="M24 4v4m0 32v4M4 11l5 5m35-5-5 5M4 37l5-5m35 5-5-5"/>',
+ circulatorio:'<path d="M24 40S6 30 7 19c1-10 13-11 17-3 5-8 16-7 17 3 1 11-17 21-17 21Z"/><path d="M3 25h11l4-7 5 14 5-10 3 3h14M22 10V4m6 8 4-7"/>',
+ imunologico:'<path d="m24 4 17 7v13c0 10-17 20-17 20S7 34 7 24V11L24 4Z"/><path d="M20 14h8v7h7v8h-7v7h-8v-7h-7v-8h7v-7Z"/>',
+ neural:'<path d="M20 5h8l3 6-3 6v21l-4 6-4-6V17l-3-6 3-6ZM20 20l-8 4-5-5m21 1 8 4 5-5M20 29l-8 4-5-5m21 1 8 4 5-5M12 24v13m24-13v13"/><circle cx="7" cy="17" r="2"/><circle cx="41" cy="17" r="2"/>',
+ pele:'<path d="m4 16 20-10 20 10-20 10L4 16Zm0 8 20 10 20-10M4 32l20 10 20-10M14 15l10-5 10 5-10 5-10-5Z"/><path d="M14 25v5m20-5v5M24 26v8"/>',
+ esqueleto:'<path d="M20 7h8v6h-8zM20 17h8v6h-8zM20 27h8v6h-8zM20 37h8v6h-8zM12 8l-6 5v9l6 5m24-19 6 5v9l-6 5M17 13 9 16m22-3 8 3M17 23l-7-2m21 2 7-2M17 32l-6 5 6 6m14-11 6 5-6 6"/>',
+ maos:'<path d="M15 29V12a3 3 0 0 1 6 0v12-16a3 3 0 0 1 6 0v16-12a3 3 0 0 1 6 0v15-9a3 3 0 0 1 6 0v15l-8 11H20L8 29c-3-5 2-8 5-4l2 4Z"/><path d="M21 32h9v6h-9zm6-8v5"/>',
+ bracos:'<path d="m12 5 12 5-4 13 15 6 7 11-6 5-9-9-17-3-5-9 7-19Z"/><path d="m11 13 9 4M9 23l10 3m-4 7 3-7m12 4-3 6m9-2-5 5"/><circle cx="14" cy="27" r="3"/>',
+ pernas:'<path d="m17 4 15 3-3 16-7 12 8 4v5H11v-9l5-14 1-17Z"/><path d="m17 13 13 2M16 23l12 3m-12 9 7 2M12 39h11"/><circle cx="22" cy="24" r="3"/>',
+ sistema:'<rect x="11" y="11" width="26" height="26" rx="3"/><path d="M18 18h12v12H18zM17 3v8m7-8v8m7-8v8M17 37v8m7-8v8m7-8v8M3 17h8m-8 7h8m-8 7h8m26-14h8m-8 7h8m-8 7h8"/>',
+ tronco:'<path d="m17 5 7 4 7-4 12 10-6 9-5-4v23H16V20l-5 4-6-9L17 5Z"/><path d="M24 9v28M16 16l8 5 8-5m-16 9 8 4 8-4M16 37h16"/>'
+};
+const icon = id => {
+ const drawing = ICONS[slug(id).id];
+ return `<svg class="lcy-body-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+   <path class="lcy-icon-frame" d="M2 13V3h10m24 0h10v10m0 22v10H36m-24 0H2V35M24 1v3m0 40v3"/>
+   <g class="lcy-icon-echo">${drawing}</g>
+   <g class="lcy-icon-line">${drawing}</g>
+ </svg>`;
+};
+const rarity=g=>TIERS.includes(g)?g:({Épico:'Mítico',Icônico:'Lendário',Padrão:'Comum',Militar:'Corporativo',Experimental:'Mítico',Protótipo:'Mítico',Proibido:'Lendário'}[g]||'Comum');
+const MIME='application/x-lancer-cyberware';
+const actorKey=a=>a.uuid||a.id;
+
+const STATUS=['Operacional','Desativado','Danificado','Em manutenção'];
+const panels=new Map(),appPanels=new WeakMap(),uiState=new Map(),pending=new Set();
+let panelCount = 0;
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp=(n,a,b)=>Math.min(b,Math.max(a,Number.isFinite(+n)?+n:a));
+const num=(n,a=0,b=9999)=>Math.trunc(clamp(n,a,b));
+const slug=id=>REGIONS.find(r=>r.id===id)||REGIONS[4];
+const gm=()=>globalThis.game?.user?.isGM===true;
+const canUse=a=>gm()||Boolean(a?.canUserModify?.(globalThis.game?.user,'update')||a?.isOwner);
+const rand=()=>globalThis.foundry?.utils?.randomID?.()||`lcy-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const actorFrom=app=>app?.actor||(app?.document?.type==='pilot'?app.document:null);
+const rootFrom=html=>html instanceof HTMLElement?html:html?.[0]||html?.get?.(0)||null;
+const state=a=>{const id=a.uuid||a.id;if(!uiState.has(id))uiState.set(id,{mode:'pilot',category:'neural',selected:null,search:'',gmSearch:'',gmCategory:'all',open:false,quiet:false});return uiState.get(id)};
+const safeImage=url=>{const s=String(url||'').trim().slice(0,800);if(!s||/[<>"'`\s]/.test(s)||/^(?:javascript:|data:|vbscript:)/i.test(s))return '';return /^(?:https?:\/\/|\/?(?:worlds|modules|systems|icons|assets|uploads|s3)\/|[a-z0-9_-]+\/)/i.test(s)?s:''};
+const imgConfig=i=>({url:safeImage(i?.image||i?.img||''),zoom:clamp(i?.imageZoom??i?.zoom??1,1,3),x:clamp(i?.imageX??0,-60,60),y:clamp(i?.imageY??0,-60,60)});
+const imageHTML=(i,extra='')=>{const im=imgConfig(i);return `<span class="lcy-art ${extra}" aria-hidden="true">${im.url?`<img loading="lazy" src="${esc(im.url)}" alt="" style="transform:translate(${im.x}%,${im.y}%) scale(${im.zoom})">`:`<span class="lcy-art-placeholder">${icon(i?.slot)}</span>`}</span>`};
+const norm=i=>{const q=num(i.quantity??1,1,99),installed=i.installedQuantity==null?(i.installed===false?0:q):num(i.installedQuantity,0,q);return {...i,id:String(i.id||rand()),name:String(i.name||'Sem identificação'),slot:slug(i.slot).id,grade:rarity(i.grade),status:STATUS.includes(i.status)?i.status:'Operacional',potency:num(i.potency??(Math.round((i.humanityCost||5)/5)||1),1,5),load:num(i.load??0,0,9999),quantity:q,installedQuantity:installed,installed:installed>0,image:safeImage(i.image||i.img),...{imageZoom:imgConfig(i).zoom,imageX:imgConfig(i).x,imageY:imgConfig(i).y}}};
+function setting(key,fallback){try{const v=game.settings.get(ID,key);return v===undefined?fallback:v}catch{return fallback}}
+const getCatalog=()=>{const raw=setting(CAT,{items:[]});return {items:Array.isArray(raw?.items)?raw.items.filter(Boolean).slice(0,500).map(normTemplate):[]}};
+function normTemplate(i){return {...norm(i),id:String(i.id||rand())}}
+function read(actor){const raw=actor.getFlag?.(ID,FLAG)||{};const data={...raw,capacity:raw.capacity===undefined||raw.capacity===null?num(setting('defaultCapacity',60),0,9999):num(raw.capacity,0,9999),limits:raw.limits&&typeof raw.limits==='object'?raw.limits:{},implants:Array.isArray(raw.implants)?raw.implants.filter(Boolean).slice(0,500).map(norm):[]};return reconcileSlots(data)}
+const slots=(data,id)=>num(data.limits?.[id]??DEFAULT_SLOTS[id]??3,0,99); // Explicit zero remains unlimited.
+function reconcileSlots(data){
+ for(const r of REGIONS){const used=new Set(),items=data.implants.filter(i=>i.slot===r.id);
+  // Keep valid saved positions first, then place old records / added quantities in free spaces.
+  for(const i of items){const old=Array.isArray(i.installedSlots)?i.installedSlots:[];i.installedSlots=[];for(const n of old){if(Number.isInteger(n)&&n>=0&&n<50000&&!used.has(n)&&i.installedSlots.length<i.installedQuantity){i.installedSlots.push(n);used.add(n)}}}
+  for(const i of items)while(i.installedSlots.length<i.installedQuantity){let n=0;while(used.has(n))n++;i.installedSlots.push(n);used.add(n)}
+ }return data;
+}
+const occupied=(data,region)=>data.implants.filter(i=>i.slot===region).flatMap(i=>i.installedSlots.map(index=>({index,item:i})));
+const freeSlot=(data,region)=>{const taken=new Set(occupied(data,region).map(x=>x.index));let n=0;while(taken.has(n))n++;return n};
+function metrics(data){
+ const active=data.implants.filter(i=>i.installedQuantity>0),count=active.reduce((s,i)=>s+i.installedQuantity,0);
+ const load=active.reduce((s,i)=>s+i.load*i.installedQuantity,0);
+ const over=Math.max(0,load-data.capacity),intensity=active.reduce((s,i)=>s+(i.potency*1.8+(['Lendário','Mítico','Corporativo'].includes(i.grade)?3:0))*i.installedQuantity,0);
+ const risk=num(Math.round(intensity*.92+(data.capacity>0?load/data.capacity*29:0)+over*2.4),0,100);
+ const stage = risk >= 85 ? 'collapse' : risk >= 65 ? 'danger' : risk >= 40 ? 'warn' : risk >= 20 ? 'watch' : 'stable';
+ return {count,operating:active.filter(i=>i.status==='Operacional').reduce((s,i)=>s+i.installedQuantity,0),load,overload:over,risk,humanity:100-risk,stage:{label:SIGNAL[stage].label,id:stage},reserve:data.implants.reduce((s,i)=>s+i.quantity-i.installedQuantity,0),models:data.implants.length,averagePower:count?Math.round(active.reduce((s,i)=>s+i.potency*i.installedQuantity,0)/count*10)/10:0};
+}
+function checkInstall(data,id){
+ const r=data.implants.find(x=>x.id===id);if(!r)return 'Implante não encontrado.';
+ if(['Danificado','Em manutenção'].includes(r.status))return 'Implante indisponível: solicite reparo ao mestre.';
+ if(r.installedQuantity>=r.quantity)return 'Todas as unidades já estão instaladas.';
+ if(!setting('allowOverload',false)&&data.capacity>0&&metrics(data).load+r.load>data.capacity)return 'Capacidade neural insuficiente. Retire outro implante ou peça ao mestre para ampliar o limite.';
+ const limit=slots(data,r.slot);if(limit&&data.implants.filter(x=>x.slot===r.slot).reduce((s,x)=>s+x.installedQuantity,0)>=limit)return `Espaços de ${slug(r.slot).title} preenchidos. Retire um implante ou solicite ajuste ao mestre.`;
+ return '';
+}
+async function equip(actor,id,diff,target={}){
+ if(!canUse(actor))throw Error('Você precisa ser proprietário da ficha para instalar ou retirar cyberwares.');
+ const data=read(actor),r=data.implants.find(x=>x.id===id);if(!r)throw Error('Implante indisponível no inventário.');
+ if(target.region&&r.slot!==target.region)throw Error(`Encaixe incompatível. Use ${slug(r.slot).title}.`);
+ if(diff>0){const reason=checkInstall(data,id);if(reason)throw Error(reason);
+  const index=target.index??freeSlot(data,r.slot),limit=slots(data,r.slot);
+  if(!Number.isInteger(index)||index<0||(limit&&index>=limit)||occupied(data,r.slot).some(x=>x.index===index))throw Error('Este encaixe está ocupado ou indisponível.');
+  r.installedSlots.push(index);r.installedQuantity++;r.status='Operacional';
+ }else{
+  const index=target.sourceIndex??r.installedSlots.at(-1);if(!r.installedSlots.includes(index))throw Error('Nenhuma unidade instalada neste encaixe.');
+  r.installedSlots=r.installedSlots.filter(n=>n!==index);r.installedQuantity--;
+ }
+ r.installed=r.installedQuantity>0;await actor.setFlag(ID,FLAG,data);
+}
+async function moveImplant(actor,payload,region,index){
+ if(!canUse(actor))throw Error('Você precisa ser proprietário da ficha.');
+ if(payload.actor!==actorKey(actor))throw Error('Arraste um implante do inventário deste piloto.');
+ const data=read(actor),i=data.implants.find(i=>i.id===payload.id);if(!i)throw Error('Implante não encontrado.');
+ if(region==='reserve'){if(payload.source!=='installed')throw Error('O implante já está na reserva.');return equip(actor,i.id,-1,{sourceIndex:payload.index})}
+ if(i.slot!==region)throw Error(`Encaixe incompatível. Use ${slug(i.slot).title}.`);
+ if(payload.source==='reserve')return equip(actor,i.id,1,{region,index});
+ if(payload.source!=='installed'||!i.installedSlots.includes(payload.index))throw Error('Origem do implante inválida.');
+ const next=index??freeSlot(data,region),limit=slots(data,region);
+ if(next===payload.index)return;
+ if(!Number.isInteger(next)||next<0||(limit&&next>=limit)||occupied(data,region).some(x=>x.index===next))throw Error('O encaixe de destino está ocupado.');
+ i.installedSlots=i.installedSlots.map(n=>n===payload.index?next:n);await actor.setFlag(ID,FLAG,data);
+}
+async function togglePower(actor,id){
+ if(!canUse(actor))throw Error('Você precisa ser proprietário da ficha.');
+ const data=read(actor),i=data.implants.find(i=>i.id===id);if(!i?.installedQuantity)throw Error('Instale o implante antes de ativá-lo.');
+ if(!['Operacional','Desativado'].includes(i.status))throw Error('Solicite reparo ao mestre antes de ativar este implante.');
+ i.status=i.status==='Operacional'?'Desativado':'Operacional';await actor.setFlag(ID,FLAG,data);
+}
+async function saveActor(a,data){if(!gm())throw Error('Acesso restrito ao mestre.');await a.setFlag(ID,FLAG,data)}
+async function saveCatalog(data){if(!gm())throw Error('Acesso restrito ao mestre.');await game.settings.set(ID,CAT,{items:data.items.slice(0,500)})}
+const notify=err=>{console.error('[CYBER//IMPLANTES]',err);globalThis.ui?.notifications?.error?.(err?.message||'Não foi possível salvar.');};
+const opts=(name,choices,value)=>`<select name="${name}">${choices.map(o=>{const v=typeof o==='string'?o:o.id,l=typeof o==='string'?o:o.title;return `<option value="${esc(v)}" ${String(v)===String(value)?'selected':''}>${esc(l)}</option>`}).join('')}</select>`;
+function categoryCounts(data){return REGIONS.map(r=>{const items=data.implants.filter(i=>i.slot===r.id),installed=items.reduce((s,i)=>s+i.installedQuantity,0),reserve=items.reduce((s,i)=>s+i.quantity-i.installedQuantity,0);return {...r,items,installed,reserve,limit:slots(data,r.id)};})}
+function neuralLabel(title, region = '', local = false) {
+ return `<span class="lcy-neural-label"${region ? ` data-neural-region="${region}"` : ''}${local ? ' data-neural-local' : ''}>
+   <span class="lcy-neural-normal">${esc(title)}</span><span class="lcy-neural-question" aria-hidden="true"></span>
+ </span>`;
+}
+
+function categoryGrid(data, st, id) {
+ const cards = categoryCounts(data).map(region => {
+  const selected = st.category === region.id;
+  const positions = new Set(occupied(data, region.id).map(entry => entry.index));
+  const count = Math.min(region.limit || Math.max(region.installed + 1, 3), 12);
+  const sockets = Array.from({length: count}, (_, index) => `<i class="${positions.has(index) ? 'filled' : ''}"></i>`).join('');
+  return `<button type="button" class="lcy-cat ${selected ? 'selected' : ''}"
+       data-cyber-action="category" data-region="${region.id}" data-drop-region="${region.id}"
+       aria-pressed="${selected}" aria-controls="${id}-workbench">
+     <span class="lcy-cat-top">
+       <span class="lcy-cat-symbol">${icon(region.id)}</span>
+       <span class="lcy-cat-count" aria-hidden="true">${region.installed}<small> / ${region.limit || '∞'}</small></span>
+     </span>
+     <span class="lcy-cat-name">${neuralLabel(region.title, region.id)}</span>
+     <span class="lcy-sr-only">${region.installed} em uso. ${region.limit ? 'Limite de ' + region.limit + ' encaixes.' : 'Sem limite de encaixes.'}</span>
+     <span class="lcy-cat-foot">${region.reserve} na reserva</span>
+     <span class="lcy-mini-sockets" aria-hidden="true">${sockets}</span>
+   </button>`;
+ }).join('');
+ return `<section class="lcy-cat-section" aria-labelledby="${id}-systems">
+   <div class="lcy-section-title"><h3 id="${id}-systems">Sistemas cibernéticos</h3></div>
+   <div class="lcy-cat-grid">${cards}</div>
+ </section>`;
+}
+
+function rarityBadge(grade) {
+ const label = rarity(grade);
+ return `<span class="lcy-rarity-badge" data-rarity="${esc(label)}"><i aria-hidden="true"></i>${esc(label)}</span>`;
+}
+
+function dragAttrs(i, actor, source, index) {
+ return canUse(actor) ? `draggable="true" data-drag-id="${esc(i.id)}" data-drag-source="${source}" ${index === undefined ? '' : `data-drag-index="${index}"`}` : '';
+}
+
+function itemCard(i, st, actor) {
+ return `<button type="button" class="lcy-item-card ${st.selected === i.id ? 'selected' : ''}"
+      data-rarity="${esc(i.grade)}" data-cyber-action="select" data-id="${esc(i.id)}"
+      ${dragAttrs(i, actor, 'reserve')} aria-haspopup="dialog">
+   ${imageHTML(i, 'lcy-item-art')}
+   <span class="lcy-item-text">
+     <strong>${esc(i.name)}</strong>
+     ${i.manufacturer ? `<small>${esc(i.manufacturer)}</small>` : ''}
+     <span class="lcy-item-meta">${rarityBadge(i.grade)}<span>${i.load} CN</span></span>
+     <span class="lcy-item-state">${i.quantity - i.installedQuantity} na reserva</span>
+   </span>
+ </button>`;
+}
+
+function infoSelected(data, st) {
+ return data.implants.find(i => i.slot === st.category && i.id === st.selected) || null;
+}
+
+function detailPanel(i, region, id) {
+ if (!i) return `<aside class="lcy-detail" aria-labelledby="${id}-detail">
+   <div class="lcy-detail-empty">
+     <span aria-hidden="true">${icon(region.id)}</span>
+     <h4 id="${id}-detail">Dossiê de implante</h4>
+     <p>Selecione um implante para ver seus efeitos, sua condição e o custo neural.</p>
+   </div>
+ </aside>`;
+ return `<aside class="lcy-detail" data-rarity="${esc(i.grade)}" aria-labelledby="${id}-detail">
+   <div class="lcy-detail-head">${rarityBadge(i.grade)}</div>
+   ${imageHTML(i, 'lcy-hero-art')}
+   <div class="lcy-detail-content">
+     ${i.manufacturer ? `<span class="lcy-manufacturer">${esc(i.manufacturer)}</span>` : ''}
+     <h4 id="${id}-detail">${esc(i.name)}</h4>
+     ${i.description ? `<p class="lcy-detail-summary">${esc(i.description)}</p>` : ''}
+     <div class="lcy-quick-spec"><span>${i.load} CN</span><span>Potência ${i.potency}/5</span></div>
+     <button type="button" class="lcy-action-primary lcy-open-dossier"
+          data-cyber-action="select" data-id="${esc(i.id)}" aria-haspopup="dialog">Abrir dossiê</button>
+   </div>
+ </aside>`;
+}
+
+function slotGrid(data, st, actor) {
+ const region = slug(st.category);
+ const entries = occupied(data, region.id);
+ const limit = slots(data, region.id);
+ const highest = entries.length ? Math.max(...entries.map(entry => entry.index)) + 1 : 0;
+ const count = limit ? Math.max(limit, highest) : Math.max(3, highest + 1);
+ const editable = canUse(actor);
+ const items = new Map(entries.map(entry => [entry.index, entry.item]));
+ const cards = Array.from({length: count}, (_, index) => {
+  const item = items.get(index);
+  const number = index + 1;
+  const position = `<span class="lcy-socket-number">
+    <span class="lcy-sr-only">Encaixe </span>${String(number).padStart(2, '0')}${limit && index >= limit ? ' · Excesso' : ''}
+  </span>`;
+  if (item) return `<button type="button" class="lcy-socket occupied ${item.status === 'Operacional' ? 'online' : 'offline'} ${st.selected === item.id ? 'selected' : ''}"
+       data-rarity="${esc(item.grade)}" data-cyber-action="select" data-id="${esc(item.id)}"
+       data-drop-region="${region.id}" data-slot-index="${index}"
+       ${dragAttrs(item, actor, 'installed', index)} aria-haspopup="dialog">
+     ${position}${imageHTML(item, 'lcy-socket-art')}
+     <strong>${esc(item.name)}</strong>
+     ${rarityBadge(item.grade)}
+     <small class="lcy-power-state">${esc(item.status)}</small>
+   </button>`;
+  return `<button type="button" class="lcy-socket empty" data-cyber-action="socket"
+       data-drop-region="${region.id}" data-slot-index="${index}" ${editable ? '' : 'disabled'}
+       aria-label="${editable ? 'Instalar no encaixe' : 'Encaixe livre'} ${number} de ${esc(region.title)}"
+       ${editable ? 'aria-haspopup="dialog"' : ''}>
+     ${position}<span class="lcy-socket-icon" aria-hidden="true">${icon(region.id)}</span>
+     <strong>Encaixe livre</strong>${editable ? '<small>Solte ou selecione</small>' : ''}
+   </button>`;
+ }).join('');
+ return `<div class="lcy-socket-grid">${cards}</div>`;
+}
+
+function reserveCards(data, st, actor) {
+ const query = st.search.trim().toLocaleLowerCase('pt-BR');
+ const spare = data.implants.filter(i => i.slot === st.category && i.quantity > i.installedQuantity);
+ const matches = spare.filter(i => !query || [i.name, i.manufacturer, i.grade, i.description, i.function]
+   .some(value => String(value || '').toLocaleLowerCase('pt-BR').includes(query)));
+ if (matches.length) return matches.map(i => itemCard(i, st, actor)).join('');
+ return `<p class="lcy-empty-slot">${query ? 'Nenhum implante encontrado.' : 'A reserva deste sistema está vazia.'}</p>`;
+}
+
+function inventory(data, st, actor, id) {
+ const region = slug(st.category);
+ const items = data.implants.filter(i => i.slot === region.id);
+ const installed = items.reduce((count, item) => count + item.installedQuantity, 0);
+ const reserve = items.reduce((count, item) => count + item.quantity - item.installedQuantity, 0);
+ const limit = slots(data, region.id);
+ const owner = canUse(actor);
+ return `<section class="lcy-workbench" id="${id}-workbench" aria-labelledby="${id}-region">
+   <div class="lcy-inventory">
+     <div class="lcy-workbench-head">
+       <span class="lcy-region-emblem" aria-hidden="true">${icon(region.id)}</span>
+       <h3 id="${id}-region" tabindex="-1">${neuralLabel(region.title, region.id, true)}</h3>
+       <button type="button" class="lcy-systems-back" data-cyber-action="systems"><span aria-hidden="true">↑</span> Voltar aos sistemas</button>
+     </div>
+     <section aria-labelledby="${id}-installed">
+       <div class="lcy-equipped-row"><h4 id="${id}-installed">${neuralLabel('Instalados', '', true)}</h4>
+         <strong>${limit ? `${installed} de ${limit} encaixes` : `${installed} em uso · Sem limite`}</strong>
+       </div>
+       ${slotGrid(data, st, actor)}
+     </section>
+     <section class="lcy-reserve" data-drop-region="reserve" aria-labelledby="${id}-reserve">
+       <div class="lcy-equipped-row lcy-inventory-label"><h4 id="${id}-reserve">${neuralLabel('Reserva', '', true)}</h4>
+         <strong>${reserve} ${reserve === 1 ? 'unidade' : 'unidades'}</strong>
+       </div>
+       ${owner && installed ? '<p class="lcy-reserve-help">Para retirar, arraste o implante instalado até a reserva.</p>' : ''}
+       <label class="lcy-search"><span aria-hidden="true">⌕</span>
+         <input type="search" data-cyber-search placeholder="Buscar na reserva" value="${esc(st.search)}" aria-label="Buscar na reserva de ${esc(region.title)}">
+       </label>
+       <div class="lcy-items-grid">${reserveCards(data, st, actor)}</div>
+     </section>
+   </div>
+   ${detailPanel(infoSelected(data, st), region, id)}
+ </section>`;
+}
+
+const DOSSIER_TABS = [['description', 'Descrição'], ['effects', 'Efeitos'], ['technical', 'Dados técnicos']];
+
+function dossier(i, data, actor, id) {
+ const available = i.quantity - i.installedQuantity;
+ const blocked = checkInstall(data, i.id);
+ const owner = canUse(actor);
+ const index = state(actor).selectedSocket;
+ const slot = Number.isInteger(index) && i.installedSlots.includes(index) ? index : null;
+ const active = i.status === 'Operacional';
+ return `<article class="lcy-dossier" data-rarity="${esc(i.grade)}">
+   <div class="lcy-modal-bar"><span>${esc(slug(i.slot).title)}</span>
+     <button type="button" data-cyber-action="close-modal" aria-label="Fechar dossiê">✕</button>
+   </div>
+   <div class="lcy-dossier-intro">
+     ${imageHTML(i, 'lcy-dossier-art')}
+     <div>
+       ${i.manufacturer ? `<span class="lcy-manufacturer">${esc(i.manufacturer)}</span>` : ''}
+       <h3>${esc(i.name)}</h3>
+       <div class="lcy-dossier-tags">${rarityBadge(i.grade)}
+         <span class="lcy-condition">${i.installedQuantity ? esc(i.status) : 'Na reserva'}</span>
+       </div>
+       <dl class="lcy-spec-grid">
+         <div><dt>Custo neural</dt><dd>${i.load} CN</dd></div>
+         <div><dt>Potência</dt><dd>${i.potency}/5</dd></div>
+         <div><dt>Preço</dt><dd>${num(i.cost || 0, 0, 999999999).toLocaleString('pt-BR')} €$</dd></div>
+         <div><dt>Unidades instaladas</dt><dd>${i.installedQuantity} de ${i.quantity}</dd></div>
+       </dl>
+     </div>
+   </div>
+   <div class="lcy-dossier-tabs" role="tablist" aria-label="Informações do implante">
+     ${DOSSIER_TABS.map(([key, label], index) => `<button type="button" id="${id}-tab-${key}" role="tab"
+         aria-controls="${id}-info-${key}" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}"
+         data-cyber-action="detail-tab" data-detail-tab="${key}">${label}</button>`).join('')}
+   </div>
+   <section id="${id}-info-description" role="tabpanel" aria-labelledby="${id}-tab-description" tabindex="0">
+     <div class="lcy-description"><p>${esc(i.description || 'Descrição indisponível.')}</p></div>
+   </section>
+   <section id="${id}-info-effects" role="tabpanel" aria-labelledby="${id}-tab-effects" tabindex="0" hidden>
+     <div class="lcy-description"><h4>Efeitos</h4><p>${esc(i.function || 'Nenhum efeito cadastrado.')}</p></div>
+     ${i.drawback ? `<div class="lcy-description downside"><h4>Contrapartidas</h4><p>${esc(i.drawback)}</p></div>` : ''}
+   </section>
+   <section id="${id}-info-technical" role="tabpanel" aria-labelledby="${id}-tab-technical" tabindex="0" hidden>
+     <dl class="lcy-spec-grid lcy-technical-spec">
+       <div><dt>Sistema</dt><dd>${esc(slug(i.slot).title)}</dd></div>
+       <div><dt>Condição</dt><dd>${esc(i.status)}</dd></div>
+       <div><dt>Unidades na reserva</dt><dd>${available}</dd></div>
+     </dl>
+     ${i.notes ? `<div class="lcy-description"><h4>Observações</h4><p>${esc(i.notes)}</p></div>` : ''}
+   </section>
+   ${owner ? `<div class="lcy-dossier-bottom">
+     <div class="lcy-detail-actions">
+       <button type="button" data-cyber-action="install" data-id="${esc(i.id)}" class="lcy-action-primary"
+          ${!available || blocked ? 'disabled' : ''}>Instalar e ativar</button>
+       <button type="button" data-cyber-action="uninstall" data-id="${esc(i.id)}"
+          ${slot === null ? '' : `data-source-index="${slot}"`} ${!i.installedQuantity ? 'disabled' : ''}>
+          ${slot === null ? 'Retirar uma unidade' : `Retirar do encaixe ${slot + 1}`}
+       </button>
+       <button type="button" data-cyber-action="power" data-id="${esc(i.id)}"
+          ${!i.installedQuantity || !['Operacional', 'Desativado'].includes(i.status) ? 'disabled' : ''}>
+          ${active ? 'Desativar' : 'Ativar'} modelo
+       </button>
+     </div>
+     ${blocked && available ? `<p class="lcy-blocked">${esc(blocked)}</p>` : ''}
+     ${i.installedQuantity > 1 ? '<small>Ativar ou desativar afeta todas as unidades deste modelo.</small>' : ''}
+   </div>` : ''}
+ </article>`;
+}
+
+function openDossier(panel, actor, id) {
+ const data = read(actor);
+ const item = data.implants.find(i => i.id === id);
+ if (item) openModal(panel, dossier(item, data, actor, panel.id + '-dossier'));
+}
+
+const SIGNAL = {
+ stable: {label: 'Estável', description: 'Leitura sincronizada'},
+ watch: {label: 'Monitoramento', description: 'Oscilação no pulso'},
+ warn: {label: 'Instabilidade', description: 'Perda parcial de amostras'},
+ danger: {label: 'Risco crítico', description: 'Leitura intermitente'},
+ collapse: {label: 'Colapso iminente', description: 'Perda de sincronização'}
+};
+
+function telemetry(m, st) {
+ const link = neuralReadouts(m.stage.id, m.risk);
+ return `<section class="lcy-telemetry" data-stage="${m.stage.id}" aria-label="Diagnóstico do sinal neural">
+   <div class="lcy-signal-copy">
+     <h3>Sinal neural</h3>
+     <p>${SIGNAL[m.stage.id].description}</p>
+   </div>
+   <div class="lcy-signal" aria-hidden="true">
+     <canvas class="lcy-scope-canvas" width="480" height="70"></canvas>
+   </div>
+   <button type="button" data-cyber-action="quiet" aria-pressed="${st.quiet}">Reduzir efeitos</button>
+   <dl class="lcy-link-readouts">
+     <div class="lcy-link-sync"><dt>Sincronia</dt><dd>${link.sync}</dd></div>
+     <div><dt>Quadro</dt><dd>${link.frame}</dd></div>
+     <div><dt>Origem</dt><dd>${link.origin}</dd></div>
+     <div><dt>Pacote</dt><dd>${link.packet}</dd></div>
+   </dl>
+ </section>`;
+}
+
+function statusHeader(data, m) {
+ const load = data.capacity ? Math.min(1, m.load / data.capacity) : 0;
+ return `<dl class="lcy-status" aria-label="Estatísticas do piloto">
+   <div class="lcy-capacity">
+     <dt>Carga neural</dt>
+     <dd class="lcy-status-value">${m.load} <small>/ ${data.capacity || '∞'} CN</small></dd>
+     ${data.capacity ? `<dd class="lcy-bar" aria-hidden="true" data-meter="load" data-fill="${load}"><i style="--lcy-fill:${load}"></i></dd>`
+       : '<dd class="lcy-metric-note">Sem limite</dd>'}
+   </div>
+   <div class="lcy-status-metric lcy-risk" data-stage="${m.stage.id}">
+     <dt>Cyberpsicose</dt>
+     <dd class="lcy-status-value"><span class="lcy-value-ink">${m.risk}<span class="lcy-ink-echo" data-ink="${m.risk}" aria-hidden="true"></span></span><small>%</small></dd>
+     <dd class="lcy-metric-note">${m.stage.label}</dd>
+     <dd class="lcy-risk-scale" aria-hidden="true" data-meter="risk" data-fill="${m.risk / 100}">
+       <i style="--lcy-fill:${m.risk / 100}"></i><span></span>
+     </dd>
+   </div>
+   <div class="lcy-status-metric">
+     <dt>Integridade neural</dt>
+     <dd class="lcy-status-value"><span class="lcy-value-ink">${m.humanity}<span class="lcy-ink-echo" data-ink="${m.humanity}" aria-hidden="true"></span></span><small>%</small></dd>
+   </div>
+   <div class="lcy-status-metric">
+     <dt>Implantes instalados</dt>
+     <dd class="lcy-status-value">${m.count}</dd>
+     <dd class="lcy-metric-note">${m.operating} ${m.operating === 1 ? 'operacional' : 'operacionais'} · ${m.reserve} na reserva</dd>
+   </div>
+ </dl>`;
+}
+
+function pilotView(actor, data, st, m, id) {
+ return `${statusHeader(data, m)}${telemetry(m, st)}
+   ${!canUse(actor) ? '<p class="lcy-readonly">Somente leitura. O proprietário da ficha pode instalar e retirar implantes.</p>' : ''}
+   ${categoryGrid(data, st, id)}${inventory(data, st, actor, id)}`;
+}
+function catalogueRows(st) {
+ const query = st.gmSearch.toLocaleLowerCase('pt-BR');
+ const items = getCatalog().items.filter(i => (st.gmCategory === 'all' || i.slot === st.gmCategory)
+   && [i.name, i.manufacturer, i.grade, i.description, i.function, slug(i.slot).title]
+     .some(value => String(value || '').toLocaleLowerCase('pt-BR').includes(query)));
+ const rows = items.map(i => `<tr>
+   <th scope="row" class="lcy-gm-name">${tableItem(i)}</th>
+   <td>${esc(slug(i.slot).title)}</td><td>${rarityBadge(i.grade)}</td><td>${i.load} CN</td>
+   <td class="lcy-gm-buttons">
+     <button type="button" data-cyber-action="assign" data-id="${esc(i.id)}" class="lcy-action-primary">Atribuir</button>
+     <button type="button" data-cyber-action="catalog-edit" data-id="${esc(i.id)}">Editar</button>
+     <button type="button" data-cyber-action="catalog-delete" data-id="${esc(i.id)}" class="lcy-red-button">Excluir</button>
+   </td>
+ </tr>`).join('');
+ return `<div class="lcy-gm-table-wrap"><table class="lcy-gm-table">
+   <caption class="lcy-sr-only">Catálogo de implantes</caption>
+   <thead><tr><th scope="col">Implante</th><th scope="col">Sistema</th><th scope="col">Raridade</th>
+     <th scope="col">Custo neural</th><th scope="col">Ações</th></tr></thead>
+   <tbody>${rows || `<tr><td colspan="5"><p class="lcy-empty-slot">${query || st.gmCategory !== 'all'
+     ? 'Nenhum modelo encontrado.' : 'O catálogo está vazio.'}</p></td></tr>`}</tbody>
+ </table></div>`;
+}
+
+function tableItem(i) {
+ return `<div class="lcy-gm-product" data-rarity="${esc(i.grade)}">
+   ${imageHTML(i, 'lcy-gm-thumb')}<span><strong>${esc(i.name)}</strong>${i.manufacturer ? `<small>${esc(i.manufacturer)}</small>` : ''}</span>
+ </div>`;
+}
+
+function assignedRows(data) {
+ const rows = data.implants.map(i => `<tr>
+   <th scope="row" class="lcy-gm-name">${tableItem(i)}</th>
+   <td>${esc(slug(i.slot).title)}</td><td>${rarityBadge(i.grade)}</td><td>${i.installedQuantity} de ${i.quantity}</td>
+   <td class="lcy-gm-buttons">
+     <button type="button" data-cyber-action="assignment-edit" data-id="${esc(i.id)}">Quantidade</button>
+     <button type="button" data-cyber-action="actor-edit" data-id="${esc(i.id)}">Editar</button>
+     <button type="button" data-cyber-action="actor-remove" data-id="${esc(i.id)}" class="lcy-red-button">Remover</button>
+     ${!i.templateId ? `<button type="button" data-cyber-action="legacy-import" data-id="${esc(i.id)}">Importar</button>` : ''}
+   </td>
+ </tr>`).join('');
+ return `<div class="lcy-gm-table-wrap"><table class="lcy-gm-table">
+   <caption class="lcy-sr-only">Inventário do piloto</caption>
+   <thead><tr><th scope="col">Implante</th><th scope="col">Sistema</th><th scope="col">Raridade</th>
+     <th scope="col">Instalados</th><th scope="col">Ações</th></tr></thead>
+   <tbody>${rows || '<tr><td colspan="5"><p class="lcy-empty-slot">O piloto ainda não recebeu implantes.</p></td></tr>'}</tbody>
+ </table></div>`;
+}
+
+function masterView(data, st, id) {
+ return `<div class="lcy-master">
+   <section aria-labelledby="${id}-catalogue">
+     <div class="lcy-master-top">
+       <h3 id="${id}-catalogue">Catálogo de implantes</h3>
+       <button type="button" data-cyber-action="catalog-new" class="lcy-action-primary">Criar implante</button>
+     </div>
+     <div class="lcy-gm-toolbar">
+       <label class="lcy-search"><span aria-hidden="true">⌕</span>
+         <input type="search" data-cyber-gm-search value="${esc(st.gmSearch)}" placeholder="Buscar no catálogo" aria-label="Buscar no catálogo">
+       </label>
+       <label class="lcy-gm-filter">Sistema
+         <select data-cyber-gm-category>
+           <option value="all">Todos</option>
+           ${REGIONS.map(r => `<option value="${r.id}" ${st.gmCategory === r.id ? 'selected' : ''}>${esc(r.title)}</option>`).join('')}
+         </select>
+       </label>
+     </div>
+     ${catalogueRows(st)}
+   </section>
+   <section aria-labelledby="${id}-assigned">
+     <div class="lcy-master-top lcy-master-segment"><h3 id="${id}-assigned">Inventário do piloto</h3></div>
+     ${assignedRows(data)}
+   </section>
+   <section aria-labelledby="${id}-settings">
+     <div class="lcy-master-top lcy-master-segment"><h3 id="${id}-settings">Capacidade e encaixes</h3></div>
+     <form class="lcy-settings-form" data-kind="settings">
+       <label>Capacidade do piloto (CN)<input type="number" min="0" max="9999" name="capacity" value="${data.capacity}"></label>
+       <label>Capacidade padrão do mundo (CN)<input type="number" min="1" max="9999" name="defaultCapacity" value="${num(setting('defaultCapacity', 60), 1, 9999)}"></label>
+       <label class="lcy-setting-check"><input type="checkbox" name="allowOverload" ${setting('allowOverload', false) ? 'checked' : ''}>Permitir exceder a capacidade</label>
+       <fieldset class="lcy-slot-limits">
+         <legend>Encaixes por sistema (0 = sem limite)</legend>
+         <div>${REGIONS.map(r => `<label>${esc(r.title)}<input type="number" name="slot_${r.id}" min="0" max="99" value="${slots(data, r.id)}"></label>`).join('')}</div>
+       </fieldset>
+       <button type="submit" class="lcy-action-primary">Salvar limites</button>
+     </form>
+   </section>
+ </div>`;
+}
+
+function content(actor, id = 'lcy-preview') {
+ const data = read(actor);
+ const st = state(actor);
+ const m = metrics(data);
+ if (!gm()) st.mode = 'pilot';
+ return `<div class="lcy-shell ${st.quiet ? 'lcy-quiet' : ''}" data-risk-stage="${m.stage.id}" data-risk-score="${m.risk}" data-view="${st.mode}">
+   <div class="lcy-feedback" role="status"></div>
+   <header class="lcy-header">
+     <div>
+       ${actor.name ? `<span>${esc(actor.name)}</span>` : ''}
+       <h2 id="${id}-title" class="lcy-ink" data-ink="CYBER//WARE">CYBER<span>//</span>WARE<span class="lcy-ink-echo" data-ink="CYBER//WARE" aria-hidden="true"></span></h2>
+     </div>
+     <span class="lcy-header-right">${gm() ? 'Mestre' : canUse(actor) ? 'Piloto' : 'Somente leitura'}</span>
+   </header>
+   ${gm() ? `<div class="lcy-mode-tabs" role="group" aria-label="Modo da interface">
+       <button type="button" data-cyber-action="show-pilot" aria-pressed="${st.mode === 'pilot'}" class="${st.mode === 'pilot' ? 'active' : ''}">Ficha do piloto</button>
+       <button type="button" data-cyber-action="show-gm" aria-pressed="${st.mode === 'gm'}" class="${st.mode === 'gm' ? 'active' : ''}">Oficina do mestre</button>
+     </div>` : ''}
+   ${st.mode === 'gm' ? masterView(data, st, id) : pilotView(actor, data, st, m, id)}
+   <footer class="lcy-footer">CYBER//IMPLANTES · LANCER · v0.10.1</footer>
+ </div>`;
+}
+
+function recordForm(i = {}, kind = 'catalogue') {
+ const im = imgConfig(i);
+ return `<form class="lcy-editor-form" data-kind="${kind}">
+   <div class="lcy-modal-bar"><span>${kind === 'catalogue' ? 'Catálogo' : 'Inventário do piloto'}</span>
+     <button type="button" data-cyber-action="close-modal" aria-label="Fechar editor">✕</button>
+   </div>
+   <h3>${i.id ? 'Editar implante' : 'Novo implante'}</h3>
+   <div class="lcy-editor-columns">
+     <div class="lcy-editor-image">
+       <h4>Imagem do implante</h4>
+       <div class="lcy-crop-stage">${imageHTML(i, 'lcy-crop-art')}<span class="lcy-crop-cross" aria-hidden="true">+</span></div>
+       <label>Caminho ou URL da imagem<input name="image" value="${esc(im.url)}" placeholder="modules/.../imagem.webp"></label>
+       <button type="button" data-cyber-action="browse-image">Escolher arquivo no Foundry</button>
+       <p>Arraste para enquadrar. Use a roda do mouse ou o controle para ajustar o zoom.</p>
+       <div class="lcy-crop-control">
+         <label>Zoom<input type="range" name="imageZoom" min="1" max="3" step="0.01" value="${im.zoom}"></label>
+         <output data-cyber-zoom>${im.zoom.toFixed(2)}x</output>
+       </div>
+       <div class="lcy-pan-row">
+         <label>Horizontal<input type="range" name="imageX" min="-60" max="60" step="1" value="${im.x}"></label>
+         <label>Vertical<input type="range" name="imageY" min="-60" max="60" step="1" value="${im.y}"></label>
+       </div>
+       <button type="button" data-cyber-action="reset-image">Restaurar enquadramento</button>
+     </div>
+     <div class="lcy-editor-fields">
+       <label>Nome do modelo<input name="name" maxlength="100" required placeholder="Ex.: Sandevistan Mk.III" value="${esc(i.name || '')}"></label>
+       <div class="lcy-two-fields">
+         <label>Sistema corporal${opts('slot', REGIONS, i.slot || 'neural')}</label>
+         <label>Raridade${opts('grade', TIERS, i.grade || 'Raro')}</label>
+       </div>
+       <div class="lcy-two-fields">
+         <label>Fabricante<input name="manufacturer" maxlength="100" value="${esc(i.manufacturer || '')}"></label>
+         <label>Condição${opts('status', STATUS, i.status || 'Operacional')}</label>
+       </div>
+       <div class="lcy-three-fields">
+         <label>Custo neural (CN)<input type="number" name="load" min="0" max="9999" value="${num(i.load ?? 2)}"></label>
+         <label>Potência (1–5)<input type="number" name="potency" min="1" max="5" value="${num(i.potency ?? 2, 1, 5)}"></label>
+         <label>Preço (€$)<input type="number" name="cost" min="0" max="999999999" value="${num(i.cost ?? 0)}"></label>
+       </div>
+       <label>Descrição<textarea name="description" maxlength="2500" rows="4">${esc(i.description || '')}</textarea></label>
+       <label>Efeitos e estatísticas<textarea name="function" maxlength="2500" rows="4">${esc(i.function || '')}</textarea></label>
+       <label>Contrapartidas<textarea name="drawback" maxlength="1200" rows="2">${esc(i.drawback || '')}</textarea></label>
+       <label>Observações<textarea name="notes" maxlength="1500" rows="2">${esc(i.notes || '')}</textarea></label>
+     </div>
+   </div>
+   <div class="lcy-editor-actions">
+     <button type="button" data-cyber-action="close-modal">Cancelar</button>
+     <button type="submit" class="lcy-action-primary">Salvar implante</button>
+   </div>
+ </form>`;
+}
+function parseRecord(form,old={}){const d=new FormData(form),s=(k,n)=>String(d.get(k)||'').trim().slice(0,n),name=s('name',100);if(!name)throw Error('O nome do implante é obrigatório.');return {...old,id:old.id||rand(),name,slot:slug(s('slot',30)).id,grade:TIERS.includes(s('grade',50))?s('grade',50):'Comum',manufacturer:s('manufacturer',100),status:STATUS.includes(s('status',50))?s('status',50):'Operacional',load:num(d.get('load'),0,9999),potency:num(d.get('potency'),1,5),cost:num(d.get('cost'),0,999999999),description:s('description',2500),function:s('function',2500),drawback:s('drawback',1200),notes:s('notes',1500),image:safeImage(s('image',800)),imageZoom:clamp(d.get('imageZoom'),1,3),imageX:clamp(d.get('imageX'),-60,60),imageY:clamp(d.get('imageY'),-60,60)}}
+function assignmentForm(i, qty = 1, installed = 0, edit = false) {
+ return `<form class="lcy-small-form" data-kind="assignment" data-rarity="${esc(i.grade)}">
+   <div class="lcy-modal-bar"><span>Inventário do piloto</span>
+     <button type="button" data-cyber-action="close-modal" aria-label="Fechar atribuição">✕</button>
+   </div>
+   <h3>${edit ? 'Editar quantidade' : 'Atribuir implante'}</h3>
+   ${imageHTML(i, 'lcy-assign-art')}
+   <strong>${esc(i.name)}</strong>
+   <p class="lcy-assignment-meta">${rarityBadge(i.grade)} <span>${esc(slug(i.slot).title)} · ${i.load} CN</span></p>
+   <label>Total de unidades<input type="number" name="quantity" min="1" max="99" value="${num(qty, 1, 99)}" required></label>
+   <label>Unidades já instaladas<input type="number" name="installedQuantity" min="0" max="99" value="${num(installed, 0, 99)}" required></label>
+   <div class="lcy-editor-actions">
+     <button type="button" data-cyber-action="close-modal">Cancelar</button>
+     <button type="submit" class="lcy-action-primary">${edit ? 'Salvar' : 'Atribuir'}</button>
+   </div>
+ </form>`;
+}
+
+function syncNeuralMotion(panel) {
+ const shell = panel.querySelector('.lcy-shell');
+ const quiet = Boolean(shell?.classList.contains('lcy-quiet'));
+ panel.toggleAttribute('data-lcy-quiet', quiet);
+ const active = panel.classList.contains('active') && panel.isConnected
+   && shell?.dataset.view === 'pilot' && !panel._lcyCloseModal;
+ if (active) panel._lcyNeuralMotion ??= new NeuralMotion(panel);
+ panel._lcyNeuralMotion?.update(shell, active, quiet);
+}
+
+function openModal(panel, markup) {
+ panel._lcyCloseModal?.();
+ const old = document.activeElement;
+ const shell = panel.querySelector('.lcy-shell');
+ const overlay = document.createElement('div');
+ overlay.className = 'lcy-modal-cover';
+ overlay.innerHTML = `<div class="lcy-modal" role="dialog" aria-modal="true">${markup}</div>`;
+ const dialog = overlay.firstElementChild;
+ const title = dialog.querySelector('h3');
+ title.id = panel.id + '-modal-title';
+ title.tabIndex = -1;
+ dialog.setAttribute('aria-labelledby', title.id);
+ panel.append(overlay);
+ shell.inert = true;
+
+ const close = ({restoreFocus = true} = {}) => {
+  if (!overlay.isConnected) return;
+  overlay.remove();
+  shell.inert = false;
+  panel._lcyCloseModal = null;
+  if (restoreFocus) {
+   old?.focus({preventScroll: true});
+   refresh(panel, panel._lcyActor);
+  }
+ };
+ panel._lcyCloseModal = close;
+ syncNeuralMotion(panel);
+ overlay.addEventListener('click', event => {
+  if (event.target !== overlay && !event.target.closest('[data-cyber-action="close-modal"]')) return;
+  event.preventDefault();
+  event.stopPropagation();
+  close();
+ });
+ overlay.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+   event.preventDefault();
+   event.stopPropagation();
+   close();
+   return;
+  }
+  if (event.key === 'Tab') {
+   const elements = [...overlay.querySelectorAll('button,input,select,textarea,[tabindex]')]
+     .filter(element => !element.disabled && element.tabIndex >= 0 && !element.closest('[hidden]'));
+   if (!elements.length) {
+    event.preventDefault();
+   } else if (event.shiftKey && [title, elements[0]].includes(document.activeElement)) {
+    event.preventDefault();
+    elements.at(-1).focus();
+   } else if (!event.shiftKey && document.activeElement === elements.at(-1)) {
+    event.preventDefault();
+    elements[0].focus();
+   }
+  }
+  const tab = event.target.closest('[role="tab"]');
+  if (tab && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+   event.preventDefault();
+   event.stopPropagation();
+   const tabs = [...tab.parentElement.querySelectorAll('[role="tab"]')];
+   const index = tabs.indexOf(tab);
+   const direction = event.key === 'ArrowLeft' ? -1 : 1;
+   const target = event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs.at(-1)
+     : tabs[(index + direction + tabs.length) % tabs.length];
+   target.click();
+  }
+ });
+ // Focusing the title preserves the reading order while exposing the dialog name.
+ title.focus({preventScroll: true});
+ return {overlay, close};
+}
+function initImageEditor(overlay){const f=overlay.querySelector('form'),stage=f?.querySelector('.lcy-crop-stage');if(!stage)return;const q=n=>f.elements.namedItem(n),preview=()=>{const url=safeImage(q('image').value),el=stage.querySelector('.lcy-crop-art');if(el){const obj={slot:'neural',image:url,imageZoom:q('imageZoom').value,imageX:q('imageX').value,imageY:q('imageY').value};el.outerHTML=imageHTML(obj,'lcy-crop-art')}f.querySelector('[data-cyber-zoom]').textContent=(+q('imageZoom').value).toFixed(2)+'x'};for(const n of ['image','imageZoom','imageX','imageY'])q(n).addEventListener('input',preview);let start=null;stage.addEventListener('pointerdown',e=>{if(e.button!==0)return;start={px:e.clientX,py:e.clientY,x:+q('imageX').value,y:+q('imageY').value};stage.setPointerCapture?.(e.pointerId)});stage.addEventListener('pointermove',e=>{if(!start)return;const rect=stage.getBoundingClientRect();q('imageX').value=clamp(start.x+(e.clientX-start.px)/rect.width*100,-60,60);q('imageY').value=clamp(start.y+(e.clientY-start.py)/rect.height*100,-60,60);preview()});for(const type of ['pointerup','pointercancel'])stage.addEventListener(type,()=>{start=null});stage.addEventListener('wheel',e=>{e.preventDefault();q('imageZoom').value=clamp(+q('imageZoom').value+(e.deltaY<0?.08:-.08),1,3);preview()},{passive:false});f.querySelector('[data-cyber-action="reset-image"]').addEventListener('click',()=>{q('imageZoom').value='1';q('imageX').value='0';q('imageY').value='0';preview()});f.querySelector('[data-cyber-action="browse-image"]').addEventListener('click',()=>{const Picker=globalThis.foundry?.applications?.apps?.FilePicker?.implementation||globalThis.foundry?.applications?.apps?.FilePicker||globalThis.FilePicker;if(!Picker){notify(Error('O seletor de arquivos do Foundry não está disponível neste ambiente. Cole um caminho ou URL no campo de imagem.'));return}try{const picker=new Picker({type:'image',current:q('image').value,callback:path=>{q('image').value=path;preview()}});picker.render(true)}catch(err){notify(err)}});preview()}
+function captureMeters(shell) {
+ return Object.fromEntries([...shell.querySelectorAll('[data-meter]')].map(meter => {
+  const fill = meter.firstElementChild;
+  const scale = fill.getAnimations?.().length ? new DOMMatrix(getComputedStyle(fill).transform).a : Number(meter.dataset.fill);
+  return [meter.dataset.meter, scale];
+ }));
+}
+
+function animateMeters(shell, previous, entering) {
+ if (shell.classList.contains('lcy-quiet') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+ shell.querySelectorAll('[data-meter]').forEach(meter => {
+  const end = Number(meter.dataset.fill);
+  const start = entering ? end * .62 : previous[meter.dataset.meter];
+  if (start === undefined || Math.abs(end - start) < .01) return;
+  const fill = meter.firstElementChild;
+  fill.style.setProperty('--lcy-fill-start', start);
+  fill.classList.add('lcy-fill-motion');
+ });
+}
+
+function refresh(panel, actor, motion) {
+ if (!panel?.isConnected || panel._lcyCloseModal) return;
+ const oldShell = panel.querySelector('.lcy-shell');
+ const meters = captureMeters(oldShell);
+ const active = panel.contains(document.activeElement) ? document.activeElement : null;
+ const isSearch = active?.matches('[data-cyber-search], [data-cyber-gm-search]');
+ const selection = isSearch ? [active.selectionStart, active.selectionEnd] : null;
+ const action = active?.closest('[data-cyber-action]')?.dataset;
+ const filter = active?.matches('[data-cyber-gm-category]');
+ const scroll = panel.scrollTop;
+ const markup = document.createElement('template');
+ markup.innerHTML = content(actor, panel.id);
+ const shell = markup.content.firstElementChild;
+ oldShell.replaceWith(shell);
+ if (motion) shell.dataset.motion = motion;
+ panel.scrollTop = scroll;
+ syncNeuralMotion(panel);
+ if (panel.classList.contains('active')) animateMeters(shell, meters, motion === 'enter');
+
+ if (isSearch) {
+  const input = shell.querySelector(active.hasAttribute('data-cyber-search') ? '[data-cyber-search]' : '[data-cyber-gm-search]');
+  input?.focus({preventScroll: true});
+  if (input) input.setSelectionRange(...selection);
+ } else if (filter) {
+  shell.querySelector('[data-cyber-gm-category]')?.focus({preventScroll: true});
+ } else if (action) {
+  const candidates = [...shell.querySelectorAll('[data-cyber-action]:not(:disabled)')];
+  const match = candidates.find(({dataset}) => dataset.cyberAction === action.cyberAction && dataset.id === action.id
+    && dataset.region === action.region && dataset.slotIndex === action.slotIndex);
+  const moved = action.cyberAction === 'select' && candidates.find(({dataset}) => dataset.cyberAction === 'select' && dataset.id === action.id);
+  (match || moved)?.focus({preventScroll: true});
+ }
+}
+
+function scrollToSection(panel, target, focusTarget) {
+ focusTarget?.focus({preventScroll: true});
+ const quiet = panel.hasAttribute('data-lcy-quiet') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const behavior = quiet ? 'auto' : 'smooth';
+ for (let area = target.parentElement; area && area !== document.body; area = area.parentElement) {
+  if (!/^(auto|scroll|overlay)$/.test(getComputedStyle(area).overflowY) || area.scrollHeight <= area.clientHeight) continue;
+  const bounds = area.getBoundingClientRect();
+  const scale = bounds.height / area.offsetHeight || 1;
+  const top = (target.getBoundingClientRect().top - bounds.top) / scale - area.clientTop - 12;
+  area.scrollTo({top: area.scrollTop + top, behavior});
+  return;
+ }
+ target.scrollIntoView({block: 'start', behavior});
+}
+
+function openSystem(panel, actor, button) {
+ const st = state(actor);
+ let workbench = panel.querySelector('.lcy-workbench');
+ if (st.category !== button.dataset.region) {
+  st.category = button.dataset.region;
+  st.selected = null;
+  st.selectedSocket = null;
+  st.search = '';
+  const template = document.createElement('template');
+  template.innerHTML = inventory(read(actor), st, actor, panel.id);
+  const next = template.content.firstElementChild;
+  workbench.replaceWith(next);
+  workbench = next;
+  workbench.dataset.motion = 'category';
+  for (const card of panel.querySelectorAll('[data-cyber-action="category"]')) {
+   card.classList.toggle('selected', card === button);
+   card.setAttribute('aria-pressed', String(card === button));
+  }
+  panel._lcyNeuralMotion?.rebindLabels();
+ }
+ scrollToSection(panel, workbench, workbench.querySelector('.lcy-workbench-head h3'));
+}
+
+function feedback(panel, message, error = false) {
+ const el = panel.querySelector('.lcy-feedback');
+ if (!el) return;
+ clearTimeout(panel._lcyFeedbackTimer);
+ el.classList.toggle('error', error);
+ el.classList.add('visible');
+ el.textContent = message;
+ panel._lcyFeedbackTimer = setTimeout(() => {
+  el.classList.remove('visible');
+  el.textContent = '';
+ }, 5000);
+}
+
+function slotPicker(panel, actor, region, index, options) {
+ const pop = openModal(panel, `<div class="lcy-slot-picker">
+   <div class="lcy-modal-bar"><span>${esc(slug(region).title)} · Encaixe ${index + 1}</span>
+     <button type="button" data-cyber-action="close-modal" aria-label="Fechar seleção">✕</button>
+   </div>
+   <h3>Escolha um implante da reserva</h3>
+   <div class="lcy-picker-options">
+     ${options.map(i => `<button type="button" data-picker-id="${esc(i.id)}" data-rarity="${esc(i.grade)}">
+       ${imageHTML(i, 'lcy-item-art')}
+       <span class="lcy-picker-label"><strong>${esc(i.name)}</strong>
+         <span class="lcy-picker-meta">${rarityBadge(i.grade)}<small>${i.load} CN</small></span>
+       </span>
+     </button>`).join('')}
+   </div>
+ </div>`);
+ pop.overlay.querySelectorAll('[data-picker-id]').forEach(button => button.addEventListener('click', () =>
+  perform(panel, actor, () => equip(actor, button.dataset.pickerId, 1, {region, index}), 'Implante instalado e ativado.')));
+}
+async function perform(panel,actor,action,message){const key=actorKey(actor);if(pending.has(key))return;pending.add(key);panel.setAttribute('aria-busy','true');try{await action();panel._lcyCloseModal?.();refresh(panel,actor);feedback(panel,message)}catch(err){feedback(panel,err.message,true);globalThis.ui?.notifications?.warn?.(err.message)}finally{pending.delete(key);panel.removeAttribute('aria-busy')}}
+function bindDrag(panel,actor){let dragging=null;
+ const clear=()=>{panel.querySelectorAll('.lcy-drop-valid,.lcy-drop-invalid,.lcy-drop-hover').forEach(x=>x.classList.remove('lcy-drop-valid','lcy-drop-invalid','lcy-drop-hover'));panel.classList.remove('lcy-dragging');dragging=null};
+ panel.addEventListener('dragstart',e=>{const el=e.target.closest('[data-drag-id]');if(!el||!canUse(actor))return;const i=read(actor).implants.find(i=>i.id===el.dataset.dragId);if(!i||!e.dataTransfer)return;dragging={actor:actorKey(actor),id:i.id,source:el.dataset.dragSource,index:el.hasAttribute('data-drag-index')?Number(el.dataset.dragIndex):undefined};e.dataTransfer.setData(MIME,JSON.stringify(dragging));e.dataTransfer.effectAllowed='move';panel.classList.add('lcy-dragging');for(const target of panel.querySelectorAll('[data-drop-region]')){const ok=target.dataset.dropRegion===i.slot||(target.dataset.dropRegion==='reserve'&&dragging.source==='installed');target.classList.add(ok?'lcy-drop-valid':'lcy-drop-invalid')}});
+ panel.addEventListener('dragover',e=>{const target=e.target.closest('[data-drop-region]');if(!target||!e.dataTransfer?.types.includes(MIME))return;e.preventDefault();e.stopPropagation();panel.querySelector('.lcy-drop-hover')?.classList.remove('lcy-drop-hover');target.classList.add('lcy-drop-hover');e.dataTransfer.dropEffect='move'});
+ panel.addEventListener('dragleave',e=>{const el=e.target.closest('[data-drop-region]');if(el&&!el.contains(e.relatedTarget))el.classList.remove('lcy-drop-hover')});
+ panel.addEventListener('dragend',clear);
+ panel.addEventListener('drop',async e=>{const target=e.target.closest('[data-drop-region]');if(!target||!e.dataTransfer?.types.includes(MIME))return;e.preventDefault();e.stopPropagation();let payload;try{payload=JSON.parse(e.dataTransfer.getData(MIME))}catch{clear();feedback(panel,'Dados de arraste inválidos.',true);return}const region=target.dataset.dropRegion,index=target.hasAttribute('data-slot-index')?Number(target.dataset.slotIndex):undefined;clear();await perform(panel,actor,()=>moveImplant(actor,payload,region,index),region==='reserve'?'Implante retirado para a reserva.':'Encaixe atualizado. Implante conectado.');});
+ panel.addEventListener('keydown',e=>{const tab=e.target.closest('[role="tab"][data-detail-tab]');if(!tab||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=[...tab.parentElement.querySelectorAll('[role="tab"]')],n=tabs.indexOf(tab),next=e.key==='Home'?0:e.key==='End'?tabs.length-1:(n+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].click()});
+}
+function events(panel,actor){if(panel.dataset.lcyBound)return;panel.dataset.lcyBound='1';bindDrag(panel,actor);
+ panel.addEventListener('click',async e=>{const b=e.target.closest('[data-cyber-action]');if(!b||!panel.contains(b))return;const act=b.dataset.cyberAction,id=b.dataset.id,st=state(actor);if(act==='close-modal')return;e.preventDefault();e.stopPropagation();
+  if (act === 'category') {
+   openSystem(panel, actor, b);
+   return;
+  }
+  if (act === 'systems') {
+   const systems = panel.querySelector('.lcy-cat-section');
+   scrollToSection(panel, systems, systems.querySelector('.lcy-cat[aria-pressed="true"]'));
+   return;
+  }
+  if(act==='select'){st.selected=id;st.selectedSocket=b.hasAttribute('data-slot-index')?Number(b.dataset.slotIndex):null;refresh(panel,actor);openDossier(panel,actor,id);return}
+  if(act==='quiet'){st.quiet=!st.quiet;refresh(panel,actor);return}
+  if(act==='detail-tab'){const tabs=b.closest('[role="tablist"]');for(const t of tabs.querySelectorAll('[role="tab"]')){const selected=t===b;t.setAttribute('aria-selected',String(selected));t.tabIndex=selected?0:-1;panel.querySelector('#'+t.getAttribute('aria-controls')).hidden=!selected}b.focus();return}
+  if (act === 'socket') {
+   if (!canUse(actor)) return;
+   const data = read(actor);
+   const index = Number(b.dataset.slotIndex);
+   const region = st.category;
+   const options = data.implants.filter(i => i.slot === region && i.quantity > i.installedQuantity);
+   const selected = options.find(i => i.id === st.selected);
+   if (selected) await perform(panel, actor, () => equip(actor, selected.id, 1, {region, index}), 'Implante instalado e ativado.');
+   else if (options.length) slotPicker(panel, actor, region, index, options);
+   else feedback(panel, 'A reserva deste sistema está vazia.', true);
+   return;
+  }
+
+  if(act==='show-pilot'){if(st.mode!=='pilot'){st.mode='pilot';refresh(panel,actor,'view')}return}
+  if(['install','uninstall','power'].includes(act)){await perform(panel,actor,()=>act==='power'?togglePower(actor,id):equip(actor,id,act==='install'?1:-1,b.hasAttribute('data-source-index')?{sourceIndex:Number(b.dataset.sourceIndex)}:{}),act==='power'?'Estado operacional atualizado.':act==='install'?'Implante instalado e ativado.':'Uma unidade retornou à reserva.');return}
+  if(!gm())return;const data=read(actor),catalog=getCatalog();if(act==='show-gm'){if(st.mode!=='gm'){st.mode='gm';refresh(panel,actor,'view')}return}
+  if(['catalog-new','catalog-edit','actor-edit'].includes(act)){
+   const isActor=act==='actor-edit',target=act==='catalog-new'?{}:(isActor?data.implants:catalog.items).find(i=>i.id===id);if(!target)return;
+   const pop=openModal(panel,recordForm(target,isActor?'actor':'catalogue'));initImageEditor(pop.overlay);
+   pop.overlay.querySelector('form').addEventListener('submit',async ev=>{ev.preventDefault();let rec;try{rec=parseRecord(ev.currentTarget,target)}catch(err){notify(err);return};const f=ev.currentTarget,b=f.querySelector('[type="submit"]');b.disabled=true;
+    try{if(isActor){const current=read(actor);current.implants=current.implants.map(i=>i.id===id?{...rec,quantity:i.quantity,installedQuantity:i.installedQuantity,installed:i.installedQuantity>0,templateId:i.templateId}:i);await saveActor(actor,current)}else{const c=getCatalog();if(!target.id&&c.items.length>=500)throw Error('Limite do catálogo atingido (500 modelos).');c.items=target.id?c.items.map(i=>i.id===id?rec:i):[...c.items,rec];await saveCatalog(c)}pop.close();refresh(panel,actor)}catch(err){notify(err);b.disabled=false}});return;
+  }
+  if(act==='assign'||act==='assignment-edit'){
+   const editing=act==='assignment-edit',rec=(editing?data.implants:catalog.items).find(i=>i.id===id);if(!rec)return;
+   const pop=openModal(panel,assignmentForm(rec,editing?rec.quantity:1,editing?rec.installedQuantity:0,editing));pop.overlay.querySelector('form').addEventListener('submit',async ev=>{ev.preventDefault();const fd=new FormData(ev.currentTarget),q=num(fd.get('quantity'),1,99),n=num(fd.get('installedQuantity'),0,q),current=read(actor),b=ev.currentTarget.querySelector('[type="submit"]');b.disabled=true;
+    try{if(editing){const row=current.implants.find(i=>i.id===id);if(!row)throw Error('Item não encontrado.');row.quantity=q;row.installedQuantity=n;row.installed=n>0}else{if(current.implants.length>=500)throw Error('Inventário do piloto atingiu 500 registros.');current.implants.push({...rec,id:rand(),templateId:rec.id,installedSlots:[],quantity:q,installedQuantity:n,installed:n>0})}await saveActor(actor,current);pop.close();refresh(panel,actor)}catch(err){notify(err);b.disabled=false}});return;
+  }
+  if(act==='catalog-delete'||act==='actor-remove'){
+   const catalogMode=act==='catalog-delete',row=(catalogMode?catalog.items:data.implants).find(i=>i.id===id);if(!row)return;
+   const pop=openModal(panel,`<div class="lcy-small-form"><div class="lcy-modal-bar"><span>${catalogMode?'Catálogo':'Inventário do piloto'}</span><button type="button" data-cyber-action="close-modal" aria-label="Fechar confirmação">✕</button></div><h3>${catalogMode?'Excluir modelo?':'Remover implante do piloto?'}</h3><p>${esc(row.name)}</p><p>${catalogMode?'As cópias entregues aos pilotos permanecem no inventário.':'O implante será removido do inventário deste piloto.'}</p><div class="lcy-editor-actions"><button type="button" data-cyber-action="close-modal">Cancelar</button><button type="button" class="lcy-red-button" data-cyber-action="confirm-delete">${catalogMode?'Excluir':'Remover'}</button></div></div>`);
+   pop.overlay.querySelector('[data-cyber-action="confirm-delete"]').addEventListener('click',async ev=>{const btn=ev.currentTarget;btn.disabled=true;try{if(catalogMode){const c=getCatalog();c.items=c.items.filter(i=>i.id!==id);await saveCatalog(c)}else{const d=read(actor);d.implants=d.implants.filter(i=>i.id!==id);await saveActor(actor,d)}pop.close();refresh(panel,actor)}catch(err){notify(err);btn.disabled=false}});return;
+  }
+  if(act==='legacy-import'){const row=data.implants.find(i=>i.id===id);if(!row)return;const c=getCatalog();if(c.items.length>=500){notify(Error('Catálogo cheio.'));return}const copy={...row,id:rand()};delete copy.quantity;delete copy.installedQuantity;delete copy.installed;delete copy.templateId;c.items.push(copy);try{await saveCatalog(c);refresh(panel,actor)}catch(err){notify(err)}return}
+ });
+ panel.addEventListener('input', event => {
+  const st = state(actor);
+  if (event.target.matches('[data-cyber-search]')) {
+   st.search = event.target.value;
+   panel.querySelector('.lcy-items-grid').innerHTML = reserveCards(read(actor), st, actor);
+  }
+  if (event.target.matches('[data-cyber-gm-search]')) {
+   st.gmSearch = event.target.value;
+   panel.querySelector('.lcy-gm-table-wrap').outerHTML = catalogueRows(st);
+  }
+ });
+ panel.addEventListener('change', event => {
+  if (!event.target.matches('[data-cyber-gm-category]')) return;
+  const st = state(actor);
+  st.gmCategory = event.target.value;
+  panel.querySelector('.lcy-gm-table-wrap').outerHTML = catalogueRows(st);
+ });
+ panel.addEventListener('submit',async e=>{e.stopPropagation();if(!e.target.matches('[data-kind="settings"]')||!gm())return;e.preventDefault();const form=e.target,d=new FormData(form),data=read(actor),b=form.querySelector('[type="submit"]');b.disabled=true;data.capacity=num(d.get('capacity'),0,9999);data.limits={...data.limits};for(const r of REGIONS)data.limits[r.id]=num(d.get('slot_'+r.id),0,99);try{await saveActor(actor,data);await game.settings.set(ID,'defaultCapacity',num(d.get('defaultCapacity'),1,9999));await game.settings.set(ID,'allowOverload',d.get('allowOverload')!==null);refresh(panel,actor);globalThis.ui?.notifications?.info?.('Limites neurais atualizados.')}catch(err){notify(err);b.disabled=false}});
+}
+function sheetLayout(root) {
+ if (!root?.querySelector) return null;
+ const nav = root.querySelector('.lancer-tabs') ?? [...root.querySelectorAll('nav, .tabs, [role="tablist"]')]
+   .find(element => element.querySelector('[data-tab="dossier"]') && element.querySelector('[data-tab="tactical"]'));
+ if (!nav) return null;
+ const tabs = [...nav.querySelectorAll('[data-tab]')];
+ const ids = new Set(tabs.map(tab => tab.dataset.tab));
+ const parent = [...root.querySelectorAll('.sheet-body, .sheet-content, .tab-content')].find(element =>
+   [...element.children].some(pane => ids.has(pane.dataset.tab)));
+ if (!parent) return null;
+ const panes = [...parent.children].filter(pane => ids.has(pane.dataset.tab) && pane.dataset.tab !== 'cyberware');
+ return {nav, tabs, parent, panes};
+}
+
+function releasePanel(panel) {
+ panel._lcyDispose?.();
+ panel._lcyNeuralMotion?.stop();
+ panel._lcyCloseModal?.({restoreFocus: false});
+ clearTimeout(panel._lcyFeedbackTimer);
+ const key = actorKey(panel._lcyActor);
+ const tracked = panels.get(key);
+ tracked?.delete(panel);
+ if (tracked?.size === 0) panels.delete(key);
+}
+
+function detach(app) {
+ const panel = appPanels.get(app);
+ if (!panel) return;
+ releasePanel(panel);
+ appPanels.delete(app);
+}
+
+function attach(app, html) {
+ if (globalThis.game?.system?.id !== 'lancer') return;
+ const actor = actorFrom(app);
+ if (actor?.type !== 'pilot') return;
+ const layout = sheetLayout(rootFrom(html)) ?? sheetLayout(rootFrom(app.element));
+ if (!layout) return;
+ const {nav, tabs, parent, panes} = layout;
+ const previous = appPanels.get(app);
+ if (previous?.parentElement === parent && parent.previousElementSibling?.classList.contains('lcy-launcher')) return;
+
+ detach(app);
+ const panel = document.createElement('section');
+ panel.id = 'lcy-panel-' + ++panelCount;
+ panel.className = 'lcy-panel tab';
+ panel.dataset.tab = 'cyberware';
+ panel.setAttribute('aria-labelledby', panel.id + '-title');
+ panel.style.display = 'none';
+
+ const launcher = document.createElement('div');
+ launcher.className = 'lcy-launcher';
+ const tab = document.createElement('button');
+ tab.className = 'lcy-nav';
+ tab.type = 'button';
+ tab.textContent = 'CYBER//WARE';
+ tab.setAttribute('aria-controls', panel.id);
+ tab.setAttribute('aria-expanded', 'false');
+ launcher.append(tab);
+ parent.before(launcher);
+
+ panel.innerHTML = content(actor, panel.id);
+ parent.append(panel);
+ panel._lcyActor = actor;
+ events(panel, actor);
+ appPanels.set(app, panel);
+ const key = actorKey(actor);
+ if (!panels.has(key)) panels.set(key, new Set());
+ panels.get(key).add(panel);
+
+ const st = state(actor);
+ let opened = false;
+ let snapshot = [];
+ let selectedTabs = [];
+ function open() {
+  if (opened) return;
+  opened = true;
+  st.open = true;
+  snapshot = panes.map(pane => ({
+   pane,
+   display: pane.style.getPropertyValue('display'),
+   priority: pane.style.getPropertyPriority('display'),
+   active: pane.classList.contains('active')
+  }));
+  for (const {pane} of snapshot) {
+   pane.style.setProperty('display', 'none', 'important');
+   pane.classList.remove('active');
+  }
+  selectedTabs = tabs.map(node => ({node, active: node.classList.contains('active'),
+   selected: node.classList.contains('selected'), aria: node.getAttribute('aria-selected')}));
+  for (const {node, aria} of selectedTabs) {
+   node.classList.remove('active', 'selected');
+   if (aria !== null) node.setAttribute('aria-selected', 'false');
+  }
+  tab.classList.add('active', 'selected');
+  tab.setAttribute('aria-expanded', 'true');
+  panel.classList.add('active');
+  panel.style.setProperty('display', 'block', 'important');
+  if (panel.isConnected) refresh(panel, actor, 'enter');
+  else requestAnimationFrame(() => { if (opened) refresh(panel, actor, 'enter'); });
+ }
+ function close(remember = true) {
+  if (!opened) return;
+  opened = false;
+  if (remember) st.open = false;
+  for (const {pane, display, priority, active} of snapshot) {
+   if (display) pane.style.setProperty('display', display, priority);
+   else pane.style.removeProperty('display');
+   pane.classList.toggle('active', active);
+  }
+  snapshot = [];
+  panel.classList.remove('active');
+  panel.style.setProperty('display', 'none', 'important');
+  panel._lcyCloseModal?.({restoreFocus: false});
+  syncNeuralMotion(panel);
+  tab.classList.remove('active', 'selected');
+  tab.setAttribute('aria-expanded', 'false');
+  for (const {node, active, selected, aria} of selectedTabs) {
+   node.classList.toggle('active', active);
+   node.classList.toggle('selected', selected);
+   if (aria !== null) node.setAttribute('aria-selected', aria);
+  }
+  selectedTabs = [];
+ }
+ const controls = new AbortController();
+ const {signal} = controls;
+ tab.addEventListener('click', () => {
+  if (opened) close();
+  else open();
+ }, {signal});
+ nav.addEventListener('click', event => {
+  if (tabs.includes(event.target.closest('[data-tab]'))) close();
+ }, {capture: true, signal});
+ panel._lcyDispose = () => {
+  controls.abort();
+  close(false);
+  launcher.remove();
+  panel.remove();
+ };
+ if (st.open) open();
+}
+
+function refreshAll(actor) {
+ const tracked = panels.get(actorKey(actor));
+ if (!tracked) return;
+ for (const panel of tracked) {
+  if (panel.isConnected) refresh(panel, actor);
+  else releasePanel(panel);
+ }
+}
+const sample=()=>({capacity:52,limits:{optico:3,frontal:3,neural:4,bracos:3},implants:[
+ {id:'demo-1',name:'Neural Link MK.IV',slot:'neural',grade:'Lendário',potency:4,quantity:1,installedQuantity:1,load:13,cost:19000,manufacturer:'RAVEN SYSTEMS',description:'Interface de processamento de altíssima velocidade com integração a drones.',function:'+2 em análise de dispositivos. Conexão de curto alcance.',drawback:'Interferência sob campos eletromagnéticos.'},
+ {id:'demo-2',name:'Kiroshi Optics Mk.3',slot:'optico',grade:'Mítico',potency:3,quantity:1,installedQuantity:1,load:7,cost:6400,manufacturer:'KIROSHI',description:'Retinas sintéticas com identificação de assinaturas, espectro térmico e auxílio de mira.',function:'Zoom digital, visão em pouca luz e rastreamento.'},
+ {id:'demo-3',name:'Retina Espectral',slot:'optico',grade:'Raro',potency:2,quantity:1,installedQuantity:0,load:4,cost:3400,manufacturer:'HELIX',description:'Sensor adicional de contraste e diferenciação térmica.'},
+ {id:'demo-4',name:'Sandevistan X-8',slot:'neural',grade:'Lendário',potency:5,quantity:1,installedQuantity:0,load:23,cost:34000,manufacturer:'QIAN-T',description:'Acelerador nervoso para resposta em situações críticas.',function:'Ação relâmpago narrativa, à discrição do mestre.'},
+ {id:'demo-5',name:'Malha subdérmica',slot:'pele',grade:'Comum',potency:1,quantity:1,installedQuantity:1,load:4,cost:2600,manufacturer:'MILITECH',description:'Trama protetora integrada sob a pele.'},
+ {id:'demo-6',name:'Gorilla Arms',slot:'bracos',grade:'Mítico',potency:4,quantity:1,installedQuantity:0,load:14,cost:18000,manufacturer:'MILITECH',description:'Servomotores com reforço para força e resistência.'},
+ {id:'demo-7',name:'Coprocessador Tático',slot:'neural',grade:'Raro',potency:3,quantity:1,installedQuantity:1,load:8,cost:8200,manufacturer:'ARASAKA',description:'Interpretação tática de padrões e dados de combate.'}
+]});
+// Testable functions are available in the HTML preview. Foundry still requires in-game verification.
+globalThis.LancerCyberwareTab={attach,read,metrics,render:content,sample,getCatalogue:getCatalog,checkInstall,equip,moveImplant,togglePower,tiers:TIERS,regions:REGIONS};
+if(typeof Hooks!=='undefined'&&Hooks?.on){Hooks.once?.('init',()=>{game.settings.register(ID,CAT,{name:'Catálogo global de cyberware',scope:'world',config:false,type:Object,default:{items:[]}});game.settings.register(ID,'defaultCapacity',{name:'Capacidade neural padrão',scope:'world',config:false,type:Number,default:60});game.settings.register(ID,'allowOverload',{name:'Permitir exceder capacidade',scope:'world',config:false,type:Boolean,default:false})});Hooks.on('renderLancerPilotSheet',attach);Hooks.on('renderActorSheet',attach);Hooks.on('renderActorSheetV2',attach);Hooks.on('closeLancerPilotSheet',detach);Hooks.on('closeActorSheet',detach);Hooks.on('closeActorSheetV2',detach);Hooks.on('updateActor',a=>{if(a?.type==='pilot')refreshAll(a)});Hooks.on('updateSetting',s=>{if(String(s?.key||'').startsWith(ID+'.'))for(const set of panels.values())for(const panel of set){if(panel.isConnected&&panel._lcyActor)refresh(panel,panel._lcyActor)}})}
+})();
+
+const api=window.LancerCyberwareTab;let registry;window.actor={id:'demo-pilot',uuid:'Actor.demo-pilot',name:'Vega',type:'pilot',isOwner:true,getFlag:()=>structuredClone(registry),setFlag:async(id,key,data)=>{registry=structuredClone(data);emit('updateActor',actor)},canUserModify:()=>actor.isOwner};
+function demoData(){const d=api.sample();d.implants[0].description='Uma ponte entre pensamento e máquina. O Neural Link MK.IV reúne processamento paralelo e comunicação de baixa latência em um núcleo cerâmico instalado junto à coluna cervical.\n\nFilamentos biocompatíveis traduzem impulsos nervosos em comandos digitais. A interface se adapta aos padrões do portador e mantém uma conexão contínua com dispositivos próximos.';d.implants[0].notes='Manutenção a cada ciclo de missão. Evitar campos eletromagnéticos sem blindagem.';d.implants.push({id:'demo-8',name:'Reflexo Sináptico',slot:'neural',grade:'Incomum',load:5,potency:2,quantity:2,installedQuantity:0,manufacturer:'ZETATECH',description:'Matriz auxiliar para transmissão de impulsos motores.',function:'Resposta motora assistida, sob orientação do mestre.'},{id:'demo-9',name:'Firewall Cognitivo',slot:'neural',grade:'Corporativo',load:6,potency:3,quantity:1,installedQuantity:0,manufacturer:'ARASAKA',description:'Barreira de isolamento para interfaces neurais conectadas.'},{id:'demo-10',name:'Biomonitor',slot:'circulatorio',grade:'Comum',load:3,potency:1,quantity:1,installedQuantity:0,manufacturer:'BIODYNE',description:'Diagnóstico contínuo de sinais vitais.'});return d}
+const sheetApp={actor};
+function mount(){const root=document.querySelector('#sheet');root.querySelector('.lcy-panel')?.remove();const old=root.querySelector('nav'),fresh=old.cloneNode(true);fresh.querySelector('.lcy-nav')?.remove();old.replaceWith(fresh);for(const pane of root.querySelectorAll('.native')){pane.style.display=pane.dataset.tab==='dossier'?'block':'none';pane.classList.toggle('active',pane.dataset.tab==='dossier')}api.attach(sheetApp,root);const launcher=root.querySelector('.lcy-nav');if(launcher.getAttribute('aria-expanded')!=='true') launcher.click()}
+function reset(){registry=demoData();settingsStore.set('catalogue',{items:registry.implants.map(i=>({...i}))});mount()}
+const riskControl = document.querySelector('#scenario');
+const setups = {
+  stable: ['demo-1'],
+  watch: ['demo-1', 'demo-7'],
+  warn: ['demo-1', 'demo-2', 'demo-5', 'demo-7'],
+  danger: ['demo-1', 'demo-2', 'demo-4', 'demo-5', 'demo-7'],
+  collapse: ['demo-1', 'demo-2', 'demo-4', 'demo-5', 'demo-6', 'demo-7']
+};
+riskControl.addEventListener('change', () => {
+  const next = demoData();
+  const installed = setups[riskControl.value];
+  if (installed) {
+    for (const item of next.implants) {
+      item.installedQuantity = Number(installed.includes(item.id));
+      item.installed = item.installedQuantity > 0;
+      item.installedSlots = [];
+    }
+  }
+  registry = next;
+  emit('updateActor', actor);
+});
+emit('init');
+reset();
+document.querySelector('#reset').onclick = () => { riskControl.value = 'sample'; reset(); };document.querySelector('#profile').onchange=e=>{game.user.isGM=e.target.value==='gm';actor.isOwner=e.target.value!=='reader';mount()};
+window.demo={get registry(){return registry},setData:d=>{registry=structuredClone(d);emit('updateActor',actor)},emit,mount,reset,settingsStore};
+const playFault = document.querySelector('#play-fault');
+const frameSlider = document.querySelector('#fault-frame');
+const moments = [...document.querySelectorAll('[data-fault-moment]')];
+const motionEngine = () => document.querySelector('.lcy-panel.active')?._lcyNeuralMotion;
+let timelineFrame;
+
+function updateControls() {
+  const engine = motionEngine();
+  const config = SCENES[engine?.stage];
+  const enabled = Boolean(engine?.allowed && config);
+  playFault.disabled = !enabled;
+  frameSlider.disabled = !enabled;
+  for (const button of moments) button.disabled = !enabled || (button.dataset.faultMoment === 'question' && !config?.hold);
+  if (!enabled) frameSlider.value = 0;
+}
+
+playFault.addEventListener('click', () => {
+  const engine = motionEngine();
+  if (!engine?.startShot()) return;
+  cancelAnimationFrame(timelineFrame);
+  frameSlider.value = 0;
+  const track = now => {
+    if (engine.scene?.frozen !== null) return;
+    frameSlider.value = Math.min(1000, Math.round((now - engine.scene.started) * 1000 / SCENES[engine.stage].duration));
+    timelineFrame = requestAnimationFrame(track);
+  };
+  timelineFrame = requestAnimationFrame(track);
+});
+frameSlider.addEventListener('input', () => {
+  cancelAnimationFrame(timelineFrame);
+  motionEngine()?.inspectFrame(Number(frameSlider.value) / 1000);
+});
+for (const button of moments) button.addEventListener('click', () => {
+  const engine = motionEngine();
+  const config = SCENES[engine.stage];
+  const ms = button.dataset.faultMoment === 'impact' ? config.optics * .5 : config.latch + config.hold * .5;
+  frameSlider.value = Math.round(ms / config.duration * 200) * 5;
+  frameSlider.dispatchEvent(new Event('input'));
+});
+document.querySelector('#scenario').addEventListener('change', () => {
+  cancelAnimationFrame(timelineFrame);
+  frameSlider.value = 0;
+  requestAnimationFrame(updateControls);
+});
+new MutationObserver(updateControls).observe(document.querySelector('#sheet'), {childList: true, subtree: true});
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => requestAnimationFrame(updateControls));
+document.addEventListener('visibilitychange', () => requestAnimationFrame(updateControls));
+requestAnimationFrame(updateControls);
+</script>
+</body>
+</html>
